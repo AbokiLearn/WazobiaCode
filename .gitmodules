@@ -1,0 +1,3 @@
+[submodule "aboki-segun"]
+	path = aboki-segun
+	url = git@github.com:AbokiLearn/aboki-segun.git

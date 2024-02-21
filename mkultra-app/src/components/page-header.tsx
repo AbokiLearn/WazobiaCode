@@ -117,6 +117,14 @@ const PageHeader = () => {
                 >
                   Articles
                 </Link>
+                <Link
+                  className={
+                    'inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900'
+                  }
+                  href={'/faq'}
+                >
+                  FAQs
+                </Link>
               </div>
             </div>
             {!isAuthPage && (
@@ -172,6 +180,12 @@ const PageHeader = () => {
           >
             Articles
           </Link>
+          <Link
+            href="/faq"
+            className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium"
+          >
+            FAQs
+          </Link> 
           {!isAuthPage && (
             <div>
               {/* Placeholder for user authentication state */}

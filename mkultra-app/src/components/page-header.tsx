@@ -42,7 +42,7 @@ const PageHeader = () => {
       <div className="flex items-center justify-between h-16 md:h-20">
         <Link href="/" className="flex items-center">
           <MountainIcon className="h-8 w-8 md:h-12 md:w-12 text-gray-800" />
-          <span className="text-lg font-bold ml-2">MKULTRA</span>
+          <span className="text-lg font-bold ml-2">AbokiCode</span>
         </Link>
         {/* Menu button for small screens */}
         <div className="flex md:hidden">

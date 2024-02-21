@@ -23,7 +23,7 @@ function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
 
 const PageHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAuthPage, setIsAuthPage] = useState(false);
+  const [isAuthPage, setIsAuthPage] = useState(true);
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -35,7 +35,8 @@ const PageHeader = () => {
     };
 
     // Set initial state based on the current pathname
-    setIsAuthPage(checkIfAuthPage(pathname));
+    setIsAuthPage(true)
+    //setIsAuthPage(checkIfAuthPage(pathname));
   }, [pathname, searchParams]);
   return (
     <header className="bg-white px-4 sm:px-6 lg:px-8">
@@ -136,9 +137,22 @@ const PageHeader = () => {
                   href="/signup"
                   className="inline-flex items-center justify-center bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800"
                 >
-                  Sign Up
+                  Sign up
                 </Link>
               </div>
+            )}
+            {isAuthPage && (
+                <div>
+                  {/* Placeholder for user authentication state */}
+                  {/* Show either Sign Up or Profile Icon */}
+                  {/* Add logic here based on authentication state */}
+                  <Link
+                      href="/userProfile"
+                      className="inline-flex items-center justify-center bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800"
+                  >
+                    Profile
+                  </Link>
+                </div>
             )}
           </nav>
         </div>

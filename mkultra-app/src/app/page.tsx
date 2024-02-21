@@ -176,6 +176,14 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <footer>
+        <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
+          <Link href={'/faq'}>
+            <h2 className="text-lg font-semibold">FAQs</h2>
+          </Link> 
+        </div>
+      </footer>
     </>
   );
 }

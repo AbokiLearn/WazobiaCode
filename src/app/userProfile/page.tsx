@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ResponsiveBar } from '@nivo/bar';
 import { ResponsivePie } from '@nivo/pie';
-import WeeklyLeaderBoard from "@/app/userProfile/WeeklyLeaderBoard";
+import WeeklyLeaderBoard from '@/app/userProfile/WeeklyLeaderBoard';
 
 const UserProfile = () => {
   const [activeSection, setActiveSection] = useState<string>('Activity');
@@ -18,55 +18,53 @@ const UserProfile = () => {
   return (
     <>
       <main className="flex flex-col md:flex-row py-12 px-4 md:px-6">
-          <aside className="w-full md:w-1/4 pr-0 md:pr-6 space-y-2 bg-pastel-gray">
-              <h2 className="py-2 px-4 text-lg font-bold">Profile Page</h2>
-              <button
-                  onClick={() => handleSectionChange('Activity')}
-                  className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
-              >
-                  Activity
-              </button>
-              <button
-                  onClick={() => handleSectionChange('WeeklyLeaderboard')}
-                  className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
-              >
-                  Weekly LeaderBoard
-              </button>
-              <button
-                  onClick={() => handleSectionChange('Learning')}
-                  className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
-              >
-                  Learning
-              </button>
-              <button
-                  onClick={() => handleSectionChange('InProgress')}
-                  className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
-              >
-                  In Progress
-              </button>
-              <button
-                  onClick={() => handleSectionChange('Completed')}
-                  className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
-              >
-                  Completed
-              </button>
-              <button
-                  onClick={() => handleSectionChange('Settings')}
-                  className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
-              >
-                  Settings
-              </button>
-          </aside>
-          <div className="w-full md:w-3/4 pl-0 md:pl-6">
-              {activeSection === 'Activity' && (
-                  <section>
-                      <h1 className="text-2xl font-bold">Activity</h1>
-                      <LabelledpieChart className="w-full aspect-[4/3]" />
+        <aside className="w-full md:w-1/4 pr-0 md:pr-6 space-y-2 bg-pastel-gray">
+          <h2 className="py-2 px-4 text-lg font-bold">Profile Page</h2>
+          <button
+            onClick={() => handleSectionChange('Activity')}
+            className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
+          >
+            Activity
+          </button>
+          <button
+            onClick={() => handleSectionChange('WeeklyLeaderboard')}
+            className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
+          >
+            Weekly LeaderBoard
+          </button>
+          <button
+            onClick={() => handleSectionChange('Learning')}
+            className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
+          >
+            Learning
+          </button>
+          <button
+            onClick={() => handleSectionChange('InProgress')}
+            className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
+          >
+            In Progress
+          </button>
+          <button
+            onClick={() => handleSectionChange('Completed')}
+            className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
+          >
+            Completed
+          </button>
+          <button
+            onClick={() => handleSectionChange('Settings')}
+            className="block py-2 px-4 rounded-md bg-white text-sm font-medium"
+          >
+            Settings
+          </button>
+        </aside>
+        <div className="w-full md:w-3/4 pl-0 md:pl-6">
+          {activeSection === 'Activity' && (
+            <section>
+              <h1 className="text-2xl font-bold">Activity</h1>
+              <LabelledpieChart className="w-full aspect-[4/3]" />
             </section>
           )}
-              {activeSection === "WeeklyLeaderboard" && (
-                  <WeeklyLeaderBoard />
-              )}
+          {activeSection === 'WeeklyLeaderboard' && <WeeklyLeaderBoard />}
 
           {activeSection === 'Learning' && (
             <section>

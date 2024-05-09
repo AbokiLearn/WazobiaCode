@@ -14,7 +14,7 @@ const FAQPage: React.FC = () => {
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/faqs').then((response) => {
-        setFaqs(response.data.faqs);
+      setFaqs(response.data.faqs);
     });
   }, []);
 
@@ -25,7 +25,9 @@ const FAQPage: React.FC = () => {
         <ol className="mt-4">
           {faqs?.map((faq, index) => (
             <li key={faq._id} className="mt-2">
-              <h2 className="text-xl font-bold">{`${index + 1}. ${faq.question}?`}</h2>
+              <h2 className="text-xl font-bold">{`${index + 1}. ${
+                faq.question
+              }?`}</h2>
               <p className="mt-1">{faq.answer}</p>
             </li>
           ))}

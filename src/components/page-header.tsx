@@ -35,7 +35,7 @@ const PageHeader = () => {
     };
 
     // Set initial state based on the current pathname
-    setIsAuthPage(true)
+    setIsAuthPage(true);
     //setIsAuthPage(checkIfAuthPage(pathname));
   }, [pathname, searchParams]);
   return (
@@ -142,17 +142,17 @@ const PageHeader = () => {
               </div>
             )}
             {isAuthPage && (
-                <div>
-                  {/* Placeholder for user authentication state */}
-                  {/* Show either Sign Up or Profile Icon */}
-                  {/* Add logic here based on authentication state */}
-                  <Link
-                      href="/userProfile"
-                      className="inline-flex items-center justify-center bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800"
-                  >
-                    Profile
-                  </Link>
-                </div>
+              <div>
+                {/* Placeholder for user authentication state */}
+                {/* Show either Sign Up or Profile Icon */}
+                {/* Add logic here based on authentication state */}
+                <Link
+                  href="/userProfile"
+                  className="inline-flex items-center justify-center bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800"
+                >
+                  Profile
+                </Link>
+              </div>
             )}
           </nav>
         </div>
@@ -199,7 +199,7 @@ const PageHeader = () => {
             className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium"
           >
             FAQs
-          </Link> 
+          </Link>
           {!isAuthPage && (
             <div>
               {/* Placeholder for user authentication state */}

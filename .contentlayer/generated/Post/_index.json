@@ -1,0 +1,59 @@
+[
+  {
+    "title": "Change me!",
+    "author": "John Doe",
+    "date": "2022-03-11T00:00:00.000Z",
+    "body": {
+      "raw": "\nWhen you change a source file, Contentlayer automatically updates the content cache, which prompts Next.js to reload the content on screen.\n",
+      "html": "<p>When you change a source file, Contentlayer automatically updates the content cache, which prompts Next.js to reload the content on screen.</p>"
+    },
+    "_id": "posts/change-me.md",
+    "_raw": {
+      "sourceFilePath": "posts/change-me.md",
+      "sourceFileName": "change-me.md",
+      "sourceFileDir": "posts",
+      "contentType": "markdown",
+      "flattenedPath": "posts/change-me"
+    },
+    "type": "Post",
+    "url": "/content/change-me"
+  },
+  {
+    "title": "Click me!",
+    "author": "John Doe",
+    "date": "2022-02-28T00:00:00.000Z",
+    "body": {
+      "raw": "\nBlog posts have their own pages. The content source is a markdown file, parsed to HTML by Contentlayer.\n",
+      "html": "<p>Blog posts have their own pages. The content source is a markdown file, parsed to HTML by Contentlayer.</p>"
+    },
+    "_id": "posts/click-me.md",
+    "_raw": {
+      "sourceFilePath": "posts/click-me.md",
+      "sourceFileName": "click-me.md",
+      "sourceFileDir": "posts",
+      "contentType": "markdown",
+      "flattenedPath": "posts/click-me"
+    },
+    "type": "Post",
+    "url": "/content/click-me"
+  },
+  {
+    "title": "What is Contentlayer?",
+    "author": "Nathan Cox",
+    "date": "2022-02-22T00:00:00.000Z",
+    "body": {
+      "raw": "\n**Contentlayer makes working with content easy.** It is a content preprocessor that validates and transforms your content into type-safe JSON you can easily import into your application.\n",
+      "html": "<p><strong>Contentlayer makes working with content easy.</strong> It is a content preprocessor that validates and transforms your content into type-safe JSON you can easily import into your application.</p>"
+    },
+    "_id": "posts/what-is-contentlayer.md",
+    "_raw": {
+      "sourceFilePath": "posts/what-is-contentlayer.md",
+      "sourceFileName": "what-is-contentlayer.md",
+      "sourceFileDir": "posts",
+      "contentType": "markdown",
+      "flattenedPath": "posts/what-is-contentlayer"
+    },
+    "type": "Post",
+    "url": "/content/what-is-contentlayer"
+  }
+]

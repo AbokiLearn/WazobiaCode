@@ -1,6 +1,16 @@
 const { withContentlayer } = require('next-contentlayer');
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/app',
+        destination: '/404',
+        permanent: false,
+      },
+    ];
+  },
+};
 
 module.exports = withContentlayer(nextConfig);

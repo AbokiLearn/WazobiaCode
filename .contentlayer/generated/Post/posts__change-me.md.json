@@ -1,0 +1,19 @@
+{
+  "title": "Change me!",
+  "author": "John Doe",
+  "date": "2022-03-11T00:00:00.000Z",
+  "body": {
+    "raw": "\nWhen you change a source file, Contentlayer automatically updates the content cache, which prompts Next.js to reload the content on screen.\n",
+    "html": "<p>When you change a source file, Contentlayer automatically updates the content cache, which prompts Next.js to reload the content on screen.</p>"
+  },
+  "_id": "posts/change-me.md",
+  "_raw": {
+    "sourceFilePath": "posts/change-me.md",
+    "sourceFileName": "change-me.md",
+    "sourceFileDir": "posts",
+    "contentType": "markdown",
+    "flattenedPath": "posts/change-me"
+  },
+  "type": "Post",
+  "url": "/content/change-me"
+}

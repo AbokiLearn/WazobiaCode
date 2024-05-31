@@ -12,9 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useToast } from '@/components/ui/use-toast';
 import { Textarea } from '@/components/ui/textarea';
 
 export default function Form() {
+  const { toast } = useToast();
   const states = [
     'Abia',
     'Adamawa',
@@ -88,6 +90,22 @@ export default function Form() {
         },
         body: JSON.stringify(formData),
       });
+      if (response.ok) {
+        toast({
+          title: 'Form Submitted',
+          description: 'Your form has been submitted successfully',
+        });
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          school: '',
+          state: '',
+          start_date: '',
+          end_date: '',
+          reason: '',
+        });
+      }
     } catch (error) {
       console.error('Error submitting form', error);
     }
@@ -111,7 +129,9 @@ export default function Form() {
             id="name"
             placeholder="Enter your name"
             type="text"
+            value={formData.name}
             onChange={handleInputChanges}
+            required
           />
         </div>
         <div className="space-y-2">
@@ -120,7 +140,9 @@ export default function Form() {
             id="email"
             placeholder="Enter your email"
             type="email"
+            value={formData.email}
             onChange={handleInputChanges}
+            required
           />
         </div>
         <div className="space-y-2">
@@ -129,7 +151,9 @@ export default function Form() {
             id="phone"
             placeholder="Enter your phone number"
             type="tel"
+            value={formData.phone}
             onChange={handleInputChanges}
+            required
           />
         </div>
         <div className="space-y-2">
@@ -139,11 +163,16 @@ export default function Form() {
             placeholder="Enter your school"
             type="text"
             onChange={handleInputChanges}
+            value={formData.school}
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="state">State</Label>
-          <Select onValueChange={handleStateChange}>
+          <Select
+            onValueChange={handleStateChange}
+            value={formData.state}
+            required
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select your state" />
             </SelectTrigger>
@@ -159,11 +188,23 @@ export default function Form() {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="start_date">Summer starts on</Label>
-            <Input id="start_date" type="date" onChange={handleInputChanges} />
+            <Input
+              id="start_date"
+              type="date"
+              onChange={handleInputChanges}
+              value={formData.start_date}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="end_date">Summer ends on</Label>
-            <Input id="end_date" type="date" onChange={handleInputChanges} />
+            <Input
+              id="end_date"
+              type="date"
+              onChange={handleInputChanges}
+              value={formData.end_date}
+              required
+            />
           </div>
         </div>
         <div className="space-y-2">
@@ -172,6 +213,7 @@ export default function Form() {
             id="reason"
             placeholder="Tell us why you want to join"
             onChange={handleInputChanges}
+            value={formData.reason}
           />
         </div>
         <Button className="bg-[#F97316] text-white" type="submit">

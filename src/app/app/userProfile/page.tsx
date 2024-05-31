@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ResponsiveBar } from '@nivo/bar';
 import { ResponsivePie } from '@nivo/pie';
-import WeeklyLeaderBoard from '@/app/userProfile/WeeklyLeaderBoard';
+import WeeklyLeaderBoard from '@/components/userProfile/WeeklyLeaderBoard';
+import Image from 'next/image';
 
 const UserProfile = () => {
   const [activeSection, setActiveSection] = useState<string>('Activity');
@@ -90,7 +91,7 @@ const UserProfile = () => {
                   <p className="text-sm text-gray-500">50% Completed</p>
                 </CardHeader>
                 <CardContent>
-                  <img
+                  <Image
                     alt="Lecture Image"
                     height="200"
                     src="/placeholder.svg"
@@ -113,7 +114,7 @@ const UserProfile = () => {
                   <h2 className="text-lg font-bold">Lecture 2</h2>
                 </CardHeader>
                 <CardContent>
-                  <img
+                  <Image
                     alt="Lecture Image"
                     height="200"
                     src="/placeholder.svg"

@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { env } from '@/lib/config';
 import axios from 'axios';
 
 interface FAQ {
@@ -13,7 +14,7 @@ const FAQPage: React.FC = () => {
   const [faqs, setFaqs] = useState<FAQ[]>([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/faqs').then((response) => {
+    axios.get(`${env.APP_URL}/api/faqs`).then((response) => {
       setFaqs(response.data.faqs);
     });
   }, []);

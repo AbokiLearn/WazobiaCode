@@ -147,7 +147,7 @@ const PageHeader = () => {
                 {/* Show either Sign Up or Profile Icon */}
                 {/* Add logic here based on authentication state */}
                 <Link
-                  href="/userProfile"
+                  href="/app/userProfile"
                   className="inline-flex items-center justify-center bg-black text-white rounded-md px-4 py-2 hover:bg-gray-800"
                 >
                   Profile
@@ -195,7 +195,7 @@ const PageHeader = () => {
             Articles
           </Link>
           <Link
-            href="/faq"
+            href="/app/faq"
             className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium"
           >
             FAQs

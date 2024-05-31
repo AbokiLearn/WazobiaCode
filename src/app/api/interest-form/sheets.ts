@@ -1,30 +1,28 @@
 import { google } from 'googleapis';
+import { env } from '@/lib/config';
 
 const gsheets = google.sheets('v4');
 
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
-const SHEET_ID = process.env.SHEET_ID;
-const SHEET_NAME = process.env.SHEET_NAME;
 
 const authClient = new google.auth.GoogleAuth({
   credentials: {
-    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+    private_key: env.GOOGLE_PRIVATE_KEY,
+    client_email: env.GOOGLE_CLIENT_EMAIL,
   },
   scopes: SCOPES,
 });
 google.options({ auth: authClient });
 
-export async function appendRow(row) {
-  const resource = {
-    values: [row],
-  };
+export async function appendRow(row: any) {
   // const auth = await getAuthToken()
   const res = await gsheets.spreadsheets.values.append({
-    spreadsheetId: SHEET_ID,
-    range: SHEET_NAME,
+    spreadsheetId: env.SHEET_ID,
+    range: env.SHEET_NAME,
     valueInputOption: 'USER_ENTERED',
-    resource,
+    requestBody: {
+      values: [row],
+    },
   });
   return res;
 }

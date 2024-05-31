@@ -1,8 +1,8 @@
-import connectMongoDb from '../../../lib/mongodb';
-import Faq from '../../../models/faq';
+import connectMongoDb from '@/lib/mongodb';
+import Faq from '@/models/faq';
 import { NextResponse } from 'next/server';
 
-export async function POST(request) {
+export async function POST(request: Request) {
   const { question, answer } = await request.json();
   await connectMongoDb();
   await Faq.create({ question, answer });
@@ -15,9 +15,10 @@ export async function GET() {
   return NextResponse.json({ faqs });
 }
 
-export async function DELETE(request) {
+export async function DELETE(request: Request) {
   await connectMongoDb();
-  const id = request.nextUrl.searchParams.get('id');
+  const url = new URL(request.url);
+  const id = url.searchParams.get('id');
   await Faq.findByIdAndDelete(id);
   return NextResponse.json({ message: 'FAQ Deleted' }, { status: 200 });
 }

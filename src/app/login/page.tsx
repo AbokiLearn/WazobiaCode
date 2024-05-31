@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -33,7 +32,7 @@ export default function Login() {
             </div>
           </form>
           <p className="mt-4 text-center text-sm">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link
               className="underline font-medium text-indigo-600 hover:text-indigo-500"
               href="signup"

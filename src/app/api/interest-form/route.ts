@@ -1,16 +1,5 @@
 import * as sheets from './sheets';
 
-interface RequestBody {
-  name: string;
-  email: string;
-  phone: string;
-  school: string;
-  state: string;
-  start_date: string;
-  end_date: string;
-  reason: string;
-}
-
 export async function POST(req: Request) {
   const body = await req.json();
   try {

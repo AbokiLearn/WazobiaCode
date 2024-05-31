@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { CodepenIcon } from 'lucide-react';
@@ -79,7 +78,7 @@ const Stacks = () => {
           </p>
           <pre className="p-4 mt-4 bg-gray-800 text-white rounded-md">
             <code>
-              import React from 'react'; function App() return (
+              import React from &#39;react&#39;; function App() return (
               <div>
                 <h1>Hello, World!</h1>
               </div>

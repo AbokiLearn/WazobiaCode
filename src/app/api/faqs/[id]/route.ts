@@ -1,8 +1,11 @@
-import connectMongoDb from '../../../../lib/mongodb';
-import Faq from '../../../../models/faq';
+import connectMongoDb from '@/lib/mongodb';
+import Faq from '@/models/faq';
 import { NextResponse } from 'next/server';
 
-export async function PUT(request, { params }) {
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
   const { id } = params;
   const { newQuestion: question, newAnswer: answer } = await request.json();
   await connectMongoDb();
@@ -10,7 +13,11 @@ export async function PUT(request, { params }) {
 
   return NextResponse.json({ message: 'FAQ updated' }, { status: 200 });
 }
-export async function GET(request, { params }) {
+
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
   const { id } = params;
   await connectMongoDb();
   const faq = await Faq.findOne({ _id: id });

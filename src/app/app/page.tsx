@@ -1,5 +1,3 @@
-import React from 'react';
-
 import PageHeader from '@/components/page-header';
 import Link from 'next/link';
 
@@ -19,7 +17,7 @@ export default function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
             {/* Each language card */}
             <div className=" border rounded-lg shadow p-4">
-              <Link href={'/lesson'}>
+              <Link href={'/app/lesson'}>
                 <h3 className="text-lg font-semibold">Python</h3>
                 <p className="text-sm">Perfect for beginners</p>
               </Link>
@@ -47,7 +45,7 @@ export default function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
             {/* Each language card */}
             <div className="border rounded-lg shadow p-4">
-              <Link href={'/stacks'}>
+              <Link href={'/app/stacks'}>
                 <h3 className="text-lg font-semibold">MERN Stack</h3>
                 <p className="text-sm">Mongo Express React & Node</p>
               </Link>

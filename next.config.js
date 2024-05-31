@@ -7,6 +7,16 @@ const nextConfig = {
         destination: '/404',
         permanent: false,
       },
+      {
+        source: '/login',
+        destination: '/404',
+        permanent: false,
+      },
+      {
+        source: '/signup',
+        destination: '/404',
+        permanent: false,
+      },
     ];
   },
 };

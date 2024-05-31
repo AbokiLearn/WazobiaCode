@@ -7,6 +7,10 @@ const SHEET_ID = process.env.SHEET_ID;
 const SHEET_NAME = process.env.SHEET_NAME;
 
 const authClient = new google.auth.GoogleAuth({
+  credentials: {
+    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    client_email: process.env.GOOGLE_CLIENT_EMAIL,
+  },
   scopes: SCOPES,
 });
 google.options({ auth: authClient });

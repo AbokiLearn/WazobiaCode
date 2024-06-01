@@ -5,10 +5,10 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion';
 
-export default function LandingFAQ() {
+export default function LandingFAQ({ id }: { id: string }) {
   return (
     <>
-      <div className="container px-4 md:px-6">
+      <div className="container px-4 md:px-6" id={id}>
         <div className="mx-auto max-w-3xl space-y-6 text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Frequently Asked Questions

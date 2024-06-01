@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import LandingFAQ from '@/components/ui/landingPage/faq';
@@ -18,7 +20,7 @@ export default function LandingPage() {
             />
             <h1 className="text-2xl font-bold">WazobiaCode</h1>
           </div>
-          <MenuIcon className="h-6 w-6" />
+          {/* <MenuIcon className="h-6 w-6" /> */}
         </header>
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
           <div>
@@ -42,11 +44,18 @@ export default function LandingPage() {
             <p className="mb-6">
               Learn to code at home - No experience required
             </p>
-            <Button className="bg-[#F97316] text-white">Learn More</Button>
+            <Button
+              className="bg-[#F97316] text-white"
+              onClick={() =>
+                document.getElementById('faq-section')?.scrollIntoView()
+              }
+            >
+              Learn More
+            </Button>
           </div>
         </section>
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">Why Aboki Code?</h2>
+          <h2 className="text-2xl font-bold mb-4">Why Wazobia Code?</h2>
           <p className="mb-8">
             WazobiaCode is a free coding bootcamp that takes beginners and
             transforms them into full-stack web developers, equipping them with
@@ -84,7 +93,7 @@ export default function LandingPage() {
           </div>
         </section>
         <section className="w-full py-15 md:py-20 lg:py-20">
-          <LandingFAQ />
+          <LandingFAQ id="faq-section" />
         </section>
         <section className="w-full">
           <Form />

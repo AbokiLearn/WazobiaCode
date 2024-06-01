@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { Textarea } from '@/components/ui/textarea';
+import { env } from '@/lib/config';
 
 export default function Form() {
   const { toast } = useToast();
@@ -63,8 +64,8 @@ export default function Form() {
     phone: '',
     school: '',
     state: '',
-    start_date: '',
-    end_date: '',
+    start_date: new Date().toISOString().slice(0, 10),
+    end_date: new Date().toISOString().slice(0, 10),
     reason: '',
   });
 
@@ -83,7 +84,7 @@ export default function Form() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      const response = await fetch('/api/interest-form', {
+      const response = await fetch(`${env.APP_URL}/api/interest-form`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

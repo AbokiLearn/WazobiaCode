@@ -24,7 +24,7 @@ export default function LandingFAQ({ id }: { id: string }) {
                 How do I get started?
               </AccordionTrigger>
               <AccordionContent className="px-4 py-3 text-gray-500 dark:text-gray-400">
-                To begin your journey with AbokiCode, simply fill out the
+                To begin your journey with WazobiaCode, simply fill out the
                 interest form on our website and we will follow up with you
                 regarding registration. For the course, we will use Telegram and
                 Repl.it
@@ -44,7 +44,7 @@ export default function LandingFAQ({ id }: { id: string }) {
                 Is this program entirely online?
               </AccordionTrigger>
               <AccordionContent className="px-4 py-3 text-gray-500 dark:text-gray-400">
-                Aboke Code is designed to be as accessible as possible. It is
+                Wazobia Code is designed to be as accessible as possible. It is
                 completely online with real-time support from teachers and
                 designated weekly extra help hours.
               </AccordionContent>

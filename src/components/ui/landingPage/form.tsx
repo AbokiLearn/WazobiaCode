@@ -82,6 +82,22 @@ export default function Form() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    // Optimistically update the UI
+    toast({
+      title: 'Submitting Form',
+      description: 'Your form is being submitted...',
+    });
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      school: '',
+      state: '',
+      start_date: '',
+      end_date: '',
+      reason: '',
+    });
+
     try {
       const response = await fetch('/api/interest-form', {
         method: 'POST',
@@ -90,24 +106,24 @@ export default function Form() {
         },
         body: JSON.stringify(formData),
       });
-      if (response.ok) {
-        toast({
-          title: 'Form Submitted',
-          description: 'Your form has been submitted successfully',
-        });
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          school: '',
-          state: '',
-          start_date: '',
-          end_date: '',
-          reason: '',
-        });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
       }
+
+      toast({
+        title: 'Form Submitted',
+        description: 'Your form has been submitted successfully',
+      });
     } catch (error) {
       console.error('Error submitting form', error);
+      toast({
+        title: 'Submission Error',
+        description:
+          'There was an error submitting your form. Please try again.',
+      });
+      // Revert form data on error
+      setFormData(formData);
     }
   };
 

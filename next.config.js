@@ -21,4 +21,15 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = {
+  nextConfig,
+  env: {
+    APP_URL: process.env.APP_URL,
+    MONGODB_URI: process.env.MONGODB_URI,
+    GCLOUD_PROJECT: process.env.GCLOUD_PROJECT,
+    GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL,
+    GOOGLE_PRIVATE_KEY: process.env.GOOGLE_PRIVATE_KEY,
+    SHEET_ID: process.env.SHEET_ID,
+    SHEET_NAME: process.env.SHEET_NAME,
+  },
+};

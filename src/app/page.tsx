@@ -3,7 +3,11 @@ import Image from 'next/image';
 import LandingFAQ from '@/components/ui/landingPage/faq';
 import Form from '@/components/ui/landingPage/form';
 
+import { env } from '@/lib/config';
+
 export default function LandingPage() {
+  console.log('hello human');
+  console.log(env.APP_URL);
   return (
     <>
       <div className="max-w-7xl mx-auto px-10 py-8 shadow-lg">

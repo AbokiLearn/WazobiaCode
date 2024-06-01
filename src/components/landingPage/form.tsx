@@ -17,7 +17,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { env } from '@/lib/config';
 
 export default function Form() {
-  console.log(env.APP_URL);
   const { toast } = useToast();
   const states = [
     'Abia',

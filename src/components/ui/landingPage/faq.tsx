@@ -26,8 +26,17 @@ export default function LandingFAQ({ id }: { id: string }) {
               <AccordionContent className="px-4 py-3 text-gray-500 dark:text-gray-400">
                 To begin your journey with WazobiaCode, simply fill out the
                 interest form on our website and we will follow up with you
-                regarding registration. For the course, we will use Telegram and
-                Repl.it
+                regarding registration. For the course, we will use Telegram and{' '}
+                <a
+                  href="https://replit.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  {' '}
+                  Replit
+                </a>
+                .
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">

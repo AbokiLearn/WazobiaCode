@@ -140,7 +140,7 @@ export default function Form() {
       </div>
       <form className="grid gap-4" onSubmit={handleSubmit}>
         <div className="space-y-2">
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="name">Name*</Label>
           <Input
             id="name"
             placeholder="Enter your name"
@@ -151,7 +151,7 @@ export default function Form() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Email*</Label>
           <Input
             id="email"
             placeholder="Enter your email"
@@ -162,7 +162,7 @@ export default function Form() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="phone">Phone</Label>
+          <Label htmlFor="phone">Phone*</Label>
           <Input
             id="phone"
             placeholder="Enter your phone number"
@@ -183,7 +183,7 @@ export default function Form() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="state">State</Label>
+          <Label htmlFor="state">State*</Label>
           <Select
             onValueChange={handleStateChange}
             value={formData.state}
@@ -203,7 +203,7 @@ export default function Form() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="start_date">Summer starts on</Label>
+            <Label htmlFor="start_date">Summer break starts on*</Label>
             <Input
               id="start_date"
               type="date"
@@ -213,7 +213,7 @@ export default function Form() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="end_date">Summer ends on</Label>
+            <Label htmlFor="end_date">Summer break ends on*</Label>
             <Input
               id="end_date"
               type="date"

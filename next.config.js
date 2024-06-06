@@ -19,10 +19,6 @@ const nextConfig = {
       },
     ];
   },
-};
-
-module.exports = {
-  nextConfig,
   env: {
     APP_URL: process.env.APP_URL,
     MONGODB_URI: process.env.MONGODB_URI,
@@ -33,3 +29,5 @@ module.exports = {
     SHEET_NAME: process.env.SHEET_NAME,
   },
 };
+
+module.exports = nextConfig;

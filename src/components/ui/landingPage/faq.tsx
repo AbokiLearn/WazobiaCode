@@ -3,7 +3,7 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from '@/components/ui/accordion';
+} from "@/components/ui/accordion";
 
 export default function LandingFAQ({ id }: { id: string }) {
   return (
@@ -26,14 +26,14 @@ export default function LandingFAQ({ id }: { id: string }) {
               <AccordionContent className="px-4 py-3 text-gray-500 dark:text-gray-400">
                 To begin your journey with WazobiaCode, simply fill out the
                 interest form on our website and we will follow up with you
-                regarding registration. For the course, we will use Telegram and{' '}
+                regarding registration. For the course, we will use Telegram and{" "}
                 <a
                   href="https://replit.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
                 >
-                  {' '}
+                  {" "}
                   Replit
                 </a>
                 .
@@ -69,6 +69,36 @@ export default function LandingFAQ({ id }: { id: string }) {
                 end of the course, you will have projects to add to your
                 portfolio in order to become competitive in real world job
                 markets.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-5">
+              <AccordionTrigger className="flex w-full items-center justify-between rounded-md bg-gray-100 px-4 py-3 text-left font-medium transition-colors hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 dark:bg-gray-800 dark:hover:bg-gray-700">
+                How long is the program?
+              </AccordionTrigger>
+              <AccordionContent className="px-4 py-3 text-gray-500 dark:text-gray-400">
+                The program lasts for approximately 7 weeks, starting from
+                12/12/1223 until 12/34/2421. markets.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-6">
+              <AccordionTrigger className="flex w-full items-center justify-between rounded-md bg-gray-100 px-4 py-3 text-left font-medium transition-colors hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 dark:bg-gray-800 dark:hover:bg-gray-700">
+                What should students expect after they fill out the form?
+              </AccordionTrigger>
+              <AccordionContent className="px-4 py-3 text-gray-500 dark:text-gray-400">
+                Students who fill out the interest form will receive an email
+                from us with the next steps as we approach the start date of the
+                course.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-7">
+              <AccordionTrigger className="flex w-full items-center justify-between rounded-md bg-gray-100 px-4 py-3 text-left font-medium transition-colors hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 dark:bg-gray-800 dark:hover:bg-gray-700">
+                How many students are in the first cohort?
+              </AccordionTrigger>
+              <AccordionContent className="px-4 py-3 text-gray-500 dark:text-gray-400">
+                We are accepting students on a first-come, first-served basis.
+                Students who fill out the interest form will receive a URL
+                giving them priority for registration. Registration for the
+                first cohort this summer is capped at 100 students.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

@@ -27,6 +27,7 @@ const nextConfig = {
     GOOGLE_PRIVATE_KEY: process.env.GOOGLE_PRIVATE_KEY,
     SHEET_ID: process.env.SHEET_ID,
     SHEET_NAME: process.env.SHEET_NAME,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
   },
 };
 

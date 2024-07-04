@@ -61,5 +61,5 @@ export const sendConfirmationEmail = async (email: string, name: string) => {
     text: plainTextContent,
     html: htmlContent,
   };
-  await sgMail.send(msg).then(console.log('sent'));
+  await sgMail.send(msg);
 };

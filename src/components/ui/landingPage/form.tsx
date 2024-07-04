@@ -117,6 +117,12 @@ export default function Form() {
       }
 
       toast({
+        title: "Confirmation Email Sent",
+        description:
+          "A confirmation email has been sent to your email address.",
+      });
+
+      toast({
         title: "Form Submitted",
         description: "Your form has been submitted successfully",
       });

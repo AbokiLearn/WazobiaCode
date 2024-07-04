@@ -1,4 +1,5 @@
-import * as sheets from './sheets';
+import * as sheets from '@/lib/gsheets';
+import { sendConfirmationEmail } from '@/lib/sendgrid';
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -22,6 +23,8 @@ export async function POST(req: Request) {
     ];
 
     await sheets.appendRow(entry);
+
+    await sendConfirmationEmail(email, name);
 
     return Response.json({
       status: 200,

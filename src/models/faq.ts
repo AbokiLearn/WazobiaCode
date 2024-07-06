@@ -10,6 +10,6 @@ const faqSchema = new Schema(
   },
 );
 
-const Faq = mongoose.models.FAQS || mongoose.model('FAQS', faqSchema);
+const FAQ = mongoose.models.FAQ || mongoose.model('FAQ', faqSchema);
 
-export default Faq;
+export default FAQ;

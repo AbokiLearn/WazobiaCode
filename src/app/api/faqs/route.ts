@@ -1,24 +1,23 @@
 import connectMongoDB from '@/lib/mongodb';
-import Faq from '@/models/faq';
-import { NextResponse } from 'next/server';
+import FAQ from '@/models/faq';
 
 export async function POST(request: Request) {
   const { question, answer } = await request.json();
   await connectMongoDB();
-  await Faq.create({ question, answer });
-  return NextResponse.json({ message: 'FAQ Created' }, { status: 201 });
+  await FAQ.create({ question, answer });
+  return Response.json({ message: 'FAQ Created', status: 201 });
 }
 
 export async function GET() {
   await connectMongoDB();
-  const faqs = await Faq.find();
-  return NextResponse.json({ faqs });
+  const faqs = await FAQ.find();
+  return Response.json({ faqs, status: 200 });
 }
 
 export async function DELETE(request: Request) {
   await connectMongoDB();
   const url = new URL(request.url);
   const id = url.searchParams.get('id');
-  await Faq.findByIdAndDelete(id);
-  return NextResponse.json({ message: 'FAQ Deleted' }, { status: 200 });
+  await FAQ.findByIdAndDelete(id);
+  return Response.json({ message: 'FAQ Deleted', status: 200 });
 }

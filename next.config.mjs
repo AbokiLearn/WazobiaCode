@@ -1,12 +1,9 @@
-/** @type {import('next').NextConfig} */
+import createMDX from '@next/mdx';
+import remarkGfm from 'remark-gfm';
+
 const nextConfig = {
   async redirects() {
     return [
-      {
-        source: '/app',
-        destination: '/404',
-        permanent: false,
-      },
       {
         source: '/login',
         destination: '/404',
@@ -31,4 +28,11 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [],
+  },
+});
+
+export default withMDX(nextConfig);

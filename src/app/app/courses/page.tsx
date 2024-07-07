@@ -19,6 +19,13 @@ import {
 } from '@/components/ui/app/profile-menu';
 import { cn } from '@/lib/utils';
 
+interface Section {
+  sectionNum: number;
+  title: string;
+  slug: string;
+  icon: string;
+}
+
 export const metadata: Metadata = {
   title: 'Course Catalog | WazobiaCode',
 };
@@ -60,26 +67,36 @@ const CourseList = () => {
         'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/cover-image.png',
       sections: [
         {
+          sectionNum: 0,
+          title: 'Getting Started',
+          slug: 'getting-started',
+          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-0-icon.svg',
+        },
+        {
+          sectionNum: 1,
           title: 'Web Development Fundamentals',
           slug: 'web-dev-fundamentals',
           icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-1-icon.svg',
         },
         {
+          sectionNum: 2,
           title: 'Frontend Development with React.js',
           slug: 'frontend-dev-react',
           icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-2-icon.svg',
         },
         {
+          sectionNum: 3,
           title: 'Backend Development with Express.js',
           slug: 'backend-dev-express',
           icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-3-icon.svg',
         },
         {
+          sectionNum: 4,
           title: 'Introduction to DevOps',
           slug: 'intro-to-devops',
           icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-4-icon.svg',
         },
-      ],
+      ] as Section[],
     },
     {
       title: 'Data Science with Python',
@@ -91,16 +108,24 @@ const CourseList = () => {
         'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/cover-image.png',
       sections: [
         {
+          sectionNum: 0,
+          title: 'Getting Started',
+          slug: 'getting-started',
+          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-0-icon.svg',
+        },
+        {
+          sectionNum: 1,
           title: 'Python Programming Fundamentals',
           slug: 'python-fundamentals',
           icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/icons/section-1-icon.svg',
         },
         {
+          sectionNum: 2,
           title: 'Introduction to Machine Learning',
           slug: 'intro-to-machine-learning',
           icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/icons/section-2-icon.svg',
         },
-      ],
+      ] as Section[],
     },
   ];
 
@@ -127,34 +152,37 @@ const CourseList = () => {
           </CardHeader>
           <CardContent className="flex flex-row">
             <div className="flex-1">
-              {course.sections.map((section) => (
-                <div
-                  key={section.title}
-                  className="flex items-center gap-2 p-1"
-                >
-                  <Image
-                    src={section.icon}
-                    alt={section.title}
-                    width={32}
-                    height={32}
-                  />
-                  <Link
-                    href={
-                      course.active
-                        ? `/app/courses/${course.slug}/${section.slug}`
-                        : '#'
-                    }
-                    className={cn(
-                      'text-md sm:font-semibold text-muted-foreground',
-                      course.active
-                        ? 'hover:text-primary transition-colors'
-                        : '',
-                    )}
+              {course.sections
+                .sort((a, b) => a.sectionNum - b.sectionNum)
+                .filter((section) => section.sectionNum > 0)
+                .map((section) => (
+                  <div
+                    key={section.title}
+                    className="flex items-center gap-2 p-1"
                   >
-                    {section.title}
-                  </Link>
-                </div>
-              ))}
+                    <Image
+                      src={section.icon}
+                      alt={section.title}
+                      width={32}
+                      height={32}
+                    />
+                    <Link
+                      href={
+                        course.active
+                          ? `/app/courses/${course.slug}/${section.slug}`
+                          : '#'
+                      }
+                      className={cn(
+                        'text-md sm:font-semibold text-muted-foreground',
+                        course.active
+                          ? 'hover:text-primary transition-colors'
+                          : '',
+                      )}
+                    >
+                      {section.title}
+                    </Link>
+                  </div>
+                ))}
             </div>
           </CardContent>
           <CardFooter className="flex items-center bg-muted py-3">

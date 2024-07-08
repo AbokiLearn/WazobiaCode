@@ -18,21 +18,28 @@ import {
   type User,
 } from '@/components/ui/app/profile-menu';
 import { cn } from '@/lib/utils';
+import { getEndpoint } from '@/lib/api';
+import { CourseWithSections } from '@/types/db/course';
 
-interface Section {
-  sectionNum: number;
-  title: string;
-  slug: string;
-  icon: string;
+async function getCourses(): Promise<CourseWithSections[]> {
+  const res = await fetch(getEndpoint('/courses'), {
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    throw new Error('Failed to fetch courses');
+  }
+  const data = await res.json();
+  return data;
 }
 
 export const metadata: Metadata = {
   title: 'Course Catalog | WazobiaCode',
 };
 
-export default function Page() {
+export default async function Page() {
   // TODO: Replace `user` with `session = await auth()` and `user = session?.user`
   const user = getUser();
+  const courses = await getCourses();
 
   return (
     <div className="flex flex-col">
@@ -48,87 +55,14 @@ export default function Page() {
         </div>
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-        <CourseList />
+        <CourseList courses={courses} />
         <ComingSoonCard />
       </main>
     </div>
   );
 }
 
-const CourseList = () => {
-  const courses = [
-    {
-      title: 'Full-Stack Web Development',
-      icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/course-icon.svg',
-      description: '6-week bootcamp focused on full-stack web development',
-      slug: 'fullstack-web-dev',
-      active: true,
-      coverImage:
-        'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/cover-image.png',
-      sections: [
-        {
-          sectionNum: 0,
-          title: 'Getting Started',
-          slug: 'getting-started',
-          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-0-icon.svg',
-        },
-        {
-          sectionNum: 1,
-          title: 'Web Development Fundamentals',
-          slug: 'web-dev-fundamentals',
-          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-1-icon.svg',
-        },
-        {
-          sectionNum: 2,
-          title: 'Frontend Development with React.js',
-          slug: 'frontend-dev-react',
-          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-2-icon.svg',
-        },
-        {
-          sectionNum: 3,
-          title: 'Backend Development with Express.js',
-          slug: 'backend-dev-express',
-          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-3-icon.svg',
-        },
-        {
-          sectionNum: 4,
-          title: 'Introduction to DevOps',
-          slug: 'intro-to-devops',
-          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-4-icon.svg',
-        },
-      ] as Section[],
-    },
-    {
-      title: 'Data Science with Python',
-      icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/icons/course-icon.svg',
-      description: '6-week bootcamp focused on data science with Python',
-      slug: 'data-science-python',
-      active: false,
-      coverImage:
-        'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/cover-image.png',
-      sections: [
-        {
-          sectionNum: 0,
-          title: 'Getting Started',
-          slug: 'getting-started',
-          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-0-icon.svg',
-        },
-        {
-          sectionNum: 1,
-          title: 'Python Programming Fundamentals',
-          slug: 'python-fundamentals',
-          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/icons/section-1-icon.svg',
-        },
-        {
-          sectionNum: 2,
-          title: 'Introduction to Machine Learning',
-          slug: 'intro-to-machine-learning',
-          icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/icons/section-2-icon.svg',
-        },
-      ] as Section[],
-    },
-  ];
-
+const CourseList = ({ courses }: { courses: CourseWithSections[] }) => {
   return (
     <>
       {courses.map((course) => (
@@ -153,8 +87,8 @@ const CourseList = () => {
           <CardContent className="flex flex-row">
             <div className="flex-1">
               {course.sections
-                .sort((a, b) => a.sectionNum - b.sectionNum)
-                .filter((section) => section.sectionNum > 0)
+                .sort((a, b) => a.section_num - b.section_num)
+                .filter((section) => section.section_num > 0)
                 .map((section) => (
                   <div
                     key={section.title}

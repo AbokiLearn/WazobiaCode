@@ -32,7 +32,7 @@ export default async function CourseLayout({
   const course = await getCourseWithSections(courseSlug);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-screen">
       <header className="flex h-14 items-center gap-4 border-b bg-muted px-4 lg:h-[60px] lg:px-6">
         <SheetNav course={course} />
         <HeaderLogo />
@@ -44,12 +44,12 @@ export default async function CourseLayout({
           {user && <ProfileMenu user={user} />}
         </div>
       </header>
-      <main className="flex flex-1 bg-muted-foreground">
+      <div className="flex flex-1 overflow-hidden">
         <SidebarNav course={course} />
-        <div className="flex flex-1 flex-col p-4 lg:gap-6 lg:p-6">
+        <main className="flex-1 bg-muted-foreground overflow-y-auto p-4 lg:p-6">
           {children}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

@@ -25,8 +25,22 @@ export const getCourseWithSections = async (courseSlug: string) => {
   if (!course) {
     return null;
   }
-  const sections = await Section.find({ course_id: course._id }).sort({
-    section_num: 1,
-  });
+  const sections = await Section.aggregate([
+    { $match: { course_id: course._id } },
+    { $sort: { section_num: 1 } },
+    {
+      $lookup: {
+        from: 'lectures',
+        localField: '_id',
+        foreignField: 'section_id',
+        pipeline: [
+          { $project: { slug: 1, title: 1, _id: 0 } },
+          { $sort: { lecture_num: 1 } },
+        ],
+        as: 'lectures',
+      },
+    },
+  ]);
+
   return { ...course.toObject(), sections };
 };

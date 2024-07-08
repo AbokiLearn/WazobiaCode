@@ -21,12 +21,12 @@ export async function getCourseWithSections(
 }
 
 export async function getCoursesWithSections(): Promise<CourseWithSections[]> {
-  const res = await fetch(getEndpoint('/courses'), {
+  const data = await fetch(getEndpoint('/courses'), {
     cache: 'no-store',
-  });
-  if (!res.ok) {
-    throw new Error('Failed to fetch courses');
-  }
-  const data = await res.json();
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      throw new Error('Failed to fetch courses');
+    });
   return data;
 }

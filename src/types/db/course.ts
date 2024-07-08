@@ -39,6 +39,10 @@ export interface ILecture extends Document {
   updatedAt: Date;
 }
 
+export interface SectionWithLectures extends ISection {
+  lectures: ILecture[];
+}
+
 export interface CourseWithSections extends ICourse {
-  sections: ISection[];
+  sections: SectionWithLectures[];
 }

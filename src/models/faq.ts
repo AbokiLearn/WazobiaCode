@@ -1,15 +1,12 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema, model, models, Model } from 'mongoose';
+import { IFAQ } from '@/types/db/faq';
 
-const faqSchema = new Schema(
+const FAQSchema = new Schema<IFAQ>(
   {
     question: String,
     answer: String,
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true },
 );
 
-const FAQ = mongoose.models.FAQ || mongoose.model('FAQ', faqSchema);
-
-export default FAQ;
+export const FAQ: Model<IFAQ> = models.FAQ || model('FAQ', FAQSchema);

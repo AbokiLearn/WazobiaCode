@@ -1,19 +1,25 @@
 import connectMongoDB from '@/lib/mongodb';
 import { FAQ } from '@/models/faq';
 
-export async function PUT(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
+  const id = params.id;
   const { newQuestion: question, newAnswer: answer } = await request.json();
+
   await connectMongoDB();
-  const faq = await FAQ.findByIdAndUpdate(id, { question, answer });
+  await FAQ.findByIdAndUpdate(id, { question, answer });
 
   return Response.json({ message: 'FAQ updated', status: 200 });
 }
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const id = searchParams.get('id');
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
+  const id = params.id;
+
   await connectMongoDB();
   const faq = await FAQ.findOne({ _id: id });
 

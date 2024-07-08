@@ -18,19 +18,8 @@ import {
   type User,
 } from '@/components/ui/app/profile-menu';
 import { cn } from '@/lib/utils';
-import { getEndpoint } from '@/lib/api';
+import { getCoursesWithSections } from '@/lib/api';
 import { CourseWithSections } from '@/types/db/course';
-
-async function getCourses(): Promise<CourseWithSections[]> {
-  const res = await fetch(getEndpoint('/courses'), {
-    cache: 'no-store',
-  });
-  if (!res.ok) {
-    throw new Error('Failed to fetch courses');
-  }
-  const data = await res.json();
-  return data;
-}
 
 export const metadata: Metadata = {
   title: 'Course Catalog | WazobiaCode',
@@ -39,7 +28,7 @@ export const metadata: Metadata = {
 export default async function Page() {
   // TODO: Replace `user` with `session = await auth()` and `user = session?.user`
   const user = getUser();
-  const courses = await getCourses();
+  const courses = await getCoursesWithSections();
 
   return (
     <div className="flex flex-col">

@@ -1,22 +1,7 @@
-import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card';
-import HeaderLogo from '@/components/ui/app/header-logo';
-import { SearchBar } from '@/components/ui/app/search-bar';
-import {
-  ProfileMenu,
-  getUser,
-  type User,
-} from '@/components/ui/app/profile-menu';
-import { SidebarNav, SheetNav } from '@/components/ui/app/navigation';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { getUser, type User } from '@/components/ui/app/profile-menu';
 import {
   ProgressBar,
   GradeProgressBar,
@@ -28,18 +13,6 @@ import { ISection } from '@/types/db/course';
 
 interface CoursePageProps {
   params: { courseSlug: string };
-}
-
-export async function generateMetadata({
-  params,
-}: CoursePageProps): Promise<Metadata> {
-  const { courseSlug } = params;
-  const course = await getCourseWithSections(courseSlug);
-
-  return {
-    title: `${course.title} | WazobiaCode`,
-    description: course.description,
-  };
 }
 
 export default async function Page({ params }: CoursePageProps) {
@@ -55,38 +28,22 @@ export default async function Page({ params }: CoursePageProps) {
   };
 
   return (
-    <div className="flex flex-col">
-      <header className="flex h-14 items-center gap-4 border-b bg-muted px-4 lg:h-[60px] lg:px-6">
-        <SheetNav course={course} />
-        <HeaderLogo />
-        <h2 className="font-semibold sm:flex sm:text-xl lg:text-2xl">
-          {course.title}
-        </h2>
-        <div className="ml-auto flex items-center gap-4">
-          <SearchBar placeholder="Search courses..." />
-          {user && <ProfileMenu user={user} />}
-        </div>
-      </header>
-      <main className="flex flex-1 bg-muted-foreground">
-        <SidebarNav course={course} />
-        <div className="flex flex-1 flex-col p-4 lg:gap-6 lg:p-6">
-          <CourseOverviewCard
-            user={user}
-            course={course}
-            courseProgress={courseProgress}
+    <>
+      <CourseOverviewCard
+        user={user}
+        course={course}
+        courseProgress={courseProgress}
+      />
+      {course.sections
+        .filter((section) => section.section_num > 0)
+        .map((section) => (
+          <SectionOverviewCard
+            key={section.slug}
+            courseSlug={courseSlug}
+            section={section}
           />
-          {course.sections
-            .filter((section) => section.section_num > 0)
-            .map((section) => (
-              <SectionOverviewCard
-                key={section.slug}
-                courseSlug={courseSlug}
-                section={section}
-              />
-            ))}
-        </div>
-      </main>
-    </div>
+        ))}
+    </>
   );
 }
 

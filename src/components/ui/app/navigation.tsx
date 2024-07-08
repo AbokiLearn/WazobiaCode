@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useSelectedLayoutSegment, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -16,15 +16,19 @@ import { CourseWithSections } from '@/types/db/course';
 import { cn } from '@/lib/utils';
 
 const NavLinks = ({ course }: { course: CourseWithSections }) => {
-  const segment = useSelectedLayoutSegment();
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<string>('');
+  const [activeLecture, setActiveLecture] = useState<string>('');
 
   useEffect(() => {
     const currentSection = course.sections.find((section) =>
       pathname.includes(`/${section.slug}`),
     );
+    const currentLecture = currentSection?.lectures.find((lecture) =>
+      pathname.includes(`/${lecture.slug}`),
+    );
     setActiveSection(currentSection?.slug || '');
+    setActiveLecture(currentLecture?.slug || '');
   }, [pathname, course.sections]);
 
   const NavItem = ({
@@ -61,7 +65,7 @@ const NavLinks = ({ course }: { course: CourseWithSections }) => {
       onValueChange={setActiveSection}
     >
       {course.sections.map((section, index) => {
-        const isSectionActive = segment === section.slug;
+        const isSectionActive = activeSection === section.slug;
         return (
           <AccordionItem key={index} value={section.slug}>
             <AccordionTrigger className="text-md font-semibold text-left">
@@ -74,7 +78,7 @@ const NavLinks = ({ course }: { course: CourseWithSections }) => {
             </AccordionTrigger>
             <AccordionContent>
               {section.lectures.map((lecture, index) => {
-                const isLectureActive = segment === lecture.slug;
+                const isLectureActive = activeLecture === lecture.slug;
                 return (
                   <NavItem
                     key={index}

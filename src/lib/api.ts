@@ -1,5 +1,5 @@
 import { env } from '@/lib/config';
-import { CourseWithSections } from '@/types/db/course';
+import { CourseWithSections, SectionWithLectures } from '@/types/db/course';
 
 const APP_URL = env.APP_URL;
 
@@ -27,6 +27,23 @@ export async function getCoursesWithSections(): Promise<CourseWithSections[]> {
     .then((res) => res.json())
     .catch((err) => {
       throw new Error('Failed to fetch courses');
+    });
+  return data;
+}
+
+export async function getSectionWithLectures(
+  courseSlug: string,
+  sectionSlug: string,
+): Promise<SectionWithLectures> {
+  const data = await fetch(
+    getEndpoint(`/courses/${courseSlug}/${sectionSlug}`),
+    {
+      cache: 'no-store',
+    },
+  )
+    .then((res) => res.json())
+    .catch((err) => {
+      throw new Error('Failed to fetch section');
     });
   return data;
 }

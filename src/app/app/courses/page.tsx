@@ -133,10 +133,10 @@ const CourseCatalogSheetMenu = ({ user }: { user: User }) => {
       <nav className="grid gap-2 text-lg font-medium">
         <HeaderLogo inSheet />
         <h2 className="flex font-semibold text-xl">Course Catalog</h2>
-        <div className="my-4">
-          <SearchBar placeholder="Search courses..." inSheet />
-        </div>
       </nav>
+      <div className="my-4">
+        <SearchBar placeholder="Search courses..." inSheet />
+      </div>
       <div className="mt-auto mb-4">
         <ProfileMenu user={user} inSheet />
       </div>

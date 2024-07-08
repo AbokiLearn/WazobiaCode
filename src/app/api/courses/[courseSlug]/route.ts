@@ -1,5 +1,5 @@
 import connectMongoDB from '@/lib/mongodb';
-import { Course } from '@/models/course';
+import { getCourseWithSections } from '@/services/db/course';
 
 export async function GET(
   request: Request,
@@ -8,7 +8,7 @@ export async function GET(
   const courseSlug = params.courseSlug;
 
   await connectMongoDB();
-  const course = await Course.findOne({ slug: courseSlug });
+  const course = await getCourseWithSections(courseSlug);
 
   return Response.json(course);
 }

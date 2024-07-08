@@ -1,5 +1,5 @@
 import { env } from '@/lib/config';
-import { ICourse, CourseWithSections } from '@/types/db/course';
+import { CourseWithSections } from '@/types/db/course';
 
 const APP_URL = env.APP_URL;
 
@@ -7,7 +7,9 @@ export const getEndpoint = (endpoint: string) => {
   return `${APP_URL}/api/${endpoint}`;
 };
 
-export async function getCourse(courseSlug: string): Promise<ICourse> {
+export async function getCourseWithSections(
+  courseSlug: string,
+): Promise<CourseWithSections> {
   const course = await fetch(getEndpoint(`/courses/${courseSlug}`), {
     cache: 'no-store',
   })

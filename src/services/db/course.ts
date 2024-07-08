@@ -82,3 +82,24 @@ export const getSectionWithLectures = async (
 
   return { ...section };
 };
+
+export const getLecture = async (
+  courseSlug: string,
+  sectionSlug: string,
+  lectureSlug: string,
+) => {
+  const course = await Course.findOne({ slug: courseSlug });
+  if (!course) {
+    return null;
+  }
+  const section = await Section.findOne({ slug: sectionSlug });
+  if (!section) {
+    return null;
+  }
+  const lecture = await Lecture.findOne({
+    slug: lectureSlug,
+    course_id: course._id,
+    section_id: section._id,
+  });
+  return lecture;
+};

@@ -5,6 +5,7 @@ export interface ICourse extends Document {
   title: string;
   icon: string;
   description: string;
+  overview: string;
   slug: string;
   active: boolean;
   cover_image: string;

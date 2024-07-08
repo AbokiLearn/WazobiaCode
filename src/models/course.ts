@@ -6,6 +6,7 @@ const CourseSchema = new Schema<ICourse>(
     title: String,
     icon: String,
     description: String,
+    overview: String,
     slug: String,
     active: Boolean,
     cover_image: String,

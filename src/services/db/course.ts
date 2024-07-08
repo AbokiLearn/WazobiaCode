@@ -34,7 +34,7 @@ export const getCourseWithSections = async (courseSlug: string) => {
         localField: '_id',
         foreignField: 'section_id',
         pipeline: [
-          { $project: { slug: 1, title: 1, _id: 0 } },
+          { $project: { slug: 1, title: 1, description: 1, _id: 0 } },
           { $sort: { lecture_num: 1 } },
         ],
         as: 'lectures',

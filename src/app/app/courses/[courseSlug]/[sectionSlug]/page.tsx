@@ -66,7 +66,7 @@ export default async function Page({
 
 const GradesCard = ({ sectionGrades }: { sectionGrades: SectionGrades }) => {
   return (
-    <Card className="mx-6 my-2 px-2 py-2 md:px-4 md:py-4">
+    <Card className="mx-6 my-6 md:my-4 px-2 py-2 md:px-4 md:py-4">
       <CardHeader>
         <CardTitle>Your Grades</CardTitle>
       </CardHeader>
@@ -99,7 +99,7 @@ const LectureCard = ({
 
   return (
     <>
-      <Card className="mx-6 my-2 px-2 py-2 md:px-4 md:py-4">
+      <Card className="mx-6 my-6 md:my-4 px-2 py-2 md:px-4 md:py-4">
         <div className="flex flex-col md:flex-row md:items-center">
           <div className="flex-grow md:pr-4">
             <CardHeader>

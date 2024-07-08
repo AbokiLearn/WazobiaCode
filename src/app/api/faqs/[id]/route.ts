@@ -1,5 +1,5 @@
 import connectMongoDB from '@/lib/mongodb';
-import FAQ from '@/models/faq';
+import { FAQ } from '@/models/faq';
 
 export async function PUT(request: Request) {
   const { searchParams } = new URL(request.url);

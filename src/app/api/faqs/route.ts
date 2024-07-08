@@ -1,5 +1,5 @@
 import connectMongoDB from '@/lib/mongodb';
-import FAQ from '@/models/faq';
+import { FAQ } from '@/models/faq';
 
 export async function POST(request: Request) {
   const { question, answer } = await request.json();

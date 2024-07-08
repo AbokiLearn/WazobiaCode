@@ -14,7 +14,7 @@ export default function HeaderLogo({
       href="/"
       className={cn(
         'items-center gap-2 font-semibold',
-        inSheet ? '' : 'hidden lg:flex',
+        inSheet ? '' : 'hidden md:flex',
         className,
       )}
     >

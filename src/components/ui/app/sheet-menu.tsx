@@ -1,12 +1,25 @@
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
 
 interface SheetMenuProps {
+  title?: string;
+  description?: string;
   children: React.ReactNode;
 }
 
-export const SheetMenu = ({ children }: SheetMenuProps) => {
+export const SheetMenu = ({
+  title = '',
+  description,
+  children,
+}: SheetMenuProps) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -16,6 +29,10 @@ export const SheetMenu = ({ children }: SheetMenuProps) => {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">
+        <SheetHeader>
+          <SheetTitle>{title}</SheetTitle>
+          {description && <SheetDescription>{description}</SheetDescription>}
+        </SheetHeader>
         {children}
       </SheetContent>
     </Sheet>

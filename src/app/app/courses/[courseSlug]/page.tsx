@@ -73,7 +73,7 @@ const CourseOverviewCard = ({
   courseProgress: Progress;
 }) => {
   return (
-    <Card key={course.title} className="mx-6 my-2 px-4 py-4 md:px-6 md:py-6">
+    <Card key={course.title} className="mx-6 my-2 px-2 py-2 md:px-4 md:py-4">
       <CardHeader>
         <CardTitle>Course Overview</CardTitle>
       </CardHeader>
@@ -109,7 +109,7 @@ const SectionOverviewCard = ({
   section: ISection;
 }) => {
   return (
-    <Card key={section.slug} className="mx-6 my-2 px-4 py-4 md:px-6 md:py-6">
+    <Card key={section.slug} className="mx-6 my-2 px-2 py-2 md:px-4 md:py-4">
       <CardHeader>
         <div className="flex flex-row items-center gap-2">
           <Image

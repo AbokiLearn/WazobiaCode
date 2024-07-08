@@ -43,7 +43,7 @@ export default async function Page() {
           {user && <ProfileMenu user={user} />}
         </div>
       </header>
-      <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+      <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted-foreground">
         <CourseList courses={courses} />
         <ComingSoonCard />
       </main>

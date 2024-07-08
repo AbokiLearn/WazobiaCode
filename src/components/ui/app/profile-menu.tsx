@@ -34,11 +34,7 @@ export const ProfileMenu = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="secondary"
-          size="icon"
-          className={cn('rounded-full', inSheet ? '' : 'hidden sm:flex')}
-        >
+        <Button variant="secondary" size="icon" className="rounded-full">
           <Avatar className={cn('w-10 h-10', inSheet ? 'w-12 h-12' : '')}>
             <AvatarImage src={user.image} />
             <AvatarFallback>CN</AvatarFallback>

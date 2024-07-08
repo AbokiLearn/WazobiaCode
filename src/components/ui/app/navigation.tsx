@@ -9,13 +9,25 @@ import HeaderLogo from '@/components/ui/app/header-logo';
 import { SearchBar } from '@/components/ui/app/search-bar';
 import { SheetMenu } from '@/components/ui/app/sheet-menu';
 import { CourseWithSections } from '@/types/db/course';
+import { cn } from '@/lib/utils';
 
 const NavLinks = ({ course }: { course: CourseWithSections }) => {
-  const NavItem = ({ href, text }: { href: string; text: string }) => {
+  const NavItem = ({
+    href,
+    text,
+    className,
+  }: {
+    href: string;
+    text: string;
+    className?: string;
+  }) => {
     return (
       <Link
         href={href}
-        className="text-sm font-medium block py-1 mx-2 text-left hover:text-primary"
+        className={cn(
+          'text-sm font-medium block py-1 mx-2 text-left hover:text-primary',
+          className,
+        )}
       >
         {text}
       </Link>
@@ -27,7 +39,11 @@ const NavLinks = ({ course }: { course: CourseWithSections }) => {
       {course.sections.map((section, index) => (
         <AccordionItem key={index} value={section.slug}>
           <AccordionTrigger className="text-md font-semibold text-left">
-            {section.title}
+            <NavItem
+              href={`/app/courses/${course.slug}/${section.slug}`}
+              text={section.title}
+              className="text-md font-semibold"
+            />
           </AccordionTrigger>
           <AccordionContent>
             {section.lectures.map((lecture, index) => {

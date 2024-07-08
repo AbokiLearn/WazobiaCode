@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 import HeaderLogo from '@/components/ui/app/header-logo';
 import { SearchBar } from '@/components/ui/app/search-bar';
 import { ProfileMenu, getUser } from '@/components/ui/app/profile-menu';
@@ -36,7 +37,7 @@ export default async function CourseLayout({
         <SheetNav course={course} />
         <HeaderLogo />
         <h2 className="font-semibold sm:flex sm:text-xl lg:text-2xl">
-          {course.title}
+          <Link href={`/app/courses/${course.slug}`}>{course.title}</Link>
         </h2>
         <div className="ml-auto flex items-center gap-4">
           <SearchBar placeholder="Search courses..." />

@@ -1,13 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
 import {
   GradeProgressBar,
   type Progress,
 } from '@/components/ui/app/progress-bar';
 import { getUser } from '@/components/ui/app/profile-menu';
+import { Badge } from '@/components/ui/badge';
 import { type ILecture } from '@/types/db/course';
 import { getSectionWithLectures } from '@/lib/api';
+import { getYouTubeThumbnail } from '@/lib/utils';
 
 interface SectionGrades {
   quizzes: Progress;
@@ -87,12 +95,7 @@ const LectureCard = ({
   sectionSlug: string;
   lecture: ILecture;
 }) => {
-  function getYouTubeThumbnail(url: string): string {
-    const videoId = url.split('v=')[1];
-    return `https://img.youtube.com/vi/${videoId}/0.jpg`;
-  }
   const thumbnailUrl = getYouTubeThumbnail(lecture.video_url);
-  console.log(thumbnailUrl);
 
   return (
     <>
@@ -111,6 +114,13 @@ const LectureCard = ({
             <CardContent>
               <p className="text-foreground">{lecture.description}</p>
             </CardContent>
+            <CardFooter className="flex flex-row gap-2">
+              {lecture.tags.map((tag) => (
+                <Badge key={tag} className="bg-secondary">
+                  {tag}
+                </Badge>
+              ))}
+            </CardFooter>
           </div>
           <div className="mt-4 md:mt-0 md:flex-shrink-0">
             <Link href={lecture.video_url}>

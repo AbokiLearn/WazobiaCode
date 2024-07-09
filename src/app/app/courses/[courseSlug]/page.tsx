@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { getUser, type User } from '@/components/ui/app/profile-menu';
+import { getUser, type User } from '@/components/app/profile-menu';
 import {
   ProgressBar,
   GradeProgressBar,
   type Progress,
-} from '@/components/ui/app/progress-bar';
+} from '@/components/app/progress-bar';
 import { CourseWithSections } from '@/types/db/course';
 import { getCourseWithSections } from '@/lib/api';
 import { ISection } from '@/types/db/course';

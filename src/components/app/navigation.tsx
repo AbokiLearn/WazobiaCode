@@ -9,9 +9,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import HeaderLogo from '@/components/ui/app/header-logo';
-import { SearchBar } from '@/components/ui/app/search-bar';
-import { SheetMenu } from '@/components/ui/app/sheet-menu';
+import HeaderLogo from '@/components/app/header-logo';
+import { SearchBar } from '@/components/app/search-bar';
+import { SheetMenu } from '@/components/app/sheet-menu';
 import { CourseWithSections } from '@/types/db/course';
 import { cn } from '@/lib/utils';
 

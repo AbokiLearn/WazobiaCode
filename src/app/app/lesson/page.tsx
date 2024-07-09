@@ -1,4 +1,4 @@
-import Document from '@/components/ui/lesson/document';
+import Document from '@/components/lesson/document';
 
 const lessonPage = () => {
   return <Document />;

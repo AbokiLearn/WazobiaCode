@@ -9,14 +9,10 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import HeaderLogo from '@/components/ui/app/header-logo';
-import { SearchBar } from '@/components/ui/app/search-bar';
-import { SheetMenu } from '@/components/ui/app/sheet-menu';
-import {
-  ProfileMenu,
-  getUser,
-  type User,
-} from '@/components/ui/app/profile-menu';
+import HeaderLogo from '@/components/app/header-logo';
+import { SearchBar } from '@/components/app/search-bar';
+import { SheetMenu } from '@/components/app/sheet-menu';
+import { ProfileMenu, getUser, type User } from '@/components/app/profile-menu';
 import { cn } from '@/lib/utils';
 import { getCoursesWithSections } from '@/lib/api';
 import { CourseWithSections } from '@/types/db/course';

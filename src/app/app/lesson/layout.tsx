@@ -1,4 +1,4 @@
-import Sidebar from '@/components/ui/lesson/sidebar';
+import Sidebar from '@/components/lesson/sidebar';
 
 export default function RootLayout({
   children,

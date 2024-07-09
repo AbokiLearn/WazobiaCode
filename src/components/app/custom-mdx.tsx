@@ -1,6 +1,6 @@
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import CodeBlock from '@/components/ui/app/codeblock';
-import BlockQuote from '@/components/ui/app/blockquote';
+import CodeBlock from '@/components/app/codeblock';
+import BlockQuote from '@/components/app/blockquote';
 
 const CustomComponents = {
   h1: (props: any) => <h1 className="text-2xl font-bold" {...props} />,

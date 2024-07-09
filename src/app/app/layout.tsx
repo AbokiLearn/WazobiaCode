@@ -1,4 +1,4 @@
-import { AppFooter } from '@/components/ui/app/footer';
+import { AppFooter } from '@/components/app/footer';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (

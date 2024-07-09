@@ -2,8 +2,8 @@
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
-import LandingFAQ from '@/components/ui/landingPage/faq';
-import Form from '@/components/ui/landingPage/form';
+import LandingFAQ from '@/components/landingPage/faq';
+import Form from '@/components/landingPage/form';
 
 export default function LandingPage() {
   return (

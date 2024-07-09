@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import VideoPlayer from '@/components/ui/app/video-player';
-import CustomMDX from '@/components/ui/app/custom-mdx';
+import VideoPlayer from '@/components/app/video-player';
+import CustomMDX from '@/components/app/custom-mdx';
 import { Badge } from '@/components/ui/badge';
 import { getLecture } from '@/lib/api';
 import { ILecture } from '@/types/db/course';

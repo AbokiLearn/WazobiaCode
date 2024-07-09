@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import HeaderLogo from '@/components/ui/app/header-logo';
-import { SearchBar } from '@/components/ui/app/search-bar';
-import { ProfileMenu, getUser } from '@/components/ui/app/profile-menu';
-import { SidebarNav, SheetNav } from '@/components/ui/app/navigation';
+import HeaderLogo from '@/components/app/header-logo';
+import { SearchBar } from '@/components/app/search-bar';
+import { ProfileMenu, getUser } from '@/components/app/profile-menu';
+import { SidebarNav, SheetNav } from '@/components/app/navigation';
 import { getCourseWithSections } from '@/lib/api';
 
 export async function generateMetadata({

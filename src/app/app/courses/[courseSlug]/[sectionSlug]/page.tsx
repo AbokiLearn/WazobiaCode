@@ -7,11 +7,8 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import {
-  GradeProgressBar,
-  type Progress,
-} from '@/components/ui/app/progress-bar';
-import { getUser } from '@/components/ui/app/profile-menu';
+import { GradeProgressBar, type Progress } from '@/components/app/progress-bar';
+import { getUser } from '@/components/app/profile-menu';
 import { Badge } from '@/components/ui/badge';
 import { type ILecture } from '@/types/db/course';
 import { getSectionWithLectures } from '@/lib/api';

@@ -28,17 +28,16 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col flex-grow overflow-hidden">
-      <header className="flex h-14 items-center gap-4 border-b bg-muted/60 px-4 lg:h-[60px] lg:px-6">
-        <CourseCatalogSheetMenu user={user} />
+      <header className="flex h-14 items-center gap-4 border-b bg-primary px-4 lg:h-[60px] lg:px-6">
         <HeaderLogo />
-        <h2 className="font-semibold sm:flex sm:text-xl lg:text-2xl">
+        <h2 className="font-semibold text-primary-foreground text-xl md:text-2xl">
           Course Catalog
         </h2>
         <div className="ml-auto flex items-center gap-4">
           {user && <ProfileMenu user={user} />}
         </div>
       </header>
-      <main className="flex-grow overflow-auto p-4 lg:p-6 bg-muted-foreground">
+      <main className="flex-grow bg-background text-foreground overflow-auto space-y-6 p-4 md:p-6">
         <CourseList courses={courses} />
         <ComingSoonCard />
       </main>
@@ -49,108 +48,111 @@ export default async function Page() {
 const CourseList = ({ courses }: { courses: CourseWithSections[] }) => {
   return (
     <>
-      {courses.map((course) => (
-        <Card
-          key={course.title}
-          className={cn(
-            'mx-1 mt-4 md:mx-6 overflow-hidden',
-            course.active ? '' : 'bg-muted',
-          )}
-        >
-          <CardHeader>
-            <div className="flex items-center gap-4">
-              <Image
-                src={course.icon}
-                alt={course.title}
-                width={32}
-                height={32}
-              />
-              <Link href={course.active ? `/app/courses/${course.slug}` : '#'}>
-                <CardTitle>{course.title}</CardTitle>
-              </Link>
-            </div>
-            <CardDescription>{course.description}</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-row">
-            <div className="flex-1">
-              {course.sections
-                .sort((a, b) => a.section_num - b.section_num)
-                .filter((section) => section.section_num > 0)
-                .map((section) => (
-                  <div
-                    key={section.title}
-                    className="flex items-center gap-2 p-1"
-                  >
-                    <Image
-                      src={section.icon}
-                      alt={section.title}
-                      width={32}
-                      height={32}
-                    />
-                    <Link
-                      href={
-                        course.active
-                          ? `/app/courses/${course.slug}/${section.slug}`
-                          : '#'
-                      }
-                      className={cn(
-                        'text-md sm:font-semibold text-muted-foreground',
-                        course.active
-                          ? 'hover:text-primary transition-colors'
-                          : '',
-                      )}
-                    >
-                      {section.title}
-                    </Link>
-                  </div>
-                ))}
-            </div>
-          </CardContent>
-          <CardFooter className="items-center bg-muted py-3">
-            <Link
-              className={cn(
-                'font-semibold',
-                course.active
-                  ? 'text-primary hover:text-primary-foreground transition-colors'
-                  : 'text-muted-foreground',
-              )}
-              href={course.active ? `/app/courses/${course.slug}` : '#'}
-            >
-              {course.active ? 'View Course' : 'Coming Soon'}
-            </Link>
-          </CardFooter>
-        </Card>
-      ))}
-    </>
-  );
-};
+      {courses.map((course) => {
+        const isActive = course.active;
+        const cardClassName = isActive
+          ? 'bg-card text-card-foreground'
+          : 'bg-muted text-muted-foreground';
 
-const CourseCatalogSheetMenu = ({ user }: { user: User }) => {
-  return (
-    <SheetMenu>
-      <nav className="grid gap-2 text-lg font-medium">
-        <HeaderLogo inSheet />
-        <h2 className="flex font-semibold text-xl">Course Catalog</h2>
-      </nav>
-      <div className="my-4">
-        <SearchBar placeholder="Search courses..." inSheet />
-      </div>
-    </SheetMenu>
+        return (
+          <Card
+            key={course.title}
+            className={cn(
+              'overflow-hidden mx-1 md:mx-6 border-border',
+              cardClassName,
+            )}
+          >
+            <CardHeader>
+              <div className="flex items-center gap-4">
+                <Image
+                  src={course.icon}
+                  alt={course.title}
+                  width={32}
+                  height={32}
+                />
+                <Link href={isActive ? `/app/courses/${course.slug}` : '#'}>
+                  <CardTitle>{course.title}</CardTitle>
+                </Link>
+              </div>
+              <CardDescription
+                className={cn(
+                  '',
+                  isActive ? 'text-card-foreground' : 'text-muted-foreground',
+                )}
+              >
+                {course.description}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-row">
+              <div className="flex-1">
+                {course.sections
+                  .sort((a, b) => a.section_num - b.section_num)
+                  .filter((section) => section.section_num > 0)
+                  .map((section) => (
+                    <div
+                      key={section.title}
+                      className="flex items-center gap-2 p-1"
+                    >
+                      <Image
+                        src={section.icon}
+                        alt={section.title}
+                        width={32}
+                        height={32}
+                      />
+                      <Link
+                        href={
+                          isActive
+                            ? `/app/courses/${course.slug}/${section.slug}`
+                            : '#'
+                        }
+                        className={cn(
+                          'text-md sm:font-[400]',
+                          isActive ? 'hover:text-accent transition-colors' : '',
+                        )}
+                      >
+                        {section.title}
+                      </Link>
+                    </div>
+                  ))}
+              </div>
+            </CardContent>
+            <CardFooter
+              className={cn(
+                'items-center py-3',
+                isActive ? 'bg-muted-foreground' : 'bg-muted',
+              )}
+            >
+              <Link
+                className={cn(
+                  'font-semibold',
+                  isActive
+                    ? 'text-accent hover:text-accent-foreground transition-colors'
+                    : 'text-muted-foreground',
+                )}
+                href={course.active ? `/app/courses/${course.slug}` : '#'}
+              >
+                {course.active ? 'View Course' : 'Coming Soon'}
+              </Link>
+            </CardFooter>
+          </Card>
+        );
+      })}
+    </>
   );
 };
 
 const ComingSoonCard = () => {
   return (
-    <Card className="mx-1 mt-4 bg-muted md:mx-6">
+    <Card className="bg-muted text-muted-foreground mx-1 md:mx-6 border-border">
       <CardContent className="flex items-center justify-center p-6">
-        <div className="w-16 h-16 bg-slate-200 rounded-lg flex items-center justify-center mr-6">
-          <Image src="/library.svg" alt="Library" width={32} height={32} />
+        <div className="w-16 h-16 flex items-center justify-center mr-4">
+          <Image src="/library.svg" alt="Library" width={48} height={48} />
         </div>
         <div>
-          <h2 className="text-xl font-semibold">New Courses Coming Soon</h2>
-          <p className="text-sm text-slate-500">
-            Stay tuned for more exciting courses!
-          </p>
+          <h2 className="text-lg md:text-xl font-semibold">
+            New Courses Coming Soon
+          </h2>
+          <p className="text-sm">Stay tuned for more exciting courses!</p>
         </div>
       </CardContent>
     </Card>

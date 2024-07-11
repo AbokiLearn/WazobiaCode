@@ -2,21 +2,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-export default function HeaderLogo({
-  className,
-  inSheet = false,
-}: {
-  className?: string;
-  inSheet?: boolean;
-}) {
+export default function HeaderLogo({ className }: { className?: string }) {
   return (
     <Link
       href="/"
-      className={cn(
-        'items-center gap-2 font-semibold',
-        inSheet ? '' : 'hidden md:flex',
-        className,
-      )}
+      className={cn('items-center gap-2 font-semibold', className)}
     >
       <Image src="/logo.svg" width={48} height={48} alt="logo" />
     </Link>

@@ -1,8 +1,9 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import LandingFAQ from '@/components/landingPage/faq';
+import { Footer } from '@/components/ui/footer';
+import { Button } from '@/components/ui/button';
 import Form from '@/components/landingPage/form';
 
 export default function LandingPage() {
@@ -99,11 +100,7 @@ export default function LandingPage() {
           <Form />
         </section>
       </div>
-      <footer className="max-w-7xl mx-auto bg-gray-900 text-white p-4">
-        <div className="mx-auto flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm">© 2024 WazobiaCode. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

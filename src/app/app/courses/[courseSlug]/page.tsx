@@ -29,6 +29,11 @@ export default async function Page({ params }: CoursePageProps) {
 
   return (
     <div className="m-4 md:m-6 space-y-6">
+      <div className="flex flex-row items-center justify-center">
+        <h2 className="font-semibold text-foreground text-center text-2xl md:text-3xl">
+          {course.title}
+        </h2>
+      </div>
       <CourseOverviewCard
         user={user}
         course={course}

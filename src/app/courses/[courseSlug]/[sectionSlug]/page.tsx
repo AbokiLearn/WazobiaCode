@@ -102,7 +102,7 @@ const LectureCard = ({
             <CardHeader>
               <CardTitle>
                 <Link
-                  href={`/app/courses/${courseSlug}/${sectionSlug}/${lecture.slug}`}
+                  href={`/courses/${courseSlug}/${sectionSlug}/${lecture.slug}`}
                 >
                   {`Lecture ${lecture.lecture_num}: ${lecture.title}`}
                 </Link>

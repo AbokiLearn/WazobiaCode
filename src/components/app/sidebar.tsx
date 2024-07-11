@@ -72,7 +72,7 @@ const MenuLinks = ({ course }: { course: CourseWithSections }) => {
           >
             <AccordionTrigger>
               <NavItem
-                href={`/app/courses/${course.slug}/${section.slug}`}
+                href={`/courses/${course.slug}/${section.slug}`}
                 text={section.title}
                 isActive={isSectionActive}
                 className="text-lg"
@@ -84,7 +84,7 @@ const MenuLinks = ({ course }: { course: CourseWithSections }) => {
                 return (
                   <NavItem
                     key={index}
-                    href={`/app/courses/${course.slug}/${section.slug}/${lecture.slug}`}
+                    href={`/courses/${course.slug}/${section.slug}/${lecture.slug}`}
                     text={lecture.title}
                     isActive={isLectureActive}
                     className="text-md"

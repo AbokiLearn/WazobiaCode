@@ -195,7 +195,7 @@ const PageHeader = () => {
             Articles
           </Link>
           <Link
-            href="/app/faq"
+            href="/faq"
             className="text-gray-600 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium"
           >
             FAQs

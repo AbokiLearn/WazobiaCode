@@ -64,7 +64,7 @@ const CourseList = ({ courses }: { courses: CourseWithSections[] }) => {
                   width={32}
                   height={32}
                 />
-                <Link href={isActive ? `/app/courses/${course.slug}` : '#'}>
+                <Link href={isActive ? `/courses/${course.slug}` : '#'}>
                   <CardTitle>{course.title}</CardTitle>
                 </Link>
               </div>
@@ -96,7 +96,7 @@ const CourseList = ({ courses }: { courses: CourseWithSections[] }) => {
                       <Link
                         href={
                           isActive
-                            ? `/app/courses/${course.slug}/${section.slug}`
+                            ? `/courses/${course.slug}/${section.slug}`
                             : '#'
                         }
                         className={cn(
@@ -123,7 +123,7 @@ const CourseList = ({ courses }: { courses: CourseWithSections[] }) => {
                     ? 'text-accent hover:text-accent-foreground transition-colors'
                     : 'text-muted-foreground',
                 )}
-                href={course.active ? `/app/courses/${course.slug}` : '#'}
+                href={course.active ? `/courses/${course.slug}` : '#'}
               >
                 {course.active ? 'View Course' : 'Coming Soon'}
               </Link>

@@ -132,7 +132,7 @@ const SectionOverviewCard = ({
           />
           <CardTitle className="text-lg md:text-xl">
             <Link
-              href={`/app/courses/${courseSlug}/${section.slug}`}
+              href={`/courses/${courseSlug}/${section.slug}`}
               className="hover:text-accent"
             >
               {section.title}

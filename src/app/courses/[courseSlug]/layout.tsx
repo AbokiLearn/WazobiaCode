@@ -34,7 +34,7 @@ export default async function CourseLayout({
   return (
     <div className="flex flex-col h-screen">
       <Header
-        title={<Link href={`/app/courses/${course.slug}`}>{course.title}</Link>}
+        title={<Link href={`/courses/${course.slug}`}>{course.title}</Link>}
         user={user}
       >
         <SheetSidebar course={course} />

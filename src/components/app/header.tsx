@@ -15,11 +15,11 @@ export const HeaderLinks = ({ className }: { className?: string }) => {
   const pages = [
     {
       label: 'Courses',
-      href: '/app/courses',
+      href: '/courses',
     },
     {
       label: 'FAQ',
-      href: '/app/faq',
+      href: '/faq',
     },
   ];
 

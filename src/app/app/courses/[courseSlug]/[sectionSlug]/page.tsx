@@ -41,14 +41,36 @@ export default async function Page({
     },
   };
 
-  console.log(section._id);
+  const GradesCard = () => {
+    return (
+      <Card className="mx-6 my-6 md:my-4 px-2 py-2 md:px-4 md:py-4">
+        <CardHeader>
+          <CardTitle>Your Grades</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col">
+          <div className="flex flex-row gap-6">
+            <GradeProgressBar
+              submissionType="Quizzes"
+              gradeProgress={sectionGrades.quizzes}
+              href={`/app/submissions/quiz/${courseSlug}/${sectionSlug}`}
+            />
+            <GradeProgressBar
+              submissionType="Assignments"
+              gradeProgress={sectionGrades.assignments}
+              href={`/app/submissions/assignment/${courseSlug}/${sectionSlug}`}
+            />
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <>
       <h1 className="mx-6 my-2 text-center text-4xl text-foreground bg-background rounded-md p-2">
         {section.title}
       </h1>
-      <GradesCard sectionGrades={sectionGrades} />
+      <GradesCard />
       {section.lectures.map((lecture) => (
         <LectureCard
           key={lecture.slug}
@@ -60,28 +82,6 @@ export default async function Page({
     </>
   );
 }
-
-const GradesCard = ({ sectionGrades }: { sectionGrades: SectionGrades }) => {
-  return (
-    <Card className="mx-6 my-6 md:my-4 px-2 py-2 md:px-4 md:py-4">
-      <CardHeader>
-        <CardTitle>Your Grades</CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col">
-        <div className="flex flex-row gap-6">
-          <GradeProgressBar
-            submissionType="Quizzes"
-            gradeProgress={sectionGrades.quizzes}
-          />
-          <GradeProgressBar
-            submissionType="Assignments"
-            gradeProgress={sectionGrades.assignments}
-          />
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
 
 const LectureCard = ({
   courseSlug,

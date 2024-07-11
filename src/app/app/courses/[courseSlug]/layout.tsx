@@ -4,6 +4,7 @@ import HeaderLogo from '@/components/app/header-logo';
 import { SearchBar } from '@/components/app/search-bar';
 import { ProfileMenu, getUser } from '@/components/app/profile-menu';
 import { SidebarNav, SheetNav } from '@/components/app/navigation';
+import { Footer } from '@/components/ui/footer';
 import { getCourseWithSections } from '@/lib/api';
 
 export async function generateMetadata({
@@ -46,8 +47,9 @@ export default async function CourseLayout({
       </header>
       <div className="flex flex-1 overflow-hidden">
         <SidebarNav course={course} />
-        <main className="flex-1 bg-muted-foreground overflow-y-auto p-4 lg:p-6">
+        <main className="flex-1 bg-muted-foreground overflow-y-auto">
           {children}
+          <Footer />
         </main>
       </div>
     </div>

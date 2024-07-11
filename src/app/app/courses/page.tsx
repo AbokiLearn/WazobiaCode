@@ -10,12 +10,11 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import HeaderLogo from '@/components/app/header-logo';
-import { SearchBar } from '@/components/app/search-bar';
-import { SheetMenu } from '@/components/app/sheet-menu';
 import { ProfileMenu, getUser, type User } from '@/components/app/profile-menu';
-import { cn } from '@/lib/utils';
-import { getCoursesWithSections } from '@/lib/api';
+import { Footer } from '@/components/ui/footer';
 import { CourseWithSections } from '@/types/db/course';
+import { getCoursesWithSections } from '@/lib/api';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Course Catalog | WazobiaCode',
@@ -27,21 +26,24 @@ export default async function Page() {
   const courses = await getCoursesWithSections();
 
   return (
-    <div className="flex flex-col flex-grow overflow-hidden">
-      <header className="flex h-14 items-center gap-4 border-b bg-primary px-4 lg:h-[60px] lg:px-6">
-        <HeaderLogo />
-        <h2 className="font-semibold text-primary-foreground text-xl md:text-2xl">
-          Course Catalog
-        </h2>
-        <div className="ml-auto flex items-center gap-4">
-          {user && <ProfileMenu user={user} />}
-        </div>
-      </header>
-      <main className="flex-grow bg-background text-foreground overflow-auto space-y-6 p-4 md:p-6">
-        <CourseList courses={courses} />
-        <ComingSoonCard />
-      </main>
-    </div>
+    <>
+      <div className="flex flex-col flex-grow overflow-hidden">
+        <header className="flex h-14 items-center gap-4 border-b bg-primary px-4 lg:h-[60px] lg:px-6">
+          <HeaderLogo />
+          <h2 className="font-semibold text-primary-foreground text-xl md:text-2xl">
+            Course Catalog
+          </h2>
+          <div className="ml-auto flex items-center gap-4">
+            {user && <ProfileMenu user={user} />}
+          </div>
+        </header>
+        <main className="flex-grow bg-background text-foreground overflow-auto space-y-6 p-4 md:p-6">
+          <CourseList courses={courses} />
+          <ComingSoonCard />
+        </main>
+      </div>
+      <Footer />
+    </>
   );
 }
 

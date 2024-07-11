@@ -1,6 +1,3 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-
 export const AppFooter = () => {
   return (
     <footer className="bg-secondary py-2 px-4 md:px-4 lg:px-6">

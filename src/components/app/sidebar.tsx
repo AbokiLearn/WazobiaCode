@@ -9,13 +9,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import HeaderLogo from '@/components/app/header-logo';
 import { SearchBar } from '@/components/app/search-bar';
 import { SheetMenu } from '@/components/app/sheet-menu';
 import { CourseWithSections } from '@/types/db/course';
 import { cn } from '@/lib/utils';
 
-const NavLinks = ({ course }: { course: CourseWithSections }) => {
+const MenuLinks = ({ course }: { course: CourseWithSections }) => {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<string>('');
   const [activeLecture, setActiveLecture] = useState<string>('');
@@ -46,8 +45,8 @@ const NavLinks = ({ course }: { course: CourseWithSections }) => {
       <Link
         href={href}
         className={cn(
-          'text-sm font-medium block py-1 mx-2 text-left hover:text-primary',
-          isActive ? 'text-primary font-bold' : '',
+          'font-medium block py-1 mx-2 text-left hover:text-accent-foreground',
+          isActive ? 'text-accent font-bold' : '',
           className,
         )}
       >
@@ -60,20 +59,24 @@ const NavLinks = ({ course }: { course: CourseWithSections }) => {
     <Accordion
       type="single"
       collapsible
-      className="w-full"
+      className="w-full text-primary-foreground"
       value={activeSection}
       onValueChange={setActiveSection}
     >
       {course.sections.map((section, index) => {
         const isSectionActive = activeSection === section.slug;
         return (
-          <AccordionItem key={index} value={section.slug}>
-            <AccordionTrigger className="text-md font-semibold text-left">
+          <AccordionItem
+            key={index}
+            value={section.slug}
+            className="border-b border-b-accent"
+          >
+            <AccordionTrigger>
               <NavItem
                 href={`/app/courses/${course.slug}/${section.slug}`}
                 text={section.title}
                 isActive={isSectionActive}
-                className="text-md font-semibold"
+                className="text-lg"
               />
             </AccordionTrigger>
             <AccordionContent>
@@ -85,6 +88,7 @@ const NavLinks = ({ course }: { course: CourseWithSections }) => {
                     href={`/app/courses/${course.slug}/${section.slug}/${lecture.slug}`}
                     text={lecture.title}
                     isActive={isLectureActive}
+                    className="text-md"
                   />
                 );
               })}
@@ -96,25 +100,23 @@ const NavLinks = ({ course }: { course: CourseWithSections }) => {
   );
 };
 
-export const SidebarNav = ({ course }: { course: CourseWithSections }) => {
+export const Sidebar = ({ course }: { course: CourseWithSections }) => {
   return (
-    <div className="hidden border-r bg-muted md:flex md:flex-col md:w-[300px] h-full overflow-y-auto">
+    <div className="hidden border-r bg-primary md:flex md:flex-col md:w-[300px] h-full overflow-y-auto">
       <div className="flex flex-col gap-2">
         <nav className="grid items-start text-sm font-medium px-2 lg:px-4">
-          <NavLinks course={course} />
+          <MenuLinks course={course} />
         </nav>
       </div>
     </div>
   );
 };
 
-export const SheetNav = ({ course }: { course: CourseWithSections }) => {
+export const SheetSidebar = ({ course }: { course: CourseWithSections }) => {
   return (
-    <SheetMenu>
-      <HeaderLogo inSheet />
-      <h1 className="text-2xl font-bold">{course.title}</h1>
+    <SheetMenu className="bg-primary">
       <nav className="grid gap-2 text-lg font-medium">
-        <NavLinks course={course} />
+        <MenuLinks course={course} />
       </nav>
       <div className="mt-auto mb-4">
         <SearchBar placeholder="Search course content..." inSheet />

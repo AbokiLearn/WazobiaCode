@@ -27,7 +27,7 @@ export default async function Page() {
   const courses = await getCoursesWithSections();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col flex-grow overflow-hidden">
       <header className="flex h-14 items-center gap-4 border-b bg-muted/60 px-4 lg:h-[60px] lg:px-6">
         <CourseCatalogSheetMenu user={user} />
         <HeaderLogo />
@@ -35,11 +35,10 @@ export default async function Page() {
           Course Catalog
         </h2>
         <div className="ml-auto flex items-center gap-4">
-          <SearchBar placeholder="Search courses..." />
           {user && <ProfileMenu user={user} />}
         </div>
       </header>
-      <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-muted-foreground">
+      <main className="flex-grow overflow-auto p-4 lg:p-6 bg-muted-foreground">
         <CourseList courses={courses} />
         <ComingSoonCard />
       </main>
@@ -53,7 +52,10 @@ const CourseList = ({ courses }: { courses: CourseWithSections[] }) => {
       {courses.map((course) => (
         <Card
           key={course.title}
-          className={cn('mx-6 my-2', course.active ? '' : 'bg-muted')}
+          className={cn(
+            'mx-1 mt-4 md:mx-6 overflow-hidden',
+            course.active ? '' : 'bg-muted',
+          )}
         >
           <CardHeader>
             <div className="flex items-center gap-4">
@@ -104,7 +106,7 @@ const CourseList = ({ courses }: { courses: CourseWithSections[] }) => {
                 ))}
             </div>
           </CardContent>
-          <CardFooter className="flex items-center bg-muted py-3">
+          <CardFooter className="items-center bg-muted py-3">
             <Link
               className={cn(
                 'font-semibold',
@@ -133,16 +135,13 @@ const CourseCatalogSheetMenu = ({ user }: { user: User }) => {
       <div className="my-4">
         <SearchBar placeholder="Search courses..." inSheet />
       </div>
-      <div className="mt-auto mb-4">
-        <ProfileMenu user={user} inSheet />
-      </div>
     </SheetMenu>
   );
 };
 
 const ComingSoonCard = () => {
   return (
-    <Card className="mx-6 my-2 bg-muted">
+    <Card className="mx-1 mt-4 bg-muted md:mx-6">
       <CardContent className="flex items-center justify-center p-6">
         <div className="w-16 h-16 bg-slate-200 rounded-lg flex items-center justify-center mr-6">
           <Image src="/library.svg" alt="Library" width={32} height={32} />

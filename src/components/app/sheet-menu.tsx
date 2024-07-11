@@ -26,7 +26,11 @@ export const SheetMenu = ({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+        <Button
+          variant="outline"
+          size="icon"
+          className="shrink-0 bg-primary text-primary-foreground md:hidden border-accent"
+        >
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle navigation menu</span>
         </Button>

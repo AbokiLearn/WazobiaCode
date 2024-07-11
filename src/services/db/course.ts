@@ -13,6 +13,7 @@ export const getCoursesWithSections = async () => {
     },
     {
       $sort: {
+        active: -1,
         'sections.section_num': 1,
       },
     },

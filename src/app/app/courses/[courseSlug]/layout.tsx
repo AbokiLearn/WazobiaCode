@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Sidebar, SheetSidebar } from '@/components/app/sidebar';
-import { SearchBar } from '@/components/app/search-bar';
 import { getUser } from '@/components/app/profile-menu';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
@@ -37,7 +36,6 @@ export default async function CourseLayout({
       <Header
         title={<Link href={`/app/courses/${course.slug}`}>{course.title}</Link>}
         user={user}
-        searchBar={<SearchBar placeholder="Search courses..." />}
       >
         <SheetSidebar course={course} />
       </Header>

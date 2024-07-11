@@ -7,5 +7,10 @@ export const env = {
   SHEET_ID: process.env.SHEET_ID!,
   SHEET_NAME: process.env.SHEET_NAME!,
 
+  AWS_REGION: process.env.AWS_REGION!,
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID!,
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY!,
+  AWS_S3_BUCKET_NAME: process.env.AWS_S3_BUCKET_NAME!,
+
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY!,
 };

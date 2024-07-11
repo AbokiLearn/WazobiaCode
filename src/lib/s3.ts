@@ -18,14 +18,16 @@ export const uploadFile = async ({
   fileName,
   fileData,
   contentType,
+  destFolder,
 }: {
   fileName: string;
   fileData: ArrayBuffer;
   contentType: string;
+  destFolder: string;
 }) => {
   const fileId = uuidv4();
   const fileExtension = fileName.split('.').pop();
-  const s3Key = `image-bin/${fileId}.${fileExtension}`;
+  const s3Key = `${destFolder}/${fileId}.${fileExtension}`;
 
   const params = {
     Bucket: FILE_UPLOAD_BUCKET,

@@ -28,7 +28,7 @@ export default async function Page({ params }: CoursePageProps) {
   };
 
   return (
-    <>
+    <div className="m-4 md:m-6 space-y-6">
       <CourseOverviewCard
         user={user}
         course={course}
@@ -43,25 +43,9 @@ export default async function Page({ params }: CoursePageProps) {
             section={section}
           />
         ))}
-    </>
+    </div>
   );
 }
-
-const CourseProgressBar = ({
-  courseProgress,
-}: {
-  courseProgress: Progress;
-}) => {
-  return (
-    <ProgressBar
-      label="Course Progress"
-      value={courseProgress.value}
-      max={courseProgress.max}
-      color="bg-blue-500"
-      className="mt-4 mb-2"
-    />
-  );
-};
 
 const CourseOverviewCard = ({
   user,
@@ -72,28 +56,44 @@ const CourseOverviewCard = ({
   course: CourseWithSections;
   courseProgress: Progress;
 }) => {
+  const CourseProgressBar = () => {
+    return (
+      <ProgressBar
+        label="Course Progress"
+        value={courseProgress.value}
+        max={courseProgress.max}
+        color="bg-accent"
+        className="mt-4 mb-2"
+      />
+    );
+  };
+
   return (
     <Card
       key={course.title}
-      className="mx-6 my-6 md:my-4 px-2 py-2 md:px-4 md:py-4"
+      className="bg-card text-card-foreground border-border"
     >
       <CardHeader>
-        <CardTitle>Course Overview</CardTitle>
+        <CardTitle className="pb-2 border-b border-muted">
+          Course Overview
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-row">
         <div className="flex flex-col">
-          <p className="text-foreground">{course.overview}</p>
+          <p className="text-justify">{course.overview}</p>
           {user && (
             <>
-              <CourseProgressBar courseProgress={courseProgress} />
-              <div className="flex flex-row gap-6">
+              <CourseProgressBar />
+              <div className="flex flex-row gap-8">
                 <GradeProgressBar
                   submissionType="Quizzes"
                   gradeProgress={courseProgress}
+                  href={`/app/submissions/quiz/${course.slug}`}
                 />
                 <GradeProgressBar
                   submissionType="Assignments"
                   gradeProgress={courseProgress}
+                  href={`/app/submissions/assignment/${course.slug}`}
                 />
               </div>
             </>
@@ -114,7 +114,7 @@ const SectionOverviewCard = ({
   return (
     <Card
       key={section.slug}
-      className="mx-6 my-6 md:my-4 px-2 py-2 md:px-4 md:py-4"
+      className="bg-card text-card-foreground border-border"
     >
       <CardHeader>
         <div className="flex flex-row items-center gap-2">
@@ -123,16 +123,20 @@ const SectionOverviewCard = ({
             alt={section.title}
             width={32}
             height={32}
+            className="w-8 h-8 md:w-10 md:h-10"
           />
-          <CardTitle>
-            <Link href={`/app/courses/${courseSlug}/${section.slug}`}>
+          <CardTitle className="text-lg md:text-xl">
+            <Link
+              href={`/app/courses/${courseSlug}/${section.slug}`}
+              className="hover:text-accent"
+            >
               {section.title}
             </Link>
           </CardTitle>
         </div>
       </CardHeader>
       <CardContent className="flex flex-row">
-        <p className="text-foreground">{section.description}</p>
+        <p className="text-justify">{section.description}</p>
       </CardContent>
     </Card>
   );

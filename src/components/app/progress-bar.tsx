@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 interface ProgressBarProps {
@@ -25,10 +26,10 @@ export const ProgressBar = ({
   return (
     <div className={cn('mb-4', className)}>
       <div className="flex justify-between mb-1">
-        <span className="text-md font-semibold text-gray-700">{label}</span>
-        <span className="text-sm font-medium text-gray-700">{value}%</span>
+        <span className="text-md font-semibold">{label}</span>
+        <span className="text-sm font-medium">{value}%</span>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-2.5">
+      <div className="w-full overflow-hidden bg-muted border border-muted rounded-full h-3">
         <div
           className={cn('h-2.5 rounded-full', color)}
           style={{ width: `${percentage}%` }}
@@ -41,17 +42,23 @@ export const ProgressBar = ({
 export const GradeProgressBar = ({
   submissionType,
   gradeProgress,
+  href,
 }: {
   submissionType: string;
   gradeProgress: Progress;
+  href: string;
 }) => {
   return (
-    <ProgressBar
-      label={submissionType}
-      value={gradeProgress.value}
-      max={gradeProgress.max}
-      color="bg-green-500"
-      className="mt-5 mb-2 flex flex-1 flex-col"
-    />
+    <Link
+      href={href}
+      className="mt-5 flex flex-1 flex-col text-card-foreground"
+    >
+      <ProgressBar
+        label={submissionType}
+        value={gradeProgress.value}
+        max={gradeProgress.max}
+        color="bg-green-500"
+      />
+    </Link>
   );
 };

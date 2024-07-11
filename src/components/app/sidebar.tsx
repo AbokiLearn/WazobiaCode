@@ -9,7 +9,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { SearchBar } from '@/components/app/search-bar';
 import { SheetMenu } from '@/components/app/sheet-menu';
 import { CourseWithSections } from '@/types/db/course';
 import { cn } from '@/lib/utils';
@@ -118,9 +117,6 @@ export const SheetSidebar = ({ course }: { course: CourseWithSections }) => {
       <nav className="grid gap-2 text-lg font-medium">
         <MenuLinks course={course} />
       </nav>
-      <div className="mt-auto mb-4">
-        <SearchBar placeholder="Search course content..." inSheet />
-      </div>
     </SheetMenu>
   );
 };

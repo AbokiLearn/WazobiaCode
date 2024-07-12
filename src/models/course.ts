@@ -8,45 +8,49 @@ const timeStamps = {
 
 const CourseSchema = new Schema<ICourse>(
   {
-    title: String,
-    description: String,
-    slug: String,
-    active: Boolean,
-    cover_image: String,
-    icon: String,
-    overview: String,
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    slug: { type: String, required: true, unique: true },
+    active: { type: Boolean, default: true },
+    cover_image: { type: String, required: true },
+    icon: { type: String, required: true },
+    overview: { type: String, required: true },
   },
   { timestamps: timeStamps },
 );
 
 const SectionSchema = new Schema<ISection>(
   {
-    title: String,
-    description: String,
-    slug: String,
-    active: Boolean,
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    slug: { type: String, required: true, unique: true },
+    active: { type: Boolean, default: true },
     course_id: { type: Schema.Types.ObjectId, ref: 'Course' },
-    icon: String,
-    section_num: Number,
+    icon: { type: String, required: true },
+    section_num: { type: Number, required: true },
   },
   { timestamps: timeStamps },
 );
 
 const LectureSchema = new Schema<ILecture>(
   {
-    title: String,
-    description: String,
-    slug: String,
-    active: Boolean,
+    title: { type: String, required: true },
+    description: { type: String, required: true },
+    slug: { type: String, required: true, unique: true },
+    active: { type: Boolean, default: true },
     course_id: { type: Schema.Types.ObjectId, ref: 'Course' },
     section_id: { type: Schema.Types.ObjectId, ref: 'Section' },
-    lecture_num: Number,
-    content: String,
+    lecture_num: { type: Number, required: true },
+    content: { type: String, required: true },
     tags: [String],
-    video_url: String,
+    video_url: { type: String, required: true },
   },
   { timestamps: timeStamps },
 );
+
+CourseSchema.index({ slug: 1 });
+SectionSchema.index({ course_id: 1, section_num: 1 });
+LectureSchema.index({ course_id: 1, section_id: 1, lecture_num: 1 });
 
 export const Course: Model<ICourse> =
   models.Course || model('Course', CourseSchema);

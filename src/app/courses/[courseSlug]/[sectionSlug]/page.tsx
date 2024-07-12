@@ -10,7 +10,7 @@ import { getYouTubeThumbnail } from '@/lib/utils';
 
 interface SectionGrades {
   quizzes: Progress;
-  assignments: Progress;
+  homeworks: Progress;
 }
 
 export default async function Page({
@@ -29,7 +29,7 @@ export default async function Page({
       value: 69,
       max: 100,
     },
-    assignments: {
+    homeworks: {
       value: 69,
       max: 100,
     },
@@ -54,9 +54,9 @@ export default async function Page({
               href={`/app/submissions/?type=quiz&course=${courseSlug}&section=${sectionSlug}`}
             />
             <GradeProgressBar
-              submissionType="Assignments"
-              gradeProgress={sectionGrades.assignments}
-              href={`/app/submissions/?type=assignment&course=${courseSlug}&section=${sectionSlug}`}
+              submissionType="Homeworks"
+              gradeProgress={sectionGrades.homeworks}
+              href={`/app/submissions/?type=homework&course=${courseSlug}&section=${sectionSlug}`}
             />
           </div>
         </CardContent>

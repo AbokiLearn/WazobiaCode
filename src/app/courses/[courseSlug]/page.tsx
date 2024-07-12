@@ -96,9 +96,9 @@ const CourseOverviewCard = ({
                   href={`/app/submissions/?type=quiz&course=${course.slug}`}
                 />
                 <GradeProgressBar
-                  submissionType="Assignments"
+                  submissionType="Homeworks"
                   gradeProgress={courseProgress}
-                  href={`/app/submissions/?type=assignment&course=${course.slug}`}
+                  href={`/app/submissions/?type=homework&course=${course.slug}`}
                 />
               </div>
             </>

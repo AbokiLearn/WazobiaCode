@@ -131,7 +131,7 @@ for i in {0..4}; do
         slug: 'lecture-${j}',
         content: \"${content}\",
         tags: ['tag1', 'tag2'],
-        video_url: 'https://www.youtube.com/live/_uMuuHk_KkQ?si=IKOwNtlIkuX-orJC',
+        video_url: 'https://www.youtube.com/watch?v=JphpuOcmUc4',
       }).insertedId
     ")
 

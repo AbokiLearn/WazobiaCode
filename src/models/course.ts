@@ -1,44 +1,51 @@
 import { Schema, model, models, Model } from 'mongoose';
 import { ICourse, ISection, ILecture } from '@/types/db/course';
 
+const timeStamps = {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+};
+
 const CourseSchema = new Schema<ICourse>(
   {
     title: String,
-    icon: String,
     description: String,
-    overview: String,
     slug: String,
     active: Boolean,
     cover_image: String,
+    icon: String,
+    overview: String,
   },
-  { timestamps: true },
+  { timestamps: timeStamps },
 );
 
 const SectionSchema = new Schema<ISection>(
   {
-    course_id: { type: Schema.Types.ObjectId, ref: 'Course' },
-    section_num: Number,
     title: String,
     description: String,
     slug: String,
+    active: Boolean,
+    course_id: { type: Schema.Types.ObjectId, ref: 'Course' },
     icon: String,
+    section_num: Number,
   },
-  { timestamps: true },
+  { timestamps: timeStamps },
 );
 
 const LectureSchema = new Schema<ILecture>(
   {
-    course_id: { type: Schema.Types.ObjectId, ref: 'Course' },
-    section_id: { type: Schema.Types.ObjectId, ref: 'Section' },
-    lecture_num: Number,
     title: String,
     description: String,
     slug: String,
+    active: Boolean,
+    course_id: { type: Schema.Types.ObjectId, ref: 'Course' },
+    section_id: { type: Schema.Types.ObjectId, ref: 'Section' },
+    lecture_num: Number,
     content: String,
     tags: [String],
     video_url: String,
   },
-  { timestamps: true },
+  { timestamps: timeStamps },
 );
 
 export const Course: Model<ICourse> =

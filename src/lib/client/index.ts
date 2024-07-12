@@ -7,18 +7,20 @@ const getEndpoint = (endpoint: string) => {
 export const getData = async (
   endpoint: string,
   cache: RequestCache,
-  errorMessage: string,
+  errorMessage: string = 'Error fetching data',
 ) => {
   const response = await fetch(getEndpoint(endpoint), {
     cache,
   })
     .then((res) => res.json())
     .catch((err) => {
-      throw new Error(errorMessage);
+      throw new Error(
+        `${errorMessage} (status: ${err.status}): ${err.message}`,
+      );
     });
   if (response.error) {
     throw new Error(
-      `Error fetching data (status: ${response.status}): ${response.error}`,
+      `${errorMessage} (status: ${response.status}): ${response.error}`,
     );
   }
   return response;

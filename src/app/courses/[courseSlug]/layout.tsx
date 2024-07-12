@@ -41,10 +41,12 @@ export default async function CourseLayout({
       </Header>
       <div className="flex flex-1 overflow-hidden">
         <Sidebar course={course} />
-        <main className="flex-1 bg-background overflow-y-auto">
-          {children}
+        <div className="flex flex-col flex-1">
+          <main className="flex-1 bg-background overflow-y-auto">
+            {children}
+          </main>
           <Footer />
-        </main>
+        </div>
       </div>
     </div>
   );

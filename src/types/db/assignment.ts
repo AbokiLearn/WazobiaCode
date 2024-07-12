@@ -6,8 +6,6 @@ export interface IAssignment extends Document {
   course_id: Types.ObjectId | ICourse;
   section_id: Types.ObjectId | ISection;
   lecture_id: Types.ObjectId | ILecture;
-  title: string;
-  description: string;
   type: 'quiz' | 'homework';
   tags: string[];
   max_score: number;

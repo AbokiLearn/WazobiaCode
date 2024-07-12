@@ -11,8 +11,6 @@ const AssignmentSchema = new Schema<IAssignment>(
     course_id: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     section_id: { type: Schema.Types.ObjectId, ref: 'Section', required: true },
     lecture_id: { type: Schema.Types.ObjectId, ref: 'Lecture', required: true },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
     type: { type: String, enum: ['quiz', 'homework'], required: true },
     tags: [String],
     max_score: { type: Number, required: true },

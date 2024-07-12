@@ -1,28 +1,9 @@
-import { env } from '@/lib/config';
 import {
   CourseWithSections,
   SectionWithLectures,
   ILecture,
 } from '@/types/db/course';
-
-const getEndpoint = (endpoint: string) => {
-  return `${env.APP_URL}/api/${endpoint}`;
-};
-
-const getData = async (
-  endpoint: string,
-  cache: RequestCache,
-  errorMessage: string,
-) => {
-  const data = await fetch(getEndpoint(endpoint), {
-    cache,
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      throw new Error(errorMessage);
-    });
-  return data;
-};
+import { getData } from '@/lib/client';
 
 export async function getCourseWithSections(
   courseSlug: string,

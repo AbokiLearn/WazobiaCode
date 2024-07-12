@@ -8,7 +8,7 @@ import {
   type Progress,
 } from '@/components/app/progress-bar';
 import { CourseWithSections } from '@/types/db/course';
-import { getCourseWithSections } from '@/lib/api-client';
+import { getCourseWithSections } from '@/lib/client/course';
 import { ISection } from '@/types/db/course';
 
 interface CoursePageProps {

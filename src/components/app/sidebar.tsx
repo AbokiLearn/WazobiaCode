@@ -101,7 +101,8 @@ const MenuLinks = ({ course }: { course: CourseWithSections }) => {
 
 export const Sidebar = ({ course }: { course: CourseWithSections }) => {
   return (
-    <div className="hidden border-r bg-primary md:flex md:flex-col md:w-[300px] h-full overflow-y-auto">
+    // <div className="hidden border-r bg-primary md:flex md:flex-col md:w-[300px] h-full overflow-y-auto">
+    <div className="hidden md:block border-r bg-primary w-[300px] h-full overflow-y-auto">
       <div className="flex flex-col gap-2">
         <nav className="grid items-start text-sm font-medium px-2 lg:px-4">
           <MenuLinks course={course} />

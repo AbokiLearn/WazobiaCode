@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -36,9 +37,14 @@ export function SubmitQuestion({
   lecture_id,
   student_id,
 }: SubmitQuestionProps) {
-  const closeToast = {
-    label: 'Close',
-    onClick: () => toast.dismiss(),
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const toastOpts = {
+    action: {
+      label: 'Close',
+      onClick: () => toast.dismiss(),
+    },
+    duration: 5000,
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,6 +55,8 @@ export function SubmitQuestion({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+
     if (typeof course_id !== 'string') {
       course_id = course_id._id;
     }
@@ -67,15 +75,11 @@ export function SubmitQuestion({
         question: values.question,
       });
       form.reset();
-      toast.success('Your question has been submitted.', {
-        action: closeToast,
-        duration: 5000,
-      });
+      setIsSubmitting(false);
+      toast.success('Your question has been submitted.', toastOpts);
     } catch (error) {
-      toast.error('Failed to submit question', {
-        action: closeToast,
-        duration: 5000,
-      });
+      toast.error('Failed to submit question', toastOpts);
+      setIsSubmitting(false);
     }
   }
 
@@ -104,7 +108,9 @@ export function SubmitQuestion({
               </FormItem>
             )}
           />
-          <Button type="submit">Submit Question</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Submit Question'}
+          </Button>
         </form>
       </Form>
     </div>

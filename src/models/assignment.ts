@@ -8,8 +8,6 @@ import { Lecture } from './course';
 
 const AssignmentSchema = new Schema<IAssignment>(
   {
-    course_id: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
-    section_id: { type: Schema.Types.ObjectId, ref: 'Section', required: true },
     lecture_id: { type: Schema.Types.ObjectId, ref: 'Lecture', required: true },
     type: { type: String, enum: ['quiz', 'homework'], required: true },
     tags: [String],
@@ -39,6 +37,7 @@ const QuizAssignmentSchema = new Schema<IQuizAssignment>({
       question: { type: String, required: true },
       options: { type: [String], required: true },
       correct_answer: { type: Number, required: true },
+      points: { type: Number, default: 1 },
     },
   ],
 });

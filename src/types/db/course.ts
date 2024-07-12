@@ -1,4 +1,6 @@
 import { Document, Types } from 'mongoose';
+import { IQuizAssignment } from './assignment';
+import { IHomeworkAssignment } from './assignment';
 
 export interface CourseBase extends Document {
   _id: Types.ObjectId;
@@ -29,6 +31,8 @@ export interface ILecture extends CourseBase {
   content: string;
   tags: string[];
   video_url: string;
+  quiz: Types.ObjectId | IQuizAssignment;
+  homework: Types.ObjectId | IHomeworkAssignment;
 }
 
 export interface SectionWithLectures extends ISection {

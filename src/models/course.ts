@@ -44,6 +44,8 @@ const LectureSchema = new Schema<ILecture>(
     content: { type: String, required: true },
     tags: [String],
     video_url: { type: String, required: true },
+    quiz: { type: Schema.Types.ObjectId, ref: 'Assignment' },
+    homework: { type: Schema.Types.ObjectId, ref: 'Assignment' },
   },
   { timestamps: timeStamps },
 );

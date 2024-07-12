@@ -12,6 +12,7 @@ JS_CODE="
   db.sections.drop()
   db.lectures.drop()
   db.assignments.drop()
+  db.studentquestions.drop()
 
   db.createCollection('courses')
   const courseIds = db.courses.insertMany([
@@ -105,6 +106,7 @@ JS_CODE="
 
   db.createCollection('lectures')
   db.createCollection('assignments')
+  db.createCollection('studentquestions')
 "
 
 echo "-- Creating collections: courses, sections, lectures, assignments"

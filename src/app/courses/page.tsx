@@ -13,7 +13,7 @@ import { Header } from '@/components/app/header';
 import { getUser } from '@/components/app/profile-menu';
 import { Footer } from '@/components/ui/footer';
 import { CourseWithSections } from '@/types/db/course';
-import { getCoursesWithSections } from '@/lib/api';
+import { getCoursesWithSections } from '@/lib/api-client';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {

@@ -1,5 +1,5 @@
 import { sendConfirmationEmail } from '@/lib/sendgrid';
-import { APIResponse, APIErrorHandler } from '@/lib/utils';
+import { APIResponse, APIErrorHandler } from '@/lib/api';
 import * as sheets from '@/lib/gsheets';
 
 export async function POST(req: Request) {

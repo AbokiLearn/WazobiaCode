@@ -4,7 +4,7 @@ import VideoPlayer from '@/components/app/video-player';
 import CustomMDX from '@/components/app/custom-mdx';
 import { Badge } from '@/components/ui/badge';
 import { getUser } from '@/components/app/profile-menu';
-import { getLecture } from '@/lib/api';
+import { getLecture } from '@/lib/api-client';
 
 export default async function Page({
   params,

@@ -5,7 +5,7 @@ import { GradeProgressBar, type Progress } from '@/components/app/progress-bar';
 import { getUser } from '@/components/app/profile-menu';
 import { Badge } from '@/components/ui/badge';
 import { type ILecture } from '@/types/db/course';
-import { getSectionWithLectures } from '@/lib/api';
+import { getSectionWithLectures } from '@/lib/api-client';
 import { getYouTubeThumbnail } from '@/lib/utils';
 
 interface SectionGrades {

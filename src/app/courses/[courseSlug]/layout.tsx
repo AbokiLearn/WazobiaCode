@@ -4,7 +4,7 @@ import { Sidebar, SheetSidebar } from '@/components/app/sidebar';
 import { getUser } from '@/components/app/profile-menu';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
-import { getCourseWithSections } from '@/lib/api';
+import { getCourseWithSections } from '@/lib/api-client';
 
 export async function generateMetadata({
   params,

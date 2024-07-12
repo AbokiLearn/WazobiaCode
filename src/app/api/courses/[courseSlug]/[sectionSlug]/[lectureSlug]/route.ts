@@ -1,4 +1,4 @@
-import { APIResponse, APIErrorHandler } from '@/lib/utils';
+import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
 import { getLecture } from '@/lib/db/course';
 

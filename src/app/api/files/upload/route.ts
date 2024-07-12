@@ -1,6 +1,6 @@
 import { headers } from 'next/headers';
 
-import { APIResponse, APIErrorHandler } from '@/lib/utils';
+import { APIResponse, APIErrorHandler } from '@/lib/api';
 import { uploadFile } from '@/lib/s3';
 
 export async function POST(request: Request) {

@@ -1,5 +1,5 @@
 import { getCoursesWithSections } from '@/lib/db/course';
-import { APIResponse, APIErrorHandler } from '@/lib/utils';
+import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
 
 export async function GET(request: Request) {

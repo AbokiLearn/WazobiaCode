@@ -42,9 +42,9 @@ const HomeworkSubmissionSchema = new Schema<IHomeworkSubmission>({
 
 export const Submission: Model<ISubmission> =
   models.Submission || model('Submission', SubmissionSchema);
-export const QuizSubmission: Model<IQuizSubmission> = Submission.discriminator(
-  'QuizSubmission',
-  QuizSubmissionSchema,
-);
+export const QuizSubmission: Model<IQuizSubmission> =
+  models.QuizSubmission ||
+  Submission.discriminator('QuizSubmission', QuizSubmissionSchema);
 export const HomeworkSubmission: Model<IHomeworkSubmission> =
+  models.HomeworkSubmission ||
   Submission.discriminator('HomeworkSubmission', HomeworkSubmissionSchema);

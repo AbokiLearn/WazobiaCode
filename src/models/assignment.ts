@@ -49,9 +49,9 @@ const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
 
 export const Assignment: Model<IAssignment> =
   models.Assignment || model('Assignment', AssignmentSchema);
-export const QuizAssignment: Model<IQuizAssignment> = Assignment.discriminator(
-  'QuizAssignment',
-  QuizAssignmentSchema,
-);
+export const QuizAssignment: Model<IQuizAssignment> =
+  models.QuizAssignment ||
+  Assignment.discriminator('QuizAssignment', QuizAssignmentSchema);
 export const HomeworkAssignment: Model<IHomeworkAssignment> =
+  models.HomeworkAssignment ||
   Assignment.discriminator('HomeworkAssignment', HomeworkAssignmentSchema);

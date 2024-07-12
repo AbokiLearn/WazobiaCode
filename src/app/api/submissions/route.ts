@@ -1,6 +1,10 @@
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
-import { Submission } from '@/models/submission';
+import {
+  Submission,
+  QuizSubmission,
+  HomeworkSubmission,
+} from '@/models/submission';
 
 export async function GET(request: Request) {
   try {
@@ -29,7 +33,14 @@ export async function POST(request: Request) {
   try {
     await connectMongoDB();
     const body = await request.json();
-    const newSubmission = await Submission.create(body);
+
+    let newSubmission;
+    if (body.type === 'quiz') {
+      newSubmission = await QuizSubmission.create(body);
+    } else {
+      newSubmission = await HomeworkSubmission.create(body);
+    }
+
     return APIResponse({
       data: { submission: newSubmission },
       message: 'Submission created successfully',

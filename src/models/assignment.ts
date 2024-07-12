@@ -1,8 +1,9 @@
-import { Schema, model, models, Model, CallbackError } from 'mongoose';
+import { Schema, model, models, Model, CallbackError, Types } from 'mongoose';
 import {
   IAssignment,
   IQuizAssignment,
   IHomeworkAssignment,
+  IQuizQuestion,
 } from '@/types/db/assignment';
 import { Lecture } from './course';
 
@@ -33,20 +34,23 @@ AssignmentSchema.pre('save', async function (next) {
   next();
 });
 
+const QuizQuestionSchema = new Schema<IQuizQuestion>({
+  _id: { type: Schema.Types.ObjectId, default: () => new Types.ObjectId() },
+  question: { type: String, required: true },
+  options: { type: [String], required: true },
+  correct_answer: { type: Number, required: true },
+  points: { type: Number, default: 1 },
+});
+
 const QuizAssignmentSchema = new Schema<IQuizAssignment>({
-  questions: [
-    {
-      question: { type: String, required: true },
-      options: { type: [String], required: true },
-      correct_answer: { type: Number, required: true },
-      points: { type: Number, default: 1 },
-    },
-  ],
+  questions: [QuizQuestionSchema],
+  type: { type: String, enum: ['quiz'], required: true },
 });
 
 const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
   instructions: { type: String, required: true },
   files: [String],
+  type: { type: String, enum: ['homework'], required: true },
 });
 
 export const Assignment: Model<IAssignment> =

@@ -148,12 +148,14 @@ for i in {0..4}; do
         due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
         questions: [
           {
+            _id: new ObjectId(),
             question: 'What is the capital of France?',
             options: ['London', 'Berlin', 'Paris', 'Madrid'],
             correct_answer: 2,
             points: 5,
           },
           {
+            _id: new ObjectId(),
             question: 'Which programming language is this course about?',
             options: ['Java', 'Python', 'C++', 'JavaScript'],
             correct_answer: 3,

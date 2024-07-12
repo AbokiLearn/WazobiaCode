@@ -14,14 +14,17 @@ export interface IAssignment extends Document {
   updated_at: Date;
 }
 
+export interface IQuizQuestion {
+  _id: Types.ObjectId;
+  question: string;
+  options: string[];
+  correct_answer: number;
+  points: number;
+}
+
 export interface IQuizAssignment extends IAssignment {
   type: 'quiz';
-  questions: {
-    question: string;
-    options: string[];
-    correct_answer: number;
-    points: number;
-  }[];
+  questions: IQuizQuestion[];
 }
 
 export interface IHomeworkAssignment extends IAssignment {

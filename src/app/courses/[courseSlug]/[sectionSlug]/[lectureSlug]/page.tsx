@@ -1,11 +1,13 @@
 import { Suspense } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SubmitQuestion } from '@/components/app/submit-question';
+import { Quiz } from '@/components/app/quiz-content';
 import VideoPlayer from '@/components/app/video-player';
 import CustomMDX from '@/components/app/custom-mdx';
 import { Badge } from '@/components/ui/badge';
 import { getUser } from '@/components/app/profile-menu';
 import { getLecture } from '@/lib/client/course';
+import { IQuizAssignment } from '@/types/db/assignment';
 
 export default async function Page({
   params,
@@ -65,6 +67,10 @@ export default async function Page({
     );
   };
 
+  const HomeworkContent = () => {
+    return <div>Homework</div>;
+  };
+
   return (
     <div className="p-6 lg:p-8 bg-background rounded-lg">
       <LectureHeader />
@@ -79,8 +85,19 @@ export default async function Page({
         <TabsContent value="content">
           <LectureContent />
         </TabsContent>
-        <TabsContent value="quiz">Quiz</TabsContent>
-        <TabsContent value="homework">Homework</TabsContent>
+        <TabsContent value="quiz">
+          <Quiz
+            quiz_id={lecture.quiz._id}
+            course_id={lecture.course_id}
+            section_id={lecture.section_id}
+            lecture_id={lecture._id}
+            questions={(lecture.quiz as IQuizAssignment).questions}
+            user_id={user.id}
+          />
+        </TabsContent>
+        <TabsContent value="homework">
+          <HomeworkContent />
+        </TabsContent>
       </Tabs>
     </div>
   );

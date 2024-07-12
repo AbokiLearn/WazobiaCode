@@ -66,6 +66,7 @@ export function SubmitQuestion({
     if (typeof lecture_id !== 'string') {
       lecture_id = lecture_id._id;
     }
+
     try {
       await submitStudentQuestion({
         course_id,
@@ -75,10 +76,10 @@ export function SubmitQuestion({
         question: values.question,
       });
       form.reset();
-      setIsSubmitting(false);
       toast.success('Your question has been submitted.', toastOpts);
     } catch (error) {
       toast.error('Failed to submit question', toastOpts);
+    } finally {
       setIsSubmitting(false);
     }
   }

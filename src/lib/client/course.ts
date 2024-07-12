@@ -13,7 +13,6 @@ export async function getCourseWithSections(
     'no-store',
     'Failed to fetch course',
   );
-  console.log(data);
   return data.course;
 }
 

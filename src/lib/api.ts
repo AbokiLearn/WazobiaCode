@@ -1,6 +1,6 @@
 export const APIResponse = ({
   data = null,
-  message = 'Form submitted successfully',
+  message = '',
   error = null,
   status = 200,
 }: {

@@ -9,12 +9,17 @@ export const getData = async (
   cache: RequestCache,
   errorMessage: string,
 ) => {
-  const data = await fetch(getEndpoint(endpoint), {
+  const response = await fetch(getEndpoint(endpoint), {
     cache,
   })
     .then((res) => res.json())
     .catch((err) => {
       throw new Error(errorMessage);
     });
-  return data;
+  if (response.error) {
+    throw new Error(
+      `Error fetching data (status: ${response.status}): ${response.error}`,
+    );
+  }
+  return response;
 };

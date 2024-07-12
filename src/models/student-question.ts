@@ -8,8 +8,8 @@ const QuestionSchema = new Schema<IStudentQuestion>(
     section_id: { type: Schema.Types.ObjectId, ref: 'Section', required: true },
     lecture_id: { type: Schema.Types.ObjectId, ref: 'Lecture', required: true },
     question: { type: String, required: true },
-    response: { type: String },
-    response_files: { type: [String] },
+    response: { type: String, default: '' },
+    response_files: { type: [String], default: [] },
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
 );

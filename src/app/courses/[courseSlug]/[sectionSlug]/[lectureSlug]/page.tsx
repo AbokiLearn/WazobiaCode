@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { SubmitQuestion } from '@/components/app/submit-question';
 import VideoPlayer from '@/components/app/video-player';
 import CustomMDX from '@/components/app/custom-mdx';
 import { Badge } from '@/components/ui/badge';
@@ -51,6 +52,15 @@ export default async function Page({
           </Suspense>
         </div>
         <CustomMDX source={lecture.content} />
+        <hr className="border-muted mt-4" />
+        {isLoggedIn && (
+          <SubmitQuestion
+            course_id={lecture.course_id}
+            section_id={lecture.section_id}
+            lecture_id={lecture._id}
+            student_id={user.id}
+          />
+        )}
       </>
     );
   };

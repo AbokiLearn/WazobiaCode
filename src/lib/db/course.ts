@@ -22,7 +22,7 @@ export const getCoursesWithSections = async () => {
 };
 
 export const getCourseWithSections = async (courseSlug: string) => {
-  const course = await Course.findOne({ slug: courseSlug });
+  const course = await Course.findOne({ slug: courseSlug }).lean();
   if (!course) {
     return null;
   }
@@ -43,14 +43,14 @@ export const getCourseWithSections = async (courseSlug: string) => {
     },
   ]);
 
-  return { ...course.toObject(), sections };
+  return { ...course, sections };
 };
 
 export const getSectionWithLectures = async (
   courseSlug: string,
   sectionSlug: string,
 ) => {
-  const course = await Course.findOne({ slug: courseSlug });
+  const course = await Course.findOne({ slug: courseSlug }).lean();
   if (!course) {
     return null;
   }
@@ -89,11 +89,11 @@ export const getLecture = async (
   sectionSlug: string,
   lectureSlug: string,
 ) => {
-  const course = await Course.findOne({ slug: courseSlug });
+  const course = await Course.findOne({ slug: courseSlug }).lean();
   if (!course) {
     return null;
   }
-  const section = await Section.findOne({ slug: sectionSlug });
+  const section = await Section.findOne({ slug: sectionSlug }).lean();
   if (!section) {
     return null;
   }
@@ -101,6 +101,6 @@ export const getLecture = async (
     slug: lectureSlug,
     course_id: course._id,
     section_id: section._id,
-  });
+  }).lean();
   return lecture;
 };

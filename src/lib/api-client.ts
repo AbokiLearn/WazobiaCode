@@ -5,51 +5,56 @@ import {
   ILecture,
 } from '@/types/db/course';
 
-const APP_URL = env.APP_URL;
+const getEndpoint = (endpoint: string) => {
+  return `${env.APP_URL}/api/${endpoint}`;
+};
 
-export const getEndpoint = (endpoint: string) => {
-  return `${APP_URL}/api/${endpoint}`;
+const getData = async (
+  endpoint: string,
+  cache: RequestCache,
+  errorMessage: string,
+) => {
+  const data = await fetch(getEndpoint(endpoint), {
+    cache,
+  })
+    .then((res) => res.json())
+    .catch((err) => {
+      throw new Error(errorMessage);
+    });
+  return data;
 };
 
 export async function getCourseWithSections(
   courseSlug: string,
 ): Promise<CourseWithSections> {
-  const course = await fetch(getEndpoint(`/courses/${courseSlug}`), {
-    cache: 'no-store',
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      throw new Error('Failed to fetch course');
-    });
-  return course;
+  const { data } = await getData(
+    `courses/${courseSlug}`,
+    'no-store',
+    'Failed to fetch course',
+  );
+  console.log(data);
+  return data.course;
 }
 
 export async function getCoursesWithSections(): Promise<CourseWithSections[]> {
-  const data = await fetch(getEndpoint('/courses'), {
-    cache: 'no-store',
-  })
-    .then((res) => res.json())
-    .catch((err) => {
-      throw new Error('Failed to fetch courses');
-    });
-  return data;
+  const { data } = await getData(
+    'courses',
+    'no-store',
+    'Failed to fetch courses',
+  );
+  return data.courses;
 }
 
 export async function getSectionWithLectures(
   courseSlug: string,
   sectionSlug: string,
 ): Promise<SectionWithLectures> {
-  const data = await fetch(
-    getEndpoint(`/courses/${courseSlug}/${sectionSlug}`),
-    {
-      cache: 'no-store',
-    },
-  )
-    .then((res) => res.json())
-    .catch((err) => {
-      throw new Error('Failed to fetch section');
-    });
-  return data;
+  const { data } = await getData(
+    `courses/${courseSlug}/${sectionSlug}`,
+    'no-store',
+    'Failed to fetch section',
+  );
+  return data.section;
 }
 
 export async function getLecture(
@@ -57,15 +62,10 @@ export async function getLecture(
   sectionSlug: string,
   lectureSlug: string,
 ): Promise<ILecture> {
-  const lecture = await fetch(
-    getEndpoint(`/courses/${courseSlug}/${sectionSlug}/${lectureSlug}`),
-    {
-      cache: 'no-store',
-    },
-  )
-    .then((res) => res.json())
-    .catch((err) => {
-      throw new Error('Failed to fetch lecture');
-    });
-  return lecture;
+  const { data } = await getData(
+    `courses/${courseSlug}/${sectionSlug}/${lectureSlug}`,
+    'no-store',
+    'Failed to fetch lecture',
+  );
+  return data.lecture;
 }

@@ -137,6 +137,8 @@ for i in {0..4}; do
 
     quiz_id=$(${MONGOSH} --eval "
       db.assignments.insertOne({
+        course_id: ${course_id},
+        section_id: ${section_id},
         lecture_id: ${lecture_id},
         type: 'quiz',
         tags: ['tag1', 'tag2'],
@@ -161,6 +163,8 @@ for i in {0..4}; do
 
     homework_id=$(${MONGOSH} --eval "
       db.assignments.insertOne({
+        course_id: ${course_id},
+        section_id: ${section_id},
         lecture_id: ${lecture_id},
         type: 'homework',
         tags: ['tag1', 'tag2'],

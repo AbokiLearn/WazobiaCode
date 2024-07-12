@@ -1,11 +1,17 @@
 #!/bin/bash
 
+SCRIPTS_DIR=$(dirname "$0")
+OWD=$(pwd)
+
+cd "${SCRIPTS_DIR}"
+
 MONGOSH="mongosh ${MONGODB_URI}"
 
 JS_CODE="
   db.courses.drop()
   db.sections.drop()
   db.lectures.drop()
+  db.assignments.drop()
 
   db.createCollection('courses')
   const courseIds = db.courses.insertMany([
@@ -96,23 +102,26 @@ JS_CODE="
       icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/icons/section-2-icon.svg',
     },
   ]).insertedIds
+
+  db.createCollection('lectures')
+  db.createCollection('assignments')
 "
 
-echo "-- Creating and Populating 'Course' and 'Section' collections..."
+echo "-- Creating collections: courses, sections, lectures, assignments"
+echo "-- Populating 'Course' and 'Section' collections..."
 ${MONGOSH} --eval "${JS_CODE}" > /dev/null
 
-echo "-- Creating and Populating 'Lecture' collections..."
+echo "-- Populating 'Lecture' and 'Assignment' collections..."
 course_id=$(${MONGOSH} --eval "db.courses.findOne({ slug: 'fullstack-web-dev' })._id")
-${MONGOSH} --eval "db.createCollection('lectures')" > /dev/null
 for i in {0..4}; do
   section_id=$(${MONGOSH} --eval "db.sections.findOne({ section_num: ${i} })._id")
   j=1
+
   for f in $(ls -1 data/section_${i}-lecture_*.md); do
     content=$(cat "$f" | sed 's/[\\"]/\\&/g' | awk '{printf "%s\\n", $0}')
-
     title=$(head -n 1 $f | sed 's/# //')
 
-    ${MONGOSH} --eval "
+    lecture_id=$(${MONGOSH} --eval "
       db.lectures.insertOne({
         course_id: ${course_id},
         section_id: ${section_id},
@@ -123,8 +132,58 @@ for i in {0..4}; do
         content: \"${content}\",
         tags: ['tag1', 'tag2'],
         video_url: 'https://www.youtube.com/live/_uMuuHk_KkQ?si=IKOwNtlIkuX-orJC',
-      })
+      }).insertedId
+    ")
+
+    quiz_id=$(${MONGOSH} --eval "
+      db.assignments.insertOne({
+        lecture_id: ${lecture_id},
+        type: 'quiz',
+        tags: ['tag1', 'tag2'],
+        max_score: 10,
+        due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
+        questions: [
+          {
+            question: 'What is the capital of France?',
+            options: ['London', 'Berlin', 'Paris', 'Madrid'],
+            correct_answer: 2,
+            points: 5,
+          },
+          {
+            question: 'Which programming language is this course about?',
+            options: ['Java', 'Python', 'C++', 'JavaScript'],
+            correct_answer: 3,
+            points: 5,
+          }
+        ]
+      }).insertedId
+    ")
+
+    homework_id=$(${MONGOSH} --eval "
+      db.assignments.insertOne({
+        lecture_id: ${lecture_id},
+        type: 'homework',
+        tags: ['tag1', 'tag2'],
+        max_score: 10,
+        due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
+        instructions: 'Complete the coding assignment as per the instructions in the lecture.',
+        files: [
+          'https://images-dev-public.s3.us-east-1.amazonaws.com/file-bin/73bf7450-4e8f-459a-938d-d6bf85cf6784.tsx',
+          'https://images-dev-public.s3.us-east-1.amazonaws.com/file-bin/07c0322d-076a-4929-84a7-8d3c0184cfa4.sh'
+        ]
+      }).insertedId
+    ")
+
+    ${MONGOSH} --eval "
+      db.lectures.updateOne(
+        { _id: ${lecture_id} },
+        { \$set: { quiz: ${quiz_id}, homework: ${homework_id} } }
+      )
     " > /dev/null
+
     j=$((j + 1))
   done
 done
+
+echo "-- Done!"
+cd "${OWD}"

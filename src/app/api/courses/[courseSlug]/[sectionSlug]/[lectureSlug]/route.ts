@@ -36,7 +36,7 @@ export async function GET(
       course_id: course._id,
       section_id: section._id,
       slug: lectureSlug,
-    }).populate('quiz homework');
+    }).populate(['quiz', 'homework']);
     if (!lecture) {
       return APIResponse({
         data: null,

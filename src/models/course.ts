@@ -1,4 +1,5 @@
 import { Schema, model, models, Model } from 'mongoose';
+import { Assignment } from './assignment';
 import { ICourse, ISection, ILecture } from '@/types/db/course';
 
 const timeStamps = {
@@ -44,8 +45,8 @@ const LectureSchema = new Schema<ILecture>(
     content: { type: String, required: true },
     tags: [String],
     video_url: { type: String, required: true },
-    quiz: { type: Schema.Types.ObjectId, ref: 'Assignment' },
-    homework: { type: Schema.Types.ObjectId, ref: 'Assignment' },
+    quiz: { type: Schema.Types.ObjectId, ref: Assignment },
+    homework: { type: Schema.Types.ObjectId, ref: Assignment },
   },
   { timestamps: timeStamps },
 );

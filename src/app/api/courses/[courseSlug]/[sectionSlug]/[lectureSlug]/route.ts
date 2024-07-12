@@ -1,3 +1,4 @@
+import { APIResponse, APIErrorHandler } from '@/lib/utils';
 import connectMongoDB from '@/lib/db/connect';
 import { getLecture } from '@/lib/db/course';
 
@@ -9,11 +10,18 @@ export async function GET(
     params: { courseSlug: string; sectionSlug: string; lectureSlug: string };
   },
 ) {
-  await connectMongoDB();
-  const lecture = await getLecture(
-    params.courseSlug,
-    params.sectionSlug,
-    params.lectureSlug,
-  );
-  return Response.json(lecture);
+  try {
+    await connectMongoDB();
+    const lecture = await getLecture(
+      params.courseSlug,
+      params.sectionSlug,
+      params.lectureSlug,
+    );
+    return APIResponse({
+      data: { lecture },
+      message: 'Lecture fetched',
+    });
+  } catch (error) {
+    return APIErrorHandler(error);
+  }
 }

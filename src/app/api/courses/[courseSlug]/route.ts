@@ -1,5 +1,6 @@
-import connectMongoDB from '@/lib/db/connect';
+import { APIResponse, APIErrorHandler } from '@/lib/utils';
 import { getCourseWithSections } from '@/lib/db/course';
+import connectMongoDB from '@/lib/db/connect';
 
 export async function GET(
   request: Request,
@@ -7,8 +8,14 @@ export async function GET(
 ) {
   const courseSlug = params.courseSlug;
 
-  await connectMongoDB();
-  const course = await getCourseWithSections(courseSlug);
-
-  return Response.json(course);
+  try {
+    await connectMongoDB();
+    const course = await getCourseWithSections(courseSlug);
+    return APIResponse({
+      data: { course },
+      message: 'Course fetched',
+    });
+  } catch (error) {
+    return APIErrorHandler(error);
+  }
 }

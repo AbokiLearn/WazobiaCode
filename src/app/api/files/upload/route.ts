@@ -1,4 +1,6 @@
 import { headers } from 'next/headers';
+
+import { APIResponse, APIErrorHandler } from '@/lib/utils';
 import { uploadFile } from '@/lib/s3';
 
 export async function POST(request: Request) {
@@ -18,12 +20,12 @@ export async function POST(request: Request) {
       destFolder,
     });
 
-    return Response.json({ fileUrl }, { status: 201 });
-  } catch (error) {
-    console.log(error);
-    return Response.json(
-      { error: 'Error uploading file', details: error },
-      { status: 500 },
-    );
+    return APIResponse({
+      data: { fileUrl },
+      message: 'File uploaded successfully',
+      status: 201,
+    });
+  } catch (error: any) {
+    return APIErrorHandler(error);
   }
 }

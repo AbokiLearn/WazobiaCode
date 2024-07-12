@@ -41,7 +41,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ children, className }) => {
       </pre>
       <Button
         onClick={copyToClipboard}
-        className="absolute top-2 right-2 hover:text-accent text-white rounded px-2 py-1 text-sm"
+        className="absolute top-2 right-2 hover:text-accent-foreground text-white rounded px-2 py-1 text-sm"
         variant="link"
       >
         {copied ? <CopyCheck /> : <Copy />}

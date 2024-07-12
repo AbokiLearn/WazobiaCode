@@ -1,5 +1,5 @@
-import connectMongoDB from '@/lib/mongodb';
-import { getLecture } from '@/services/db/course';
+import connectMongoDB from '@/lib/db/connect';
+import { getLecture } from '@/lib/db/course';
 
 export async function GET(
   request: Request,

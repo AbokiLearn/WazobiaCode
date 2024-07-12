@@ -1,4 +1,4 @@
-import connectMongoDB from '@/lib/mongodb';
+import connectMongoDB from '@/lib/db/connect';
 import { FAQ } from '@/models/faq';
 
 export async function POST(request: Request) {

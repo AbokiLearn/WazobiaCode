@@ -1,12 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { GradeProgressBar, type Progress } from '@/components/app/progress-bar';
 import { getUser } from '@/components/app/profile-menu';
 import { Badge } from '@/components/ui/badge';
@@ -43,21 +37,26 @@ export default async function Page({
 
   const GradesCard = () => {
     return (
-      <Card className="mx-6 my-6 md:my-4 px-2 py-2 md:px-4 md:py-4">
-        <CardHeader>
-          <CardTitle>Your Grades</CardTitle>
-        </CardHeader>
+      <Card className="bg-card text-card-foreground border-border">
         <CardContent className="flex flex-col">
+          <div className="flex flex-row justify-between mt-4">
+            <Link
+              className="text-foreground hover:text-accent"
+              href={`/app/submissions/?course=${courseSlug}&section=${sectionSlug}`}
+            >
+              <h3 className="font-semibold text-2xl">Your Grades</h3>
+            </Link>
+          </div>
           <div className="flex flex-row gap-6">
             <GradeProgressBar
               submissionType="Quizzes"
               gradeProgress={sectionGrades.quizzes}
-              href={`/app/submissions/quiz/${courseSlug}/${sectionSlug}`}
+              href={`/app/submissions/?type=quiz&course=${courseSlug}&section=${sectionSlug}`}
             />
             <GradeProgressBar
               submissionType="Assignments"
               gradeProgress={sectionGrades.assignments}
-              href={`/app/submissions/assignment/${courseSlug}/${sectionSlug}`}
+              href={`/app/submissions/?type=assignment&course=${courseSlug}&section=${sectionSlug}`}
             />
           </div>
         </CardContent>
@@ -66,11 +65,13 @@ export default async function Page({
   };
 
   return (
-    <>
-      <h1 className="mx-6 my-2 text-center text-4xl text-foreground bg-background rounded-md p-2">
-        {section.title}
-      </h1>
-      <GradesCard />
+    <div className="m-4 md:m-6 space-y-6">
+      <div className="flex flex-row items-center justify-center">
+        <h2 className="font-semibold text-foreground text-center text-xl sm:text-2xl md:text-3xl">
+          {section.title}
+        </h2>
+      </div>
+      {user && <GradesCard />}
       {section.lectures.map((lecture) => (
         <LectureCard
           key={lecture.slug}
@@ -79,7 +80,7 @@ export default async function Page({
           lecture={lecture}
         />
       ))}
-    </>
+    </div>
   );
 }
 
@@ -95,43 +96,41 @@ const LectureCard = ({
   const thumbnailUrl = getYouTubeThumbnail(lecture.video_url);
 
   return (
-    <>
-      <Card className="mx-6 my-6 md:my-4 px-2 py-2 md:px-4 md:py-4">
-        <div className="flex flex-col md:flex-row md:items-center">
-          <div className="flex-grow md:pr-4">
-            <CardHeader>
-              <CardTitle>
-                <Link
-                  href={`/courses/${courseSlug}/${sectionSlug}/${lecture.slug}`}
-                >
-                  {`Lecture ${lecture.lecture_num}: ${lecture.title}`}
-                </Link>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-foreground">{lecture.description}</p>
-            </CardContent>
-            <CardFooter className="flex flex-row gap-2">
-              {lecture.tags.map((tag) => (
-                <Badge key={tag} className="bg-secondary">
-                  {tag}
-                </Badge>
-              ))}
-            </CardFooter>
-          </div>
-          <div className="mt-4 md:mt-0 md:flex-shrink-0">
-            <Link href={lecture.video_url}>
-              <Image
-                src={thumbnailUrl}
-                alt={`Thumbnail for ${lecture.title}`}
-                width={200}
-                height={150}
-                className="rounded-md shadow-md object-cover"
-              />
-            </Link>
+    <Card className="bg-card text-card-foreground border-border overflow-hidden">
+      <div className="flex flex-col md:flex-row">
+        <div className="w-full md:w-1/4 aspect-video relative">
+          <Link href={lecture.video_url}>
+            <Image
+              src={thumbnailUrl}
+              alt={`Thumbnail for ${lecture.title}`}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-t-md md:rounded-l-md md:rounded-t-none"
+            />
+          </Link>
+        </div>
+        <div className="p-6 md:w-2/3 space-y-4">
+          <Link
+            href={`/courses/${courseSlug}/${sectionSlug}/${lecture.slug}`}
+            className="block"
+          >
+            <h3 className="text-xl font-semibold text-foreground hover:text-accent">
+              {`Lecture ${lecture.lecture_num}: ${lecture.title}`}
+            </h3>
+          </Link>
+          <p className="text-foreground text-sm">{lecture.description}</p>
+          <div className="flex flex-wrap gap-2">
+            {lecture.tags.map((tag) => (
+              <Badge
+                key={tag}
+                className="bg-secondary text-xs px-2 py-1 rounded-full"
+              >
+                {tag}
+              </Badge>
+            ))}
           </div>
         </div>
-      </Card>
-    </>
+      </div>
+    </Card>
   );
 };

@@ -2,12 +2,14 @@ import { Suspense } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SubmitQuestion } from '@/components/app/submit-question';
 import { Quiz } from '@/components/app/quiz-content';
+import { Homework } from '@/components/app/homework-content';
 import VideoPlayer from '@/components/app/video-player';
 import CustomMDX from '@/components/app/custom-mdx';
 import { Badge } from '@/components/ui/badge';
 import { getUser } from '@/components/app/profile-menu';
 import { getLecture } from '@/lib/client/course';
 import { IQuizAssignment } from '@/types/db/assignment';
+import { IHomeworkAssignment } from '@/types/db/assignment';
 
 export default async function Page({
   params,
@@ -67,38 +69,43 @@ export default async function Page({
     );
   };
 
-  const HomeworkContent = () => {
-    return <div>Homework</div>;
-  };
-
   return (
     <div className="p-6 lg:p-8 bg-background">
-      <LectureHeader />
-      <Tabs defaultValue="content">
-        <div className="flex flex-row justify-center mb-4">
-          <TabsList className={isLoggedIn ? '' : 'hidden'}>
-            <TabsTrigger value="content">Content</TabsTrigger>
-            <TabsTrigger value="quiz">Quiz</TabsTrigger>
-            <TabsTrigger value="homework">Homework</TabsTrigger>
-          </TabsList>
-        </div>
-        <TabsContent value="content">
-          <LectureContent />
-        </TabsContent>
-        <TabsContent value="quiz">
-          <Quiz
-            quiz_id={lecture.quiz._id}
-            course_id={lecture.course_id}
-            section_id={lecture.section_id}
-            lecture_id={lecture._id}
-            questions={(lecture.quiz as IQuizAssignment).questions}
-            user_id={user.id}
-          />
-        </TabsContent>
-        <TabsContent value="homework">
-          <HomeworkContent />
-        </TabsContent>
-      </Tabs>
+      <div className="max-w-6xl mx-auto">
+        <LectureHeader />
+        <Tabs defaultValue="content">
+          <div className="flex flex-row justify-center mb-4">
+            <TabsList className={isLoggedIn ? '' : 'hidden'}>
+              <TabsTrigger value="content">Content</TabsTrigger>
+              <TabsTrigger value="quiz">Quiz</TabsTrigger>
+              <TabsTrigger value="homework">Homework</TabsTrigger>
+            </TabsList>
+          </div>
+          <TabsContent value="content">
+            <LectureContent />
+          </TabsContent>
+          <TabsContent value="quiz">
+            <Quiz
+              quiz_id={lecture.quiz._id}
+              course_id={lecture.course_id}
+              section_id={lecture.section_id}
+              lecture_id={lecture._id}
+              questions={(lecture.quiz as IQuizAssignment).questions}
+              user_id={user.id}
+            />
+          </TabsContent>
+          <TabsContent value="homework">
+            <Homework
+              assignment_id={lecture.homework._id}
+              course_id={lecture.course_id}
+              section_id={lecture.section_id}
+              lecture_id={lecture._id}
+              student_id={user.id}
+              homework={lecture.homework as IHomeworkAssignment}
+            />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }

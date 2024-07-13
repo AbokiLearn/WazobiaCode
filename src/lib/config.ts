@@ -2,6 +2,10 @@ export const env = {
   APP_URL: process.env.APP_URL!,
   MONGODB_URI: process.env.MONGODB_URI!,
 
+  AUTH_SECRET: process.env.AUTH_SECRET!,
+  AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID!,
+  AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET!,
+
   GOOGLE_PRIVATE_KEY: process.env.GOOGLE_PRIVATE_KEY!.replace(/\\n/g, '\n'),
   GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL!,
   SHEET_ID: process.env.SHEET_ID!,

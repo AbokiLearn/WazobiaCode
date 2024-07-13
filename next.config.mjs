@@ -1,5 +1,5 @@
-import createMDX from "@next/mdx";
-import remarkGfm from "remark-gfm";
+import createMDX from '@next/mdx';
+import remarkGfm from 'remark-gfm';
 
 const nextConfig = {
   async redirects() {
@@ -8,6 +8,10 @@ const nextConfig = {
   env: {
     APP_URL: process.env.APP_URL,
     MONGODB_URI: process.env.MONGODB_URI,
+
+    AUTH_SECRET: process.env.AUTH_SECRET,
+    AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,
+    AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
 
     GCLOUD_PROJECT: process.env.GCLOUD_PROJECT,
     GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL,
@@ -25,19 +29,19 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "images-dev-public.s3.amazonaws.com",
-        port: "",
+        protocol: 'https',
+        hostname: 'images-dev-public.s3.amazonaws.com',
+        port: '',
       },
       {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com",
-        port: "",
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
       },
       {
-        protocol: "https",
-        hostname: "img.youtube.com",
-        port: "",
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+        port: '',
       },
     ],
   },

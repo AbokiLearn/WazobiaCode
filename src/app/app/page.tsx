@@ -1,10 +1,8 @@
-import PageHeader from '@/components/page-header';
 import Link from 'next/link';
 
 export default function Home() {
   return (
     <>
-      <PageHeader />
       <main className="flex flex-col md:flex-col py-12 px-4 md:px-6">
         {/* Programming Languages */}
         <div

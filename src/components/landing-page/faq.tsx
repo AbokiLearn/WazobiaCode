@@ -3,23 +3,23 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from "@/components/ui/accordion";
+} from '@/components/ui/accordion';
 
 const faqs = [
   {
-    question: "How do I get started?",
+    question: 'How do I get started?',
     answer: (
       <>
         To begin your journey with WazobiaCode, simply fill out the interest
         form below and we will follow up with you regarding registration. For
-        the course, we will use Telegram and{" "}
+        the course, we will use Telegram and{' '}
         <a
           href="https://replit.com"
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-500 hover:underline"
         >
-          {" "}
+          {' '}
           Replit
         </a>
         .
@@ -27,35 +27,35 @@ const faqs = [
     ),
   },
   {
-    question: "Do i need any experience to join the course?",
+    question: 'Do i need any experience to join the course?',
     answer:
-      "Our program is designed for complete beginners with no prior coding experience.",
+      'Our program is designed for complete beginners with no prior coding experience.',
   },
   {
-    question: "Is this program entirely online?",
+    question: 'Is this program entirely online?',
     answer:
-      "Wazobia Code is designed to be as accessible as possible. It is completely online with real-time support from teachers and designated weekly extra help hours.",
+      'Wazobia Code is designed to be as accessible as possible. It is completely online with real-time support from teachers and designated weekly extra help hours.',
   },
   {
     question:
-      "What kinds of career opportunities are available after completing the program?",
+      'What kinds of career opportunities are available after completing the program?',
     answer:
-      "Our curriculum prepares you to become a full-stack developer which makes you suitable for roles in web development. By the end of the course, you will have projects to add to your portfolio in order to become competitive in real world job markets.",
+      'Our curriculum prepares you to become a full-stack developer which makes you suitable for roles in web development. By the end of the course, you will have projects to add to your portfolio in order to become competitive in real world job markets.',
   },
   {
-    question: "How long is the program?",
+    question: 'How long is the program?',
     answer:
-      "The program lasts for approximately 7 weeks, starting July 22, 2024.",
+      'The program lasts for approximately 7 weeks, starting July 22, 2024.',
   },
   {
-    question: "What should students expect after they fill out the form?",
+    question: 'What should students expect after they fill out the form?',
     answer:
-      "Students who fill out the interest form will receive an email from us with the next steps as we approach the start date of the course.",
+      'Students who fill out the interest form will receive an email from us with the next steps as we approach the start date of the course.',
   },
   {
-    question: "How many students are in the first cohort?",
+    question: 'How many students are in the first cohort?',
     answer:
-      "We are accepting students on a first-come, first-served basis. Students who fill out the interest form will receive a URL giving them priority for registration. Registration for the first cohort this summer is capped at 100 students.",
+      'We are accepting students on a first-come, first-served basis. Students who fill out the interest form will receive a URL giving them priority for registration. Registration for the first cohort this summer is capped at 100 students.',
   },
 ];
 

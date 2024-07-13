@@ -1,90 +1,16 @@
-"use client";
+import Image from 'next/image';
 
-import React, { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import LandingFAQ from "@/components/landingPage/faq";
-import { Footer } from "@/components/ui/footer";
-import { Button } from "@/components/ui/button";
-import Form from "@/components/landingPage/form";
+import { PageHeader } from '@/components/landing-page/page-header';
+import { LearnMore } from '@/components/landing-page/learn-more';
+import LandingFAQ from '@/components/landing-page/faq';
+import Form from '@/components/landing-page/form';
+import { Footer } from '@/components/ui/footer';
 
 export default function LandingPage() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   return (
     <>
-      <div className="max-w-7xl mx-auto px-10 py-8 scroll-smooth">
-        <header className="flex items-center justify-between mb-8 relative">
-          <div className="flex items-center">
-            <Image
-              src="/logo.svg"
-              alt="WazobiaCode Logo"
-              width={40}
-              height={40}
-              className="mr-2 rounded-lg"
-            />
-            <h1 className="text-2xl font-bold">WazobiaCode</h1>
-          </div>
-          <nav className="hidden md:flex items-center space-x-4">
-            <Link
-              href=""
-              onClick={() =>
-                document
-                  .getElementById("faq-section")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="text-gray-600 hover:text-gray-900"
-            >
-              FAQ
-            </Link>
-            <Link href="/courses" className="text-black hover:text-[--accent]">
-              Courses
-            </Link>
-            <Button variant="outline" asChild>
-              <Link href="/login">Log In</Link>
-            </Button>
-          </nav>
-          <Button
-            className="md:hidden"
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            <MenuIcon className="h-6 w-6" />
-          </Button>
-
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="absolute top-full right-0 w-full bg-white shadow-md rounded-b-lg md:hidden">
-              <nav className="flex flex-col p-4">
-                <Link
-                  href=""
-                  onClick={() => {
-                    document
-                      .getElementById("faq-section")
-                      ?.scrollIntoView({ behavior: "smooth" });
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="py-2 text-gray-600 hover:text-gray-900"
-                >
-                  FAQ
-                </Link>
-                <Link
-                  href="/courses"
-                  className="py-2 text-gray-600 hover:text-gray-900"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Courses
-                </Link>
-                <Button variant="outline" asChild className="mt-2">
-                  <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-                    Log In
-                  </Link>
-                </Button>
-              </nav>
-            </div>
-          )}
-        </header>
+      <div className="max-w-7xl md:mx-auto px-4 md:px-10 py-8 scroll-smooth">
+        <PageHeader />
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12">
           <div>
             <Image
@@ -93,8 +19,8 @@ export default function LandingPage() {
               height="300"
               src="/student.jpg"
               style={{
-                aspectRatio: "400/300",
-                objectFit: "cover",
+                aspectRatio: '400/300',
+                objectFit: 'cover',
               }}
               width="400"
             />
@@ -107,16 +33,7 @@ export default function LandingPage() {
             <p className="mb-6">
               Learn to code at home - No experience required
             </p>
-            <Button
-              className="bg-[#1E3A8A] text-white"
-              onClick={() =>
-                document
-                  .getElementById("faq-section")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-            >
-              Learn More
-            </Button>
+            <LearnMore />
           </div>
         </section>
         <section className="mb-12">
@@ -169,27 +86,6 @@ export default function LandingPage() {
       </div>
       <Footer />
     </>
-  );
-}
-
-function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="4" x2="20" y1="12" y2="12" />
-      <line x1="4" x2="20" y1="6" y2="6" />
-      <line x1="4" x2="20" y1="18" y2="18" />
-    </svg>
   );
 }
 

@@ -1,72 +1,72 @@
-"use client";
+'use client';
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
-import { Textarea } from "@/components/ui/textarea";
-import { PhoneInput } from "@/components/landingPage/phone-input";
+} from '@/components/ui/select';
+import { useToast } from '@/components/ui/use-toast';
+import { Textarea } from '@/components/ui/textarea';
+import { PhoneInput } from '@/components/landing-page/phone-input';
 
 export default function Form() {
   const { toast } = useToast();
   const states = [
-    "Abia",
-    "Adamawa",
-    "Akwa Ibom",
-    "Anambra",
-    "Bauchi",
-    "Bayelsa",
-    "Benue",
-    "Borno",
-    "Cross River",
-    "Delta",
-    "Ebonyi",
-    "Edo",
-    "Ekiti",
-    "Enugu",
-    "FCT",
-    "Gombe",
-    "Imo",
-    "Jigawa",
-    "Kaduna",
-    "Kano",
-    "Katsina",
-    "Kebbi",
-    "Kogi",
-    "Kwara",
-    "Lagos",
-    "Nasarawa",
-    "Niger",
-    "Ogun",
-    "Ondo",
-    "Osun",
-    "Oyo",
-    "Plateau",
-    "Rivers",
-    "Sokoto",
-    "Taraba",
-    "Yobe",
-    "Zamfara",
+    'Abia',
+    'Adamawa',
+    'Akwa Ibom',
+    'Anambra',
+    'Bauchi',
+    'Bayelsa',
+    'Benue',
+    'Borno',
+    'Cross River',
+    'Delta',
+    'Ebonyi',
+    'Edo',
+    'Ekiti',
+    'Enugu',
+    'FCT',
+    'Gombe',
+    'Imo',
+    'Jigawa',
+    'Kaduna',
+    'Kano',
+    'Katsina',
+    'Kebbi',
+    'Kogi',
+    'Kwara',
+    'Lagos',
+    'Nasarawa',
+    'Niger',
+    'Ogun',
+    'Ondo',
+    'Osun',
+    'Oyo',
+    'Plateau',
+    'Rivers',
+    'Sokoto',
+    'Taraba',
+    'Yobe',
+    'Zamfara',
   ];
 
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    school: "",
-    state: "",
-    start_date: "",
-    end_date: "",
-    reason: "",
+    name: '',
+    email: '',
+    phone: '',
+    school: '',
+    state: '',
+    start_date: '',
+    end_date: '',
+    reason: '',
   });
 
   const handleInputChanges = (
@@ -89,49 +89,49 @@ export default function Form() {
     event.preventDefault();
     // Optimistically update the UI
     toast({
-      title: "Submitting Form",
-      description: "Your form is being submitted...",
+      title: 'Submitting Form',
+      description: 'Your form is being submitted...',
     });
     setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      school: "",
-      state: "",
-      start_date: "",
-      end_date: "",
-      reason: "",
+      name: '',
+      email: '',
+      phone: '',
+      school: '',
+      state: '',
+      start_date: '',
+      end_date: '',
+      reason: '',
     });
 
     try {
-      const response = await fetch("/api/interest-form", {
-        method: "POST",
+      const response = await fetch('/api/interest-form', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit form");
+        throw new Error('Failed to submit form');
       }
 
       toast({
-        title: "Confirmation Email Sent",
+        title: 'Confirmation Email Sent',
         description:
-          "A confirmation email has been sent to your email address.",
+          'A confirmation email has been sent to your email address.',
       });
 
       toast({
-        title: "Form Submitted",
-        description: "Your form has been submitted successfully",
+        title: 'Form Submitted',
+        description: 'Your form has been submitted successfully',
       });
     } catch (error) {
-      console.error("Error submitting form", error);
+      console.error('Error submitting form', error);
       toast({
-        title: "Submission Error",
+        title: 'Submission Error',
         description:
-          "There was an error submitting your form. Please try again.",
+          'There was an error submitting your form. Please try again.',
       });
       // Revert form data on error
       setFormData(formData);

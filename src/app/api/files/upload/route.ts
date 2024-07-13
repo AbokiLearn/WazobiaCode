@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       headersList.get('content-type') || 'application/octet-stream';
     const fileName = headersList.get('x-file-name') || 'unknown';
     const fileData = await request.arrayBuffer();
-    const destFolder = headersList.get('x-s3-folder') || 'image-bin';
+    const destFolder = headersList.get('x-dest-folder') || 'image-bin';
 
     const fileUrl = await uploadFile({
       fileName,

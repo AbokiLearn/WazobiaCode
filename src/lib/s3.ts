@@ -2,6 +2,7 @@ import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 
 import { env } from '@/lib/config';
+import { FileType } from '@/types';
 
 const AWS_REGION = env.AWS_REGION;
 const FILE_UPLOAD_BUCKET = env.AWS_S3_BUCKET_NAME;
@@ -13,6 +14,29 @@ export const s3Client = new S3Client({
     secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
   },
 });
+
+export const getFileType = (contentType: string) => {
+  let fileType: FileType;
+
+  switch (true) {
+    case /^text\/.*$/.test(contentType):
+      fileType = FileType.CODE;
+      break;
+    case /^image\/.*$/.test(contentType):
+      fileType = FileType.IMAGE;
+      break;
+    case /^application\/pdf$/.test(contentType):
+      fileType = FileType.PDF;
+      break;
+    case /^application\/zip$/.test(contentType):
+      fileType = FileType.ZIP;
+      break;
+    default:
+      fileType = FileType.OTHER;
+  }
+
+  return fileType;
+};
 
 export const uploadFile = async ({
   fileName,

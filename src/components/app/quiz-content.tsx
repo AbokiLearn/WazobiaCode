@@ -118,8 +118,16 @@ export function Quiz({
     }
   };
 
+  // TODO add checks/cross for correct/wrong answers
   return (
-    <div className="md:ml-8 md:mr-8">
+    <div className="mt-8">
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold">Post Lecture Quiz</h2>
+        <div className="text-muted-foreground">
+          Answer the following questions to test your understanding of the
+          material.
+        </div>
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           {questions.map((question, index) => (
@@ -129,7 +137,7 @@ export function Quiz({
               name={`question_${index}`}
               render={({ field }) => (
                 <FormItem className="space-y-3 border-muted border-b pb-5">
-                  <FormLabel>{question.question}</FormLabel>
+                  <FormLabel className="text-lg">{question.question}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={(value) => {

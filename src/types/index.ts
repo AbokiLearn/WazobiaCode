@@ -1,5 +1,6 @@
 export interface File {
   file_name: string;
+  file_key: string;
   file_url: string;
   file_mimetype: string;
 }

@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 
 import { APIResponse, APIErrorHandler } from '@/lib/api';
-import { uploadFile } from '@/lib/s3';
+import { uploadFile, keyToUrl } from '@/lib/s3';
 
 export async function POST(request: Request) {
   const headersList = headers();
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const fileData = await request.arrayBuffer();
     const destFolder = headersList.get('X-Dest-Folder') || 'image-bin';
 
-    const fileUrl = await uploadFile({
+    const fileKey = await uploadFile({
       fileName,
       fileData,
       contentType,
@@ -23,7 +23,8 @@ export async function POST(request: Request) {
     return APIResponse({
       data: {
         file_name: fileName,
-        file_url: fileUrl,
+        file_key: fileKey,
+        file_url: keyToUrl(fileKey),
         file_mimetype: contentType,
       },
       message: 'File uploaded successfully',

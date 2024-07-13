@@ -178,11 +178,13 @@ for i in {0..4}; do
         files: [
           {
             'file_name': 's3.ts',
+            'file_key': 'file-bin/69dd72b5-ac62-47c2-9d2a-d31c5fa0b037.ts',
             'file_url': 'https://images-dev-public.s3.us-east-1.amazonaws.com/file-bin/69dd72b5-ac62-47c2-9d2a-d31c5fa0b037.ts',
             'file_mimetype': 'text/plain'
           },
           {
             'file_name': 'api.ts',
+            'file_key': 'file-bin/15a444de-8494-4f7f-8bd3-4bd2e4a0b42e.ts',
             'file_url': 'https://images-dev-public.s3.us-east-1.amazonaws.com/file-bin/15a444de-8494-4f7f-8bd3-4bd2e4a0b42e.ts',
             'file_mimetype': 'text/plain'
           }

@@ -49,7 +49,14 @@ const QuizAssignmentSchema = new Schema<IQuizAssignment>({
 
 const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
   instructions: { type: String, required: true },
-  files: [{ file_url: String, file_name: String, file_mimetype: String }],
+  files: [
+    {
+      file_url: String,
+      file_key: String,
+      file_name: String,
+      file_mimetype: String,
+    },
+  ],
   type: { type: String, enum: ['homework'], required: true },
 });
 

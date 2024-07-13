@@ -1,6 +1,6 @@
 import { env } from '@/lib/config';
 
-const getEndpoint = (endpoint: string) => {
+export const getEndpoint = (endpoint: string) => {
   if (!endpoint.startsWith('/')) {
     endpoint = `/${endpoint}`;
   }

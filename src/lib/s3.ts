@@ -95,7 +95,5 @@ export const uploadFile = async ({
 
   await s3Client.send(new PutObjectCommand(params));
 
-  const fileUrl = keyToUrl(s3Key);
-
-  return fileUrl;
+  return s3Key;
 };

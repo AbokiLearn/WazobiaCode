@@ -1,20 +1,9 @@
-import createMDX from '@next/mdx';
-import remarkGfm from 'remark-gfm';
+import createMDX from "@next/mdx";
+import remarkGfm from "remark-gfm";
 
 const nextConfig = {
   async redirects() {
-    return [
-      {
-        source: '/login',
-        destination: '/404',
-        permanent: false,
-      },
-      {
-        source: '/signup',
-        destination: '/404',
-        permanent: false,
-      },
-    ];
+    return [];
   },
   env: {
     APP_URL: process.env.APP_URL,
@@ -36,19 +25,19 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'images-dev-public.s3.amazonaws.com',
-        port: '',
+        protocol: "https",
+        hostname: "images-dev-public.s3.amazonaws.com",
+        port: "",
       },
       {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-        port: '',
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
       },
       {
-        protocol: 'https',
-        hostname: 'img.youtube.com',
-        port: '',
+        protocol: "https",
+        hostname: "img.youtube.com",
+        port: "",
       },
     ],
   },

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -31,7 +31,7 @@ const PageHeader = () => {
   useEffect(() => {
     // Function to check if the current page is an auth page
     const checkIfAuthPage = (url: string) => {
-      return url.endsWith('/login') || url.endsWith('/signup');
+      return url.endsWith("/login") || url.endsWith("/signup");
     };
 
     // Set initial state based on the current pathname
@@ -74,55 +74,55 @@ const PageHeader = () => {
           </button>
         </div>
         {/* Navigation links for medium screens and up */}
-        <div className={'hidden md:block flex-1 text-center '}>
+        <div className={"hidden md:block flex-1 text-center "}>
           <nav className="flex justify-between items-center">
             <div className="flex justify-center flex-1">
               <div className="inline-flex space-x-4 md:space-x-8">
                 <Link
                   className={
-                    'inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900'
+                    "inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900"
                   }
-                  href={'/'}
+                  href={"/"}
                 >
                   Home
                 </Link>
                 <Link
                   className={
-                    'inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900'
+                    "inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900"
                   }
-                  href={'#'}
+                  href={"#"}
                 >
                   Courses
                 </Link>
                 <Link
                   className={
-                    'inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900'
+                    "inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900"
                   }
-                  href={'#'}
+                  href={"#"}
                 >
                   Quizzes
                 </Link>
                 <Link
                   className={
-                    'inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900'
+                    "inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900"
                   }
-                  href={'#'}
+                  href={"#"}
                 >
                   Software Stacks
                 </Link>
                 <Link
                   className={
-                    'inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900'
+                    "inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900"
                   }
-                  href={'#'}
+                  href={"#"}
                 >
                   Articles
                 </Link>
                 <Link
                   className={
-                    'inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900'
+                    "inline-flex h-12 items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium mx-1 hover:text-gray-900"
                   }
-                  href={'/faq'}
+                  href={"/faq"}
                 >
                   FAQs
                 </Link>
@@ -159,7 +159,7 @@ const PageHeader = () => {
       </div>
       {/* Mobile menu, show/hide based on menu state */}
       <div
-        className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden`}
+        className={`${isMenuOpen ? "block" : "hidden"} md:hidden`}
         id="mobile-menu"
       >
         <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">

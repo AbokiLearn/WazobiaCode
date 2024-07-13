@@ -1,5 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { ICourse, ISection, ILecture } from './course';
+import { File } from './base';
 
 export interface IAssignment extends Document {
   _id: Types.ObjectId;
@@ -30,5 +31,5 @@ export interface IQuizAssignment extends IAssignment {
 export interface IHomeworkAssignment extends IAssignment {
   type: 'homework';
   instructions: string;
-  files: string[];
+  files: File[];
 }

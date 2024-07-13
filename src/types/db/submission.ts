@@ -1,6 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { ICourse, ISection, ILecture } from './course';
 import { IAssignment } from './assignment';
+import { File } from './base';
 
 export interface ISubmission extends Document {
   _id: Types.ObjectId;
@@ -29,6 +30,7 @@ export interface IQuizSubmission extends ISubmission {
 
 export interface IHomeworkSubmission extends ISubmission {
   type: 'homework';
-  submitted_files: string[];
-  feedback?: string;
+  comments: string | null;
+  submitted_files: File[];
+  feedback: string | null;
 }

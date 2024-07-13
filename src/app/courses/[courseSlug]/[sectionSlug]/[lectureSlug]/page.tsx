@@ -72,7 +72,7 @@ export default async function Page({
   };
 
   return (
-    <div className="p-6 lg:p-8 bg-background rounded-lg">
+    <div className="p-6 lg:p-8 bg-background">
       <LectureHeader />
       <Tabs defaultValue="content">
         <div className="flex flex-row justify-center mb-4">

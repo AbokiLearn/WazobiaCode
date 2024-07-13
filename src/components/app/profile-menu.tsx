@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 
 export interface User {
+  id: string;
   name: string;
   email: string;
   image: string;
@@ -18,6 +19,7 @@ export interface User {
 
 export const getUser = () => {
   return {
+    id: '66917c358d0b1b3cb24e5c47',
     name: 'John Doe',
     email: 'john.doe@example.com',
     image: 'https://images-dev-public.s3.amazonaws.com/Dazai_Infobox.png',

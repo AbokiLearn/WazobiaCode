@@ -1,5 +1,7 @@
 import { headers } from 'next/headers';
-import { uploadFile } from '@/lib/s3';
+
+import { APIResponse, APIErrorHandler } from '@/lib/api';
+import { uploadFile, keyToUrl } from '@/lib/s3';
 
 export async function POST(request: Request) {
   const headersList = headers();
@@ -7,23 +9,28 @@ export async function POST(request: Request) {
   try {
     const contentType =
       headersList.get('content-type') || 'application/octet-stream';
-    const fileName = headersList.get('x-file-name') || 'unknown';
+    const fileName = headersList.get('X-File-Name') || 'unknown';
     const fileData = await request.arrayBuffer();
-    const destFolder = headersList.get('x-s3-folder') || 'image-bin';
+    const destFolder = headersList.get('X-Dest-Folder') || 'image-bin';
 
-    const fileUrl = await uploadFile({
+    const fileKey = await uploadFile({
       fileName,
       fileData,
       contentType,
       destFolder,
     });
 
-    return Response.json({ fileUrl }, { status: 201 });
-  } catch (error) {
-    console.log(error);
-    return Response.json(
-      { error: 'Error uploading file', details: error },
-      { status: 500 },
-    );
+    return APIResponse({
+      data: {
+        file_name: fileName,
+        file_key: fileKey,
+        file_url: keyToUrl(fileKey),
+        file_mimetype: contentType,
+      },
+      message: 'File uploaded successfully',
+      status: 201,
+    });
+  } catch (error: any) {
+    return APIErrorHandler(error);
   }
 }

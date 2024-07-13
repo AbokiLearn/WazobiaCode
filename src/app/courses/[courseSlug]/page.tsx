@@ -8,7 +8,7 @@ import {
   type Progress,
 } from '@/components/app/progress-bar';
 import { CourseWithSections } from '@/types/db/course';
-import { getCourseWithSections } from '@/lib/api';
+import { getCourseWithSections } from '@/lib/client/course';
 import { ISection } from '@/types/db/course';
 
 interface CoursePageProps {
@@ -93,12 +93,12 @@ const CourseOverviewCard = ({
                 <GradeProgressBar
                   submissionType="Quizzes"
                   gradeProgress={courseProgress}
-                  href={`/app/submissions/quiz/${course.slug}`}
+                  href={`/app/submissions/?type=quiz&course=${course.slug}`}
                 />
                 <GradeProgressBar
-                  submissionType="Assignments"
+                  submissionType="Homeworks"
                   gradeProgress={courseProgress}
-                  href={`/app/submissions/assignment/${course.slug}`}
+                  href={`/app/submissions/?type=homework&course=${course.slug}`}
                 />
               </div>
             </>

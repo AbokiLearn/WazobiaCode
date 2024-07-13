@@ -4,7 +4,7 @@ import { Sidebar, SheetSidebar } from '@/components/app/sidebar';
 import { getUser } from '@/components/app/profile-menu';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
-import { getCourseWithSections } from '@/lib/api';
+import { getCourseWithSections } from '@/lib/client/course';
 
 export async function generateMetadata({
   params,
@@ -32,7 +32,7 @@ export default async function CourseLayout({
   const course = await getCourseWithSections(courseSlug);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <Header
         title={<Link href={`/courses/${course.slug}`}>{course.title}</Link>}
         user={user}
@@ -41,10 +41,12 @@ export default async function CourseLayout({
       </Header>
       <div className="flex flex-1 overflow-hidden">
         <Sidebar course={course} />
-        <main className="flex-1 bg-background overflow-y-auto">
-          {children}
+        <div className="flex flex-col flex-1 w-full md:w-[calc(100%-300px)]">
+          <main className="flex-1 bg-background overflow-y-auto">
+            <div className="h-full overflow-y-auto">{children}</div>
+          </main>
           <Footer />
-        </main>
+        </div>
       </div>
     </div>
   );

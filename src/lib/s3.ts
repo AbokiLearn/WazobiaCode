@@ -27,7 +27,9 @@ export const uploadFile = async ({
 }) => {
   const fileId = uuidv4();
   const fileExtension = fileName.split('.').pop();
-  const s3Key = `${destFolder}/${fileId}.${fileExtension}`;
+  const s3Key = `${destFolder}/${fileId}${
+    fileExtension ? `.${fileExtension}` : ''
+  }`;
 
   const params = {
     Bucket: FILE_UPLOAD_BUCKET,

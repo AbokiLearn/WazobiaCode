@@ -17,7 +17,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { FileLink } from '@/components/app/file-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { getDownloadUrls, uploadFiles } from '@/lib/client/files';
+import Spinner from '@/components/ui/spinner';
+import { archiveFiles, uploadFiles } from '@/lib/client/files';
 import { submitHomework } from '@/lib/client/submission';
 import { IHomeworkAssignment } from '@/types/db/assignment';
 import { File as FileType } from '@/types/index';
@@ -45,6 +46,7 @@ export function Homework({
   homework,
 }: HomeworkProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isZipping, setIsZipping] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -90,7 +92,12 @@ export function Homework({
     }
   };
 
-  const downloadFiles = (files: FileType[]) => {};
+  const downloadFiles = async (files: FileType[]) => {
+    setIsZipping(true);
+    const archive_url = await archiveFiles(files);
+    window.open(archive_url, '_blank');
+    setIsZipping(false);
+  };
 
   return (
     <div className="mt-8">
@@ -113,13 +120,19 @@ export function Homework({
                 <FileLink key={index} file={file} />
               ))}
             </div>
-            <Button
-              className="flex m-0 p-0 text-muted-foreground hover:text-accent"
-              variant="link"
-              onClick={() => downloadFiles(homework.files as FileType[])}
-            >
-              Download All Files
-            </Button>
+            <div className="relative flex items-center gap-2">
+              <Button
+                className="flex m-0 p-0 text-muted-foreground hover:text-accent"
+                variant="link"
+                onClick={() => downloadFiles(homework.files as FileType[])}
+                disabled={isZipping}
+              >
+                Download All Files
+              </Button>
+              {isZipping && (
+                <Spinner size="small" color="text-muted-foreground" />
+              )}
+            </div>
           </div>
         </div>
       )}

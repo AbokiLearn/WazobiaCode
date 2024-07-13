@@ -77,3 +77,26 @@ export const getDownloadUrls = async (files: FileType[]) => {
   const { download_urls } = response;
   return download_urls;
 };
+
+export const archiveFiles = async (files: FileType[]) => {
+  const keys = files.map((file) => file.file_key);
+  const filenames = files.map((file) => file.file_name);
+
+  if (!keys.every((key) => key) || !filenames.every((filename) => filename)) {
+    throw new Error('Invalid file URL');
+  }
+
+  const response = await fetch(
+    getEndpoint(
+      `/files/zip?key=${encodeURIComponent(
+        keys.join(','),
+      )}&fileName=${encodeURIComponent(filenames.join(','))}`,
+    ),
+  )
+    .then((res) => res.json())
+    .catch((err) => {
+      throw new Error(`Archive failed (status: ${err.status}): ${err.message}`);
+    });
+
+  return response.data.archive_url;
+};

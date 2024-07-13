@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { ICourse, ISection, ILecture } from './course';
-import { File } from './base';
+import { File } from '@/types';
 
 export interface IAssignment extends Document {
   _id: Types.ObjectId;

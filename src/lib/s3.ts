@@ -1,4 +1,9 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { v4 as uuidv4 } from 'uuid';
 
 import { env } from '@/lib/config';
@@ -6,6 +11,14 @@ import { FileType } from '@/types';
 
 const AWS_REGION = env.AWS_REGION;
 const FILE_UPLOAD_BUCKET = env.AWS_S3_BUCKET_NAME;
+
+export const keyToUrl = (key: string) => {
+  return `https://${FILE_UPLOAD_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${key}`;
+};
+
+export const urlToKey = (url: string) => {
+  return url.split('/').pop();
+};
 
 export const s3Client = new S3Client({
   region: AWS_REGION,
@@ -38,6 +51,18 @@ export const getFileType = (contentType: string) => {
   return fileType;
 };
 
+export const createPresignedUrl = async (key: string, fileName: string) => {
+  const command = new GetObjectCommand({
+    Bucket: FILE_UPLOAD_BUCKET,
+    Key: key,
+    ResponseContentDisposition: `attachment; filename="${encodeURIComponent(
+      fileName,
+    )}"`,
+  });
+  const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 300 });
+  return signedUrl;
+};
+
 export const uploadFile = async ({
   fileName,
   fileData,
@@ -63,12 +88,14 @@ export const uploadFile = async ({
     Metadata: {
       'original-filename': fileName,
       'file-type': contentType,
+      'file-size': fileData.byteLength.toString(),
+      'upload-timestamp': new Date().toISOString(),
     },
   };
 
   await s3Client.send(new PutObjectCommand(params));
 
-  const fileUrl = `https://${FILE_UPLOAD_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${s3Key}`;
+  const fileUrl = keyToUrl(s3Key);
 
   return fileUrl;
 };

@@ -58,6 +58,8 @@ export function Quiz({
     new Array(questions.length).fill(-1),
   );
 
+  // TODO: check if a submission has been made, populate the form with the answers; show grade with feedback
+
   const quizSchema = createQuizSchema(questions);
   const form = useForm<QuizFormValues>({
     resolver: zodResolver(quizSchema),
@@ -117,49 +119,53 @@ export function Quiz({
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {questions.map((question, index) => (
-          <FormField
-            key={index}
-            control={form.control}
-            name={`question_${index}`}
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>{question.question}</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={(value) => {
-                      const newAnswers = [...selectedAnswers];
-                      newAnswers[index] = parseInt(value);
-                      setSelectedAnswers(newAnswers);
-                      field.onChange(parseInt(value));
-                    }}
-                    value={selectedAnswers[index].toString()}
-                    className="flex flex-col space-y-1"
-                  >
-                    {question.options.map((option, optionIndex) => (
-                      <FormItem
-                        className="flex items-center space-x-3 space-y-0"
-                        key={optionIndex}
-                      >
-                        <FormControl>
-                          <RadioGroupItem value={optionIndex.toString()} />
-                        </FormControl>
-                        <FormLabel className="font-normal">{option}</FormLabel>
-                      </FormItem>
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Submit Quiz'}
-        </Button>
-      </form>
-    </Form>
+    <div className="md:ml-8 md:mr-8">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          {questions.map((question, index) => (
+            <FormField
+              key={index}
+              control={form.control}
+              name={`question_${index}`}
+              render={({ field }) => (
+                <FormItem className="space-y-3 border-muted border-b pb-5">
+                  <FormLabel>{question.question}</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={(value) => {
+                        const newAnswers = [...selectedAnswers];
+                        newAnswers[index] = parseInt(value);
+                        setSelectedAnswers(newAnswers);
+                        field.onChange(parseInt(value));
+                      }}
+                      value={selectedAnswers[index].toString()}
+                      className="flex flex-col space-y-1"
+                    >
+                      {question.options.map((option, optionIndex) => (
+                        <FormItem
+                          className="flex items-center space-x-3 space-y-0"
+                          key={optionIndex}
+                        >
+                          <FormControl>
+                            <RadioGroupItem value={optionIndex.toString()} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {option}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Submit Quiz'}
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 }

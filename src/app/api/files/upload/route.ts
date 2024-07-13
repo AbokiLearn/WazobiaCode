@@ -9,9 +9,9 @@ export async function POST(request: Request) {
   try {
     const contentType =
       headersList.get('content-type') || 'application/octet-stream';
-    const fileName = headersList.get('x-file-name') || 'unknown';
+    const fileName = headersList.get('X-File-Name') || 'unknown';
     const fileData = await request.arrayBuffer();
-    const destFolder = headersList.get('x-dest-folder') || 'image-bin';
+    const destFolder = headersList.get('X-Dest-Folder') || 'image-bin';
 
     const fileUrl = await uploadFile({
       fileName,

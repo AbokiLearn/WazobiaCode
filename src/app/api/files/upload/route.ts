@@ -21,7 +21,11 @@ export async function POST(request: Request) {
     });
 
     return APIResponse({
-      data: { file_name: fileName, file_url: fileUrl },
+      data: {
+        file_name: fileName,
+        file_url: fileUrl,
+        file_mimetype: contentType,
+      },
       message: 'File uploaded successfully',
       status: 201,
     });

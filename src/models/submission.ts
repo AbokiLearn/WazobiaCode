@@ -37,7 +37,9 @@ const QuizSubmissionSchema = new Schema<IQuizSubmission>({
 
 const HomeworkSubmissionSchema = new Schema<IHomeworkSubmission>({
   comments: { type: String, default: null },
-  submitted_files: [{ url: String, name: String }],
+  submitted_files: [
+    { file_url: String, file_name: String, file_mimetype: String },
+  ],
   feedback: { type: String, default: null },
 });
 

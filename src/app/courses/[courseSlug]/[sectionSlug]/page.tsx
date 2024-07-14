@@ -1,9 +1,8 @@
-import { getSession } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Card, CardContent } from '@/components/ui/card';
-import { GradeProgressBar, type Progress } from '@/components/app/progress-bar';
+import { GradesCard } from '@/components/app/courses/grades-card';
+import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { type ILecture } from '@/types/db/course';
 import { getSectionWithLectures } from '@/lib/client/course';
@@ -16,47 +15,47 @@ export default async function Page({
 }) {
   const { courseSlug, sectionSlug } = params;
 
-  const session = await getSession();
-  const user = session?.user;
-
   const section = await getSectionWithLectures(courseSlug, sectionSlug);
-  // const sectionGrades = await getSectionGrades(section._id, user.id);
-  const sectionGrades = {
-    quizzes: {
-      value: 69,
-      max: 100,
-    },
-    homeworks: {
-      value: 69,
-      max: 100,
-    },
-  };
 
-  const GradesCard = () => {
+  const LectureCard = ({ lecture }: { lecture: ILecture }) => {
+    const thumbnailUrl = getYouTubeThumbnail(lecture.video_url);
+
     return (
-      <Card className="bg-card text-card-foreground border-border">
-        <CardContent className="flex flex-col">
-          <div className="flex flex-row justify-between mt-4">
-            <Link
-              className="text-foreground hover:text-accent"
-              href={`/app/submissions/?course=${courseSlug}&section=${sectionSlug}`}
-            >
-              <h3 className="font-semibold text-2xl">Your Grades</h3>
+      <Card className="bg-card text-card-foreground border-border overflow-hidden">
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-1/4 aspect-video relative">
+            <Link href={lecture.video_url}>
+              <Image
+                src={thumbnailUrl}
+                alt={`Thumbnail for ${lecture.title}`}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-t-md md:rounded-l-md md:rounded-t-none"
+              />
             </Link>
           </div>
-          <div className="flex flex-row gap-6">
-            <GradeProgressBar
-              submissionType="Quizzes"
-              gradeProgress={sectionGrades.quizzes}
-              href={`/app/submissions/?type=quiz&course=${courseSlug}&section=${sectionSlug}`}
-            />
-            <GradeProgressBar
-              submissionType="Homeworks"
-              gradeProgress={sectionGrades.homeworks}
-              href={`/app/submissions/?type=homework&course=${courseSlug}&section=${sectionSlug}`}
-            />
+          <div className="p-6 md:w-2/3 space-y-4">
+            <Link
+              href={`/courses/${courseSlug}/${sectionSlug}/${lecture.slug}`}
+              className="block"
+            >
+              <h3 className="text-xl font-semibold text-foreground hover:text-accent">
+                {`Lecture ${lecture.lecture_num}: ${lecture.title}`}
+              </h3>
+            </Link>
+            <p className="text-foreground text-sm">{lecture.description}</p>
+            <div className="flex flex-wrap gap-2">
+              {lecture.tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  className="bg-secondary text-xs px-2 py-1 rounded-full"
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
           </div>
-        </CardContent>
+        </div>
       </Card>
     );
   };
@@ -68,66 +67,10 @@ export default async function Page({
           {section.title}
         </h2>
       </div>
-      {user && <GradesCard />}
+      <GradesCard courseSlug={courseSlug} sectionSlug={sectionSlug} />
       {section.lectures.map((lecture) => (
-        <LectureCard
-          key={lecture.slug}
-          courseSlug={courseSlug}
-          sectionSlug={sectionSlug}
-          lecture={lecture}
-        />
+        <LectureCard key={lecture.slug} lecture={lecture} />
       ))}
     </div>
   );
 }
-
-const LectureCard = ({
-  courseSlug,
-  sectionSlug,
-  lecture,
-}: {
-  courseSlug: string;
-  sectionSlug: string;
-  lecture: ILecture;
-}) => {
-  const thumbnailUrl = getYouTubeThumbnail(lecture.video_url);
-
-  return (
-    <Card className="bg-card text-card-foreground border-border overflow-hidden">
-      <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/4 aspect-video relative">
-          <Link href={lecture.video_url}>
-            <Image
-              src={thumbnailUrl}
-              alt={`Thumbnail for ${lecture.title}`}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-t-md md:rounded-l-md md:rounded-t-none"
-            />
-          </Link>
-        </div>
-        <div className="p-6 md:w-2/3 space-y-4">
-          <Link
-            href={`/courses/${courseSlug}/${sectionSlug}/${lecture.slug}`}
-            className="block"
-          >
-            <h3 className="text-xl font-semibold text-foreground hover:text-accent">
-              {`Lecture ${lecture.lecture_num}: ${lecture.title}`}
-            </h3>
-          </Link>
-          <p className="text-foreground text-sm">{lecture.description}</p>
-          <div className="flex flex-wrap gap-2">
-            {lecture.tags.map((tag) => (
-              <Badge
-                key={tag}
-                className="bg-secondary text-xs px-2 py-1 rounded-full"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-};

@@ -24,7 +24,7 @@ export const HeaderLinks = ({ className }: { className?: string }) => {
           href={page.href}
           key={page.href}
           className={cn(
-            'text-primary-foreground hover:text-accent hover:underline hover:underline-offset-4 px-2',
+            'text-primary-foreground hover:text-accent hover:underline hover:underline-offset-8 px-2',
             className,
           )}
         >
@@ -43,7 +43,7 @@ export const Header = async ({ children }: { children?: React.ReactNode }) => {
       <div className="flex flex-row justify-between gap-6">
         <HeaderLinks className="text-lg font-semibold" />
       </div>
-      <div className="ml-auto flex items-center gap-4">
+      <div className="ml-auto flex items-center">
         <Search />
         <ProfileMenu />
       </div>

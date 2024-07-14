@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useUser } from '@auth0/nextjs-auth0/client';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import * as z from 'zod';
 import {
   Form,
@@ -28,14 +29,12 @@ interface SubmitQuestionProps {
   course_id: any;
   section_id: any;
   lecture_id: any;
-  student_id: any;
 }
 
 export function SubmitQuestion({
   course_id,
   section_id,
   lecture_id,
-  student_id,
 }: SubmitQuestionProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -47,12 +46,22 @@ export function SubmitQuestion({
     duration: 5000,
   };
 
+  const { user, error, isLoading } = useUser();
+  if (error) {
+    toast.error('Failed to fetch user', toastOpts);
+  }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       question: '',
     },
   });
+
+  if (!user) {
+    return null;
+  }
+  const student_id = user.id as string;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
@@ -85,35 +94,38 @@ export function SubmitQuestion({
   }
 
   return (
-    <div className="max-w-2xl mx-auto mt-8">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="question"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Your Question</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Type your question here."
-                    className="resize-none"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Ask any question related to this lecture. Instructors will get
-                  back to you shortly.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Submit Question'}
-          </Button>
-        </form>
-      </Form>
-    </div>
+    <>
+      <hr className="border-muted mt-4" />
+      <div className="max-w-2xl mx-auto mt-8">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="question"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Question</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Type your question here."
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Ask any question related to this lecture. Instructors will
+                    get back to you shortly.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : 'Submit Question'}
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </>
   );
 }

@@ -1,14 +1,8 @@
-import { getSession } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { CourseProgressIndicator } from '@/components/app/courses/course-progress';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import {
-  ProgressBar,
-  GradeProgressBar,
-  type Progress,
-} from '@/components/app/progress-bar';
-import { CourseWithSections } from '@/types/db/course';
 import { getCourseWithSections } from '@/lib/client/course';
 import { ISection } from '@/types/db/course';
 
@@ -19,15 +13,7 @@ interface CoursePageProps {
 export default async function Page({ params }: CoursePageProps) {
   const { courseSlug } = params;
 
-  const session = await getSession();
-  const user = session?.user;
-
   const course = await getCourseWithSections(courseSlug);
-  // const courseProgress = await getCourseProgress(courseSlug, user.id);
-  const courseProgress = {
-    value: 69,
-    max: 100,
-  };
 
   return (
     <div className="m-4 md:m-6 space-y-6">
@@ -36,11 +22,24 @@ export default async function Page({ params }: CoursePageProps) {
           {course.title}
         </h2>
       </div>
-      <CourseOverviewCard
-        user={user}
-        course={course}
-        courseProgress={courseProgress}
-      />
+
+      <Card
+        key={course.title}
+        className="bg-card text-card-foreground border-border"
+      >
+        <CardHeader>
+          <CardTitle className="pb-2 border-b border-muted">
+            Course Overview
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-row">
+          <div className="flex flex-col w-full">
+            <p className="text-justify">{course.description}</p>
+            <CourseProgressIndicator courseSlug={course.slug} />
+          </div>
+        </CardContent>
+      </Card>
+
       {course.sections
         .filter((section) => section.section_num > 0)
         .map((section) => (
@@ -53,63 +52,6 @@ export default async function Page({ params }: CoursePageProps) {
     </div>
   );
 }
-
-const CourseOverviewCard = ({
-  user,
-  course,
-  courseProgress,
-}: {
-  user: any;
-  course: CourseWithSections;
-  courseProgress: Progress;
-}) => {
-  const CourseProgressBar = () => {
-    return (
-      <ProgressBar
-        label="Course Progress"
-        value={courseProgress.value}
-        max={courseProgress.max}
-        color="bg-accent"
-        className="mt-4 mb-2"
-      />
-    );
-  };
-
-  return (
-    <Card
-      key={course.title}
-      className="bg-card text-card-foreground border-border"
-    >
-      <CardHeader>
-        <CardTitle className="pb-2 border-b border-muted">
-          Course Overview
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-row">
-        <div className="flex flex-col w-full">
-          <p className="text-justify">{course.description}</p>
-          {user && (
-            <>
-              <CourseProgressBar />
-              <div className="flex flex-row gap-8">
-                <GradeProgressBar
-                  submissionType="Quizzes"
-                  gradeProgress={courseProgress}
-                  href={`/app/submissions/?type=quiz&course=${course.slug}`}
-                />
-                <GradeProgressBar
-                  submissionType="Homeworks"
-                  gradeProgress={courseProgress}
-                  href={`/app/submissions/?type=homework&course=${course.slug}`}
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
 
 const SectionOverviewCard = ({
   courseSlug,

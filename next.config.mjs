@@ -6,12 +6,14 @@ const nextConfig = {
     return [];
   },
   env: {
+    AUTH0_SECRET: process.env.AUTH0_SECRET,
+    AUTH0_BASE_URL: process.env.AUTH0_BASE_URL,
+    AUTH0_ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL,
+    AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+    AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
+
     APP_URL: process.env.APP_URL,
     MONGODB_URI: process.env.MONGODB_URI,
-
-    AUTH_SECRET: process.env.AUTH_SECRET,
-    AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,
-    AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
 
     GCLOUD_PROJECT: process.env.GCLOUD_PROJECT,
     GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL,

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+
 import {
   Card,
   CardHeader,
@@ -10,7 +11,6 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { Header } from '@/components/app/header';
-import { getUser } from '@/components/app/profile-menu';
 import { Footer } from '@/components/ui/footer';
 import { CourseWithSections } from '@/types/db/course';
 import { getCoursesWithSections } from '@/lib/client/course';
@@ -21,14 +21,12 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  // TODO: Replace `user` with `session = await auth()` and `user = session?.user`
-  const user = getUser();
   const courses = await getCoursesWithSections();
 
   return (
     <>
       <div className="flex flex-col flex-grow overflow-hidden">
-        <Header title="Course Catalog" user={user} />
+        <Header />
         <main className="flex-grow bg-background text-foreground overflow-auto space-y-6 p-4 md:p-6">
           <CourseList courses={courses} />
           <ComingSoonCard />

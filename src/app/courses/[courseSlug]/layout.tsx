@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+
 import { Sidebar, SheetSidebar } from '@/components/app/sidebar';
-import { getUser } from '@/components/app/profile-menu';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
 import { getCourseWithSections } from '@/lib/client/course';
@@ -28,15 +28,11 @@ export default async function CourseLayout({
   params: { courseSlug: string };
 }) {
   const { courseSlug } = params;
-  const user = getUser();
   const course = await getCourseWithSections(courseSlug);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header
-        title={<Link href={`/courses/${course.slug}`}>{course.title}</Link>}
-        user={user}
-      >
+      <Header>
         <SheetSidebar course={course} />
       </Header>
       <div className="flex flex-1 overflow-hidden">

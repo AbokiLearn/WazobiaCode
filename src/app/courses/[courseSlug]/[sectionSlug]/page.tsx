@@ -1,17 +1,13 @@
+import { getSession } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { Card, CardContent } from '@/components/ui/card';
 import { GradeProgressBar, type Progress } from '@/components/app/progress-bar';
-import { getUser } from '@/components/app/profile-menu';
 import { Badge } from '@/components/ui/badge';
 import { type ILecture } from '@/types/db/course';
 import { getSectionWithLectures } from '@/lib/client/course';
 import { getYouTubeThumbnail } from '@/lib/utils';
-
-interface SectionGrades {
-  quizzes: Progress;
-  homeworks: Progress;
-}
 
 export default async function Page({
   params,
@@ -20,8 +16,9 @@ export default async function Page({
 }) {
   const { courseSlug, sectionSlug } = params;
 
-  // TODO: Replace with `session = await auth()` and `user = session?.user`
-  const user = getUser();
+  const session = await getSession();
+  const user = session?.user;
+
   const section = await getSectionWithLectures(courseSlug, sectionSlug);
   // const sectionGrades = await getSectionGrades(section._id, user.id);
   const sectionGrades = {

@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 
 export const PageHeader = ({
   isAuthPage = false,
@@ -13,6 +12,39 @@ export const PageHeader = ({
   isAuthPage?: boolean;
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const NavLinks = () => {
+    return (
+      <>
+        <Link
+          href="#"
+          onClick={() =>
+            document
+              .getElementById('faq-section')
+              ?.scrollIntoView({ behavior: 'smooth' })
+          }
+          className="py-2 text-foreground hover:text-accent"
+        >
+          FAQ
+        </Link>
+        <Link
+          href="/courses"
+          className="py-2 text-foreground hover:text-accent"
+        >
+          Courses
+        </Link>
+        {!isAuthPage ? (
+          <Button
+            variant="outline"
+            className="text-md font-normal hover:bg-card hover:text-foreground"
+            asChild
+          >
+            <a href="/api/auth/login">Log In</a>
+          </Button>
+        ) : null}
+      </>
+    );
+  };
 
   return (
     <header className="flex items-center justify-between pb-2 mb-8 relative border-b border-muted">
@@ -29,29 +61,7 @@ export const PageHeader = ({
         <h1 className="text-xl sm:text-2xl font-bold">WazobiaCode</h1>
       </div>
       <nav className="hidden md:flex items-center space-x-4 text-lg">
-        <Link
-          href="#"
-          onClick={() =>
-            document
-              .getElementById('faq-section')
-              ?.scrollIntoView({ behavior: 'smooth' })
-          }
-          className="text-foreground hover:text-accent"
-        >
-          FAQ
-        </Link>
-        <Link href="/courses" className="text-foreground hover:text-accent">
-          Courses
-        </Link>
-        {!isAuthPage ? (
-          <Button
-            variant="outline"
-            className="text-md font-normal hover:bg-card hover:text-foreground"
-            asChild
-          >
-            <Link href="/login">Log In</Link>
-          </Button>
-        ) : null}
+        <NavLinks />
       </nav>
       <Button
         className="md:hidden bg-background hover:text-accent hover:border-accent hover:bg-background"
@@ -66,38 +76,7 @@ export const PageHeader = ({
       {isMenuOpen && (
         <div className="absolute top-full right-0 w-full bg-white shadow-md rounded-b-lg md:hidden">
           <nav className="flex flex-col p-4">
-            <Link
-              href=""
-              onClick={() => {
-                document
-                  .getElementById('faq-section')
-                  ?.scrollIntoView({ behavior: 'smooth' });
-                setIsMenuOpen(false);
-              }}
-              className="py-2 text-foreground hover:text-accent"
-            >
-              FAQ
-            </Link>
-            <Link
-              href="/courses"
-              className="py-2 text-foreground hover:text-accent"
-              onClick={() => {
-                setIsMenuOpen(false);
-              }}
-            >
-              Courses
-            </Link>
-            {!isAuthPage && (
-              <Button
-                variant="outline"
-                asChild
-                className="mt-2 hover:bg-card hover:text-foreground"
-              >
-                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                  Log In
-                </Link>
-              </Button>
-            )}
+            <NavLinks />
           </nav>
         </div>
       )}

@@ -8,7 +8,13 @@ export default function HeaderLogo({ className }: { className?: string }) {
       href="/"
       className={cn('items-center gap-2 font-semibold', className)}
     >
-      <Image src="/logo.svg" width={48} height={48} alt="logo" />
+      <Image
+        className="rounded-lg"
+        src="/logo.svg"
+        width={48}
+        height={48}
+        alt="logo"
+      />
     </Link>
   );
 }

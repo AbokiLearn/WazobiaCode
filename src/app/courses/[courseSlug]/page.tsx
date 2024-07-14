@@ -1,7 +1,8 @@
+import { getSession } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { getUser, type User } from '@/components/app/profile-menu';
 import {
   ProgressBar,
   GradeProgressBar,
@@ -18,8 +19,9 @@ interface CoursePageProps {
 export default async function Page({ params }: CoursePageProps) {
   const { courseSlug } = params;
 
-  // TODO: Replace with `session = await auth()` and `user = session?.user`
-  const user = getUser();
+  const session = await getSession();
+  const user = session?.user;
+
   const course = await getCourseWithSections(courseSlug);
   // const courseProgress = await getCourseProgress(courseSlug, user.id);
   const courseProgress = {
@@ -57,7 +59,7 @@ const CourseOverviewCard = ({
   course,
   courseProgress,
 }: {
-  user: User;
+  user: any;
   course: CourseWithSections;
   courseProgress: Progress;
 }) => {
@@ -84,8 +86,8 @@ const CourseOverviewCard = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-row">
-        <div className="flex flex-col">
-          <p className="text-justify">{course.overview}</p>
+        <div className="flex flex-col w-full">
+          <p className="text-justify">{course.description}</p>
           {user && (
             <>
               <CourseProgressBar />

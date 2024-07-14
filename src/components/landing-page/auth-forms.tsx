@@ -1,11 +1,25 @@
-import { signIn } from '@/auth';
+'use client';
+
 import Link from 'next/link';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 
 export const CredentialsSignup = async () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+  };
+
   return (
     <>
       <div className="grid grid-cols-2 gap-4">
@@ -66,11 +80,7 @@ export const CredentialsLogin = async () => {
 };
 
 export const GoogleLogin = async () => {
-  const handleGoogleLogin = async () => {
-    'use server';
-    await signIn('google');
-  };
-
+  const handleGoogleLogin = async () => {};
   return (
     <form action={handleGoogleLogin}>
       <button

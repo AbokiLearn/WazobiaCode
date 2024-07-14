@@ -1,7 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { GoogleLogin, CredentialsLogin } from '@/components/landing-page/auth';
+import {
+  GoogleLogin,
+  CredentialsLogin,
+} from '@/components/landing-page/auth-forms';
 import { PageHeader } from '@/components/landing-page/page-header';
 import { Footer } from '@/components/ui/footer';
 

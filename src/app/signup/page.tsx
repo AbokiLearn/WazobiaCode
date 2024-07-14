@@ -2,7 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { PageHeader } from '@/components/landing-page/page-header';
-import { GoogleLogin, CredentialsSignup } from '@/components/landing-page/auth';
+import {
+  GoogleLogin,
+  CredentialsSignup,
+} from '@/components/landing-page/auth-forms';
 import { Footer } from '@/components/ui/footer';
 
 export default function SignUp() {

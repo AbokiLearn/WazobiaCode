@@ -3,6 +3,8 @@ import connectMongoDB from '@/lib/db/connect';
 import { Lecture } from '@/models';
 import { Assignment } from '@/models';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

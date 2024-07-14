@@ -3,6 +3,8 @@ import { headers } from 'next/headers';
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import { uploadFile, keyToUrl } from '@/lib/s3';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   const headersList = headers();
 

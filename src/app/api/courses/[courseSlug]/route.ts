@@ -2,6 +2,8 @@ import { APIResponse, APIErrorHandler } from '@/lib/api';
 import { Course, Section, Lecture } from '@/models';
 import connectMongoDB from '@/lib/db/connect';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   request: Request,
   { params }: { params: { courseSlug: string } },

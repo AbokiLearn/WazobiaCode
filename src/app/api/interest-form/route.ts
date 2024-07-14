@@ -2,6 +2,8 @@ import { sendConfirmationEmail } from '@/lib/sendgrid';
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import * as sheets from '@/lib/gsheets';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   const body = await req.json();
   try {

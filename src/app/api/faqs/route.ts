@@ -2,6 +2,8 @@ import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
 import { FAQ } from '@/models';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     await connectMongoDB();

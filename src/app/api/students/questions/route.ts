@@ -2,6 +2,8 @@ import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
 import { StudentQuestion } from '@/models';
 
+export const dynamic = 'force-dynamic';
+
 // TODO: protect routes
 
 export async function GET(request: Request) {

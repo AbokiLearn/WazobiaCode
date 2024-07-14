@@ -96,7 +96,7 @@ export default async function Page({
                   section_id={lecture.section_id}
                   lecture_id={lecture._id}
                   questions={(lecture.quiz as IQuizAssignment).questions}
-                  user_id={user?.id}
+                  user_id={user.id}
                 />
               </TabsContent>
               <TabsContent value="homework">

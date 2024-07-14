@@ -11,11 +11,11 @@ import JSZip from 'jszip';
 import { env } from '@/lib/config';
 import { FileType } from '@/types';
 
-const AWS_REGION = env.AWS_REGION;
-const FILE_UPLOAD_BUCKET = env.AWS_S3_BUCKET_NAME;
+const MY_AWS_REGION = env.MY_AWS_REGION;
+const FILE_UPLOAD_BUCKET = env.MY_AWS_S3_BUCKET_NAME;
 
 export const keyToUrl = (key: string) => {
-  return `https://${FILE_UPLOAD_BUCKET}.s3.${AWS_REGION}.amazonaws.com/${key}`;
+  return `https://${FILE_UPLOAD_BUCKET}.s3.${MY_AWS_REGION}.amazonaws.com/${key}`;
 };
 
 export const urlToKey = (url: string) => {
@@ -23,10 +23,10 @@ export const urlToKey = (url: string) => {
 };
 
 export const s3Client = new S3Client({
-  region: AWS_REGION,
+  region: MY_AWS_REGION,
   credentials: {
-    accessKeyId: env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: env.MY_AWS_ACCESS_KEY_ID,
+    secretAccessKey: env.MY_AWS_SECRET_ACCESS_KEY,
   },
 });
 

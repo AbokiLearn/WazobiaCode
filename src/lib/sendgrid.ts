@@ -1,6 +1,7 @@
 import sgMail from '@sendgrid/mail';
+import { env } from '@/lib/config';
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+sgMail.setApiKey(env.SENDGRID_API_KEY);
 
 // what is wrong with this code? i get a htmlContent is not defined error.
 const getConfirmationMessage = (name: string) => {

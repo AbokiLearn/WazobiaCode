@@ -1,24 +1,44 @@
-import connectMongoDb from '@/lib/mongodb';
-import Faq from '@/models/faq';
-import { NextResponse } from 'next/server';
-
-export async function POST(request: Request) {
-  const { question, answer } = await request.json();
-  await connectMongoDb();
-  await Faq.create({ question, answer });
-  return NextResponse.json({ message: 'FAQ Created' }, { status: 201 });
-}
+import { APIResponse, APIErrorHandler } from '@/lib/api';
+import connectMongoDB from '@/lib/db/connect';
+import { FAQ } from '@/models/faq';
 
 export async function GET() {
-  await connectMongoDb();
-  const faqs = await Faq.find();
-  return NextResponse.json({ faqs });
+  try {
+    await connectMongoDB();
+    const faqs = await FAQ.find();
+    return APIResponse({
+      data: { faqs },
+      message: 'FAQs fetched',
+    });
+  } catch (error) {
+    return APIErrorHandler(error);
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const { question, answer } = await request.json();
+    await connectMongoDB();
+    await FAQ.create({ question, answer });
+    return APIResponse({
+      message: 'FAQ Created',
+      status: 201,
+    });
+  } catch (error) {
+    return APIErrorHandler(error);
+  }
 }
 
 export async function DELETE(request: Request) {
-  await connectMongoDb();
-  const url = new URL(request.url);
-  const id = url.searchParams.get('id');
-  await Faq.findByIdAndDelete(id);
-  return NextResponse.json({ message: 'FAQ Deleted' }, { status: 200 });
+  try {
+    await connectMongoDB();
+    const url = new URL(request.url);
+    const id = url.searchParams.get('id');
+    await FAQ.findByIdAndDelete(id);
+    return APIResponse({
+      message: 'FAQ Deleted',
+    });
+  } catch (error) {
+    return APIErrorHandler(error);
+  }
 }

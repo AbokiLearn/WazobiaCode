@@ -4,31 +4,31 @@
 
 @layer base {
   :root {
-    --background: rgb(255, 255, 255);
-    --foreground: rgb(45, 45, 45);
+    --background: #ffffff;
+    --foreground: #0b090a;
 
-    --card: rgb(255, 255, 255);
-    --card-foreground: rgb(45, 45, 45);
+    --card: #f5f3f4;
+    --card-foreground: #161a1d;
 
     --popover: rgb(255, 255, 255);
     --popover-foreground: rgb(45, 45, 45);
 
-    --primary: rgb(100, 135, 251);
-    --primary-foreground: rgb(62, 107, 255);
+    --primary: #161a1d;
+    --primary-foreground: #ffffff;
 
-    --secondary: rgb(240, 240, 240);
-    --secondary-foreground: rgb(60, 60, 60);
+    --secondary: #0b090a;
+    --secondary-foreground: #d3d3d3;
 
-    --muted: rgb(240, 240, 240);
-    --muted-foreground: rgb(120, 120, 120);
+    --muted: #d3d3d3;
+    --muted-foreground: #3d4951;
 
-    --accent: rgb(240, 240, 240);
-    --accent-foreground: rgb(60, 60, 60);
+    --accent: #ea5d5f;
+    --accent-foreground: #f3a5a6;
 
     --destructive: rgb(255, 0, 0);
     --destructive-foreground: rgb(240, 240, 240);
 
-    --border: rgb(200, 200, 200);
+    --border: #161a1d;
     --input: rgb(200, 200, 200);
     --ring: rgb(45, 45, 45);
 

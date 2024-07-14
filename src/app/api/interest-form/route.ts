@@ -1,5 +1,6 @@
-import * as sheets from '@/lib/gsheets';
 import { sendConfirmationEmail } from '@/lib/sendgrid';
+import { APIResponse, APIErrorHandler } from '@/lib/api';
+import * as sheets from '@/lib/gsheets';
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -26,16 +27,10 @@ export async function POST(req: Request) {
 
     await sendConfirmationEmail(email, name);
 
-    return Response.json({
-      status: 200,
+    return APIResponse({
       message: 'Form submitted successfully',
     });
   } catch (error: any) {
-    console.error(error);
-    return Response.json({
-      status: 500,
-      message: 'Error processing form data',
-      error: error.message,
-    });
+    return APIErrorHandler(error);
   }
 }

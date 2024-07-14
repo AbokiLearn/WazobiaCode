@@ -3,20 +3,15 @@ import remarkGfm from 'remark-gfm';
 
 const nextConfig = {
   async redirects() {
-    return [
-      {
-        source: '/login',
-        destination: '/404',
-        permanent: false,
-      },
-      {
-        source: '/signup',
-        destination: '/404',
-        permanent: false,
-      },
-    ];
+    return [];
   },
   env: {
+    AUTH0_SECRET: process.env.AUTH0_SECRET,
+    AUTH0_BASE_URL: process.env.AUTH0_BASE_URL,
+    AUTH0_ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL,
+    AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+    AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
+
     APP_URL: process.env.APP_URL,
     MONGODB_URI: process.env.MONGODB_URI,
 

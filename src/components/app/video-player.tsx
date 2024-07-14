@@ -1,6 +1,6 @@
 import { getYouTubeEmbedUrl } from '@/lib/utils';
 
-export default async function VideoPlayer({
+export default function VideoPlayer({
   url,
   title,
 }: {

@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -8,11 +9,23 @@ import { type ILecture } from '@/types/db/course';
 import { getSectionWithLectures } from '@/lib/client/course';
 import { getYouTubeThumbnail } from '@/lib/utils';
 
-export default async function Page({
-  params,
-}: {
+interface SectionPageProps {
   params: { courseSlug: string; sectionSlug: string };
-}) {
+}
+
+export async function generateMetadata({
+  params,
+}: SectionPageProps): Promise<Metadata> {
+  const { courseSlug, sectionSlug } = params;
+  const section = await getSectionWithLectures(courseSlug, sectionSlug);
+  return {
+    title: section.title,
+  };
+}
+
+export const dynamic = 'force-dynamic';
+
+export default async function SectionPage({ params }: SectionPageProps) {
   const { courseSlug, sectionSlug } = params;
 
   const section = await getSectionWithLectures(courseSlug, sectionSlug);

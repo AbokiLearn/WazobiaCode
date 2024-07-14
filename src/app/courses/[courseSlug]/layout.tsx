@@ -1,24 +1,7 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-
 import { Sidebar, SheetSidebar } from '@/components/app/sidebar';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
 import { getCourseWithSections } from '@/lib/client/course';
-
-export async function generateMetadata({
-  params,
-}: {
-  params: { courseSlug: string };
-}): Promise<Metadata> {
-  const { courseSlug } = params;
-  const course = await getCourseWithSections(courseSlug);
-
-  return {
-    title: `${course.title} | WazobiaCode`,
-    description: course.description,
-  };
-}
 
 export default async function CourseLayout({
   children,

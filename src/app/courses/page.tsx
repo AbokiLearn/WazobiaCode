@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   title: 'Course Catalog | WazobiaCode',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const courses = await getCoursesWithSections();
 

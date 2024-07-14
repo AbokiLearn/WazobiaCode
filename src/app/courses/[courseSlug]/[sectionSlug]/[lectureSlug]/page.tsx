@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { AssignmentContents } from '@/components/app/courses/assignment-contents';
@@ -11,15 +12,23 @@ import { Badge } from '@/components/ui/badge';
 
 import { getLecture } from '@/lib/client/course';
 
-export default async function Page({
+interface LecturePageProps {
+  params: { courseSlug: string; sectionSlug: string; lectureSlug: string };
+}
+
+export async function generateMetadata({
   params,
-}: {
-  params: {
-    courseSlug: string;
-    sectionSlug: string;
-    lectureSlug: string;
+}: LecturePageProps): Promise<Metadata> {
+  const { courseSlug, sectionSlug, lectureSlug } = params;
+  const lecture = await getLecture(courseSlug, sectionSlug, lectureSlug);
+  return {
+    title: lecture.title,
   };
-}) {
+}
+
+export const dynamic = 'force-dynamic';
+
+export default async function LecturePage({ params }: LecturePageProps) {
   const { courseSlug, sectionSlug, lectureSlug } = params;
   const lecture = await getLecture(courseSlug, sectionSlug, lectureSlug);
 

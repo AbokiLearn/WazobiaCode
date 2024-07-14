@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -10,7 +11,19 @@ interface CoursePageProps {
   params: { courseSlug: string };
 }
 
-export default async function Page({ params }: CoursePageProps) {
+export async function generateMetadata({
+  params,
+}: CoursePageProps): Promise<Metadata> {
+  const { courseSlug } = params;
+  const course = await getCourseWithSections(courseSlug);
+  return {
+    title: course.title,
+  };
+}
+
+export const dynamic = 'force-dynamic';
+
+export default async function CoursePage({ params }: CoursePageProps) {
   const { courseSlug } = params;
 
   const course = await getCourseWithSections(courseSlug);

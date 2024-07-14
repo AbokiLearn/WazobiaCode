@@ -1,13 +1,14 @@
-import { Schema, model, models, Model, CallbackError, Types } from 'mongoose';
+import { Schema, CallbackError, Types } from 'mongoose';
+
 import {
   IAssignment,
   IQuizAssignment,
   IHomeworkAssignment,
   IQuizQuestion,
 } from '@/types/db/assignment';
-import { Lecture } from './course';
+import { Lecture } from '@/models';
 
-const AssignmentSchema = new Schema<IAssignment>(
+export const AssignmentSchema = new Schema<IAssignment>(
   {
     course_id: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     section_id: { type: Schema.Types.ObjectId, ref: 'Section', required: true },
@@ -42,12 +43,12 @@ const QuizQuestionSchema = new Schema<IQuizQuestion>({
   points: { type: Number, default: 1 },
 });
 
-const QuizAssignmentSchema = new Schema<IQuizAssignment>({
+export const QuizAssignmentSchema = new Schema<IQuizAssignment>({
   questions: [QuizQuestionSchema],
   type: { type: String, enum: ['quiz'], required: true },
 });
 
-const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
+export const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
   instructions: { type: String, required: true },
   files: [
     {
@@ -59,12 +60,3 @@ const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
   ],
   type: { type: String, enum: ['homework'], required: true },
 });
-
-export const Assignment: Model<IAssignment> =
-  models.Assignment || model('Assignment', AssignmentSchema);
-export const QuizAssignment: Model<IQuizAssignment> =
-  models.QuizAssignment ||
-  Assignment.discriminator('QuizAssignment', QuizAssignmentSchema);
-export const HomeworkAssignment: Model<IHomeworkAssignment> =
-  models.HomeworkAssignment ||
-  Assignment.discriminator('HomeworkAssignment', HomeworkAssignmentSchema);

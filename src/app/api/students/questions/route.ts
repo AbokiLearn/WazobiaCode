@@ -1,6 +1,6 @@
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
-import { StudentQuestion } from '@/models/student-question';
+import { StudentQuestion } from '@/models';
 
 // TODO: protect routes
 

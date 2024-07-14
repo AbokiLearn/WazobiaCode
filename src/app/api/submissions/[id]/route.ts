@@ -1,6 +1,6 @@
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
-import { Submission } from '@/models/submission';
+import { Submission } from '@/models';
 
 export async function GET(
   request: Request,

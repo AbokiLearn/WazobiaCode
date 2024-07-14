@@ -1,11 +1,12 @@
-import { Schema, model, models, Model } from 'mongoose';
+import { Schema } from 'mongoose';
+
 import {
   ISubmission,
   IQuizSubmission,
   IHomeworkSubmission,
 } from '@/types/db/submission';
 
-const SubmissionSchema = new Schema<ISubmission>(
+export const SubmissionSchema = new Schema<ISubmission>(
   {
     assignment_id: {
       type: Schema.Types.ObjectId,
@@ -25,7 +26,7 @@ const SubmissionSchema = new Schema<ISubmission>(
   { timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' } },
 );
 
-const QuizSubmissionSchema = new Schema<IQuizSubmission>({
+export const QuizSubmissionSchema = new Schema<IQuizSubmission>({
   answers: [
     {
       question_id: { type: Schema.Types.ObjectId, required: true },
@@ -35,7 +36,7 @@ const QuizSubmissionSchema = new Schema<IQuizSubmission>({
   ],
 });
 
-const HomeworkSubmissionSchema = new Schema<IHomeworkSubmission>({
+export const HomeworkSubmissionSchema = new Schema<IHomeworkSubmission>({
   comments: { type: String, default: null },
   submitted_files: [
     {
@@ -47,12 +48,3 @@ const HomeworkSubmissionSchema = new Schema<IHomeworkSubmission>({
   ],
   feedback: { type: String, default: null },
 });
-
-export const Submission: Model<ISubmission> =
-  models.Submission || model('Submission', SubmissionSchema);
-export const QuizSubmission: Model<IQuizSubmission> =
-  models.QuizSubmission ||
-  Submission.discriminator('QuizSubmission', QuizSubmissionSchema);
-export const HomeworkSubmission: Model<IHomeworkSubmission> =
-  models.HomeworkSubmission ||
-  Submission.discriminator('HomeworkSubmission', HomeworkSubmissionSchema);

@@ -1,5 +1,5 @@
 import { APIResponse, APIErrorHandler } from '@/lib/api';
-import { Course, Section } from '@/models/course';
+import { Course, Section } from '@/models';
 import connectMongoDB from '@/lib/db/connect';
 
 export async function GET(

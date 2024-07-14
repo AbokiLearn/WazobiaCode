@@ -1,5 +1,5 @@
-import { Schema, model, models, Model } from 'mongoose';
-import { Assignment } from './assignment';
+import { Schema } from 'mongoose';
+
 import { ICourse, ISection, ILecture } from '@/types/db/course';
 
 const timeStamps = {
@@ -7,7 +7,7 @@ const timeStamps = {
   updatedAt: 'updated_at',
 };
 
-const CourseSchema = new Schema<ICourse>(
+export const CourseSchema = new Schema<ICourse>(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
@@ -20,7 +20,7 @@ const CourseSchema = new Schema<ICourse>(
   { timestamps: timeStamps },
 );
 
-const SectionSchema = new Schema<ISection>(
+export const SectionSchema = new Schema<ISection>(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
@@ -33,7 +33,7 @@ const SectionSchema = new Schema<ISection>(
   { timestamps: timeStamps },
 );
 
-const LectureSchema = new Schema<ILecture>(
+export const LectureSchema = new Schema<ILecture>(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
@@ -45,8 +45,8 @@ const LectureSchema = new Schema<ILecture>(
     content: { type: String, required: true },
     tags: [String],
     video_url: { type: String, required: true },
-    quiz: { type: Schema.Types.ObjectId, ref: Assignment },
-    homework: { type: Schema.Types.ObjectId, ref: Assignment },
+    quiz: { type: Schema.Types.ObjectId, ref: 'Assignment' },
+    homework: { type: Schema.Types.ObjectId, ref: 'Assignment' },
   },
   { timestamps: timeStamps },
 );
@@ -54,10 +54,3 @@ const LectureSchema = new Schema<ILecture>(
 CourseSchema.index({ slug: 1 });
 SectionSchema.index({ course_id: 1, section_num: 1 });
 LectureSchema.index({ course_id: 1, section_id: 1, lecture_num: 1 });
-
-export const Course: Model<ICourse> =
-  models.Course || model('Course', CourseSchema);
-export const Section: Model<ISection> =
-  models.Section || model('Section', SectionSchema);
-export const Lecture: Model<ILecture> =
-  models.Lecture || model('Lecture', LectureSchema);

@@ -1,7 +1,7 @@
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
-import { Lecture } from '@/models/course';
-import { Assignment } from '@/models/assignment';
+import { Lecture } from '@/models';
+import { Assignment } from '@/models';
 
 export async function GET(request: Request) {
   try {

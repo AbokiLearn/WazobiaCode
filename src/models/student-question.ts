@@ -1,7 +1,8 @@
-import { Schema, model, models, Model } from 'mongoose';
+import { Schema } from 'mongoose';
+
 import { IStudentQuestion } from '@/types/db/student-question';
 
-const QuestionSchema = new Schema<IStudentQuestion>(
+export const QuestionSchema = new Schema<IStudentQuestion>(
   {
     student_id: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     course_id: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
@@ -13,6 +14,3 @@ const QuestionSchema = new Schema<IStudentQuestion>(
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
 );
-
-export const StudentQuestion: Model<IStudentQuestion> =
-  models.StudentQuestion || model('StudentQuestion', QuestionSchema);

@@ -2,7 +2,7 @@ import { PipelineStage } from 'mongoose';
 
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
-import { Course } from '@/models/course';
+import { Course } from '@/models';
 
 export async function GET(request: Request) {
   try {

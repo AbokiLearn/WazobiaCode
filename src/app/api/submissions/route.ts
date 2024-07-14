@@ -1,10 +1,6 @@
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
-import {
-  Submission,
-  QuizSubmission,
-  HomeworkSubmission,
-} from '@/models/submission';
+import { Submission, QuizSubmission, HomeworkSubmission } from '@/models';
 
 export async function GET(request: Request) {
   try {

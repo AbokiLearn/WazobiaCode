@@ -1,6 +1,6 @@
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
-import { Assignment } from '@/models/assignment';
+import { Assignment } from '@/models';
 
 export async function GET(
   request: Request,

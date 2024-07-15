@@ -1,21 +1,26 @@
-export const APIResponse = ({
-  data = null,
-  message = '',
-  error = null,
-  status = 200,
-}: {
+interface APIResponseData {
   data?: any;
   message?: string | null;
   error?: string | null;
+}
+
+export const APIResponse = ({
+  data = null,
+  message = null,
+  error = null,
+  status = 200,
+  headers = {},
+}: APIResponseData & {
   status?: number;
-}) => {
-  return Response.json({ data, message, error, status });
+  headers?: HeadersInit;
+}): Response => {
+  return Response.json({ data, message, error }, { status, headers });
 };
 
-export const APIErrorHandler = (error: any) => {
+export const APIErrorHandler = (error: Error, status = 500): Response => {
   console.error(error);
   return APIResponse({
-    error: error.message,
-    status: 500,
+    error: error.message || 'An unexpected error occured',
+    status,
   });
 };

@@ -17,7 +17,7 @@ export const APIResponse = ({
   return Response.json({ data, message, error }, { status, headers });
 };
 
-export const APIErrorHandler = (error: Error, status = 500): Response => {
+export const APIErrorHandler = (error: any, status = 500): Response => {
   console.error(error);
   return APIResponse({
     error: error.message || 'An unexpected error occured',

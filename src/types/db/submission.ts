@@ -6,7 +6,7 @@ import { File } from '@/types';
 export interface ISubmission extends Document {
   _id: Types.ObjectId;
   assignment_id: Types.ObjectId | IAssignment;
-  student_id: Types.ObjectId; // include Student<User> model
+  student_id: string;
   course_id: Types.ObjectId | ICourse;
   section_id: Types.ObjectId | ISection;
   lecture_id: Types.ObjectId | ILecture;

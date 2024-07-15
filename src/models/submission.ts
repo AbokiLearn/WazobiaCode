@@ -13,7 +13,7 @@ export const SubmissionSchema = new Schema<ISubmission>(
       ref: 'Assignment',
       required: true,
     },
-    student_id: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    student_id: { type: String, required: true },
     course_id: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     section_id: { type: Schema.Types.ObjectId, ref: 'Section', required: true },
     lecture_id: { type: Schema.Types.ObjectId, ref: 'Lecture', required: true },

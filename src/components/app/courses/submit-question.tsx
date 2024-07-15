@@ -61,7 +61,7 @@ export function SubmitQuestion({
   if (!user) {
     return null;
   }
-  const student_id = user.id as string;
+  const student_id = user.sub as string;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);

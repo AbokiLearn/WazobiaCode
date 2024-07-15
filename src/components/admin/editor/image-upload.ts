@@ -15,7 +15,8 @@ const onUpload = (file: File) => {
   const promise = fetch('/api/files/upload', {
     method: 'POST',
     headers: {
-      'x-file-name': file?.name || 'image.png',
+      'X-File-Name': file?.name || 'image.png',
+      'X-Dest-Folder': 'image-bin',
     },
     body: file,
   });
@@ -25,12 +26,13 @@ const onUpload = (file: File) => {
       promise.then(async (res) => {
         // Successfully uploaded image
         if (res.status === 201) {
-          const { fileUrl } = (await res.json()) as any;
+          const { data } = (await res.json()) as any;
+          const { file_url } = data;
           // preload the image
           let image = new Image();
-          image.src = fileUrl;
+          image.src = file_url;
           image.onload = () => {
-            resolve(fileUrl);
+            resolve(file_url);
           };
           // No blob store configured
         } else if (res.status === 401) {
@@ -40,6 +42,8 @@ const onUpload = (file: File) => {
           );
           // Unknown error
         } else {
+          console.log(res.status);
+          console.log(`error data: ${JSON.stringify(res)}`);
           throw new Error(`Error uploading image. Please try again.`);
         }
       }),

@@ -30,7 +30,7 @@ export const AssignmentContents = ({ lecture }: { lecture: ILecture }) => {
           section_id={lecture.section_id}
           lecture_id={lecture._id}
           questions={(lecture.quiz as IQuizAssignment).questions}
-          user_id={user.id as string}
+          user_id={user.sub as string}
         />
       </TabsContent>
       <TabsContent value="homework">
@@ -39,7 +39,7 @@ export const AssignmentContents = ({ lecture }: { lecture: ILecture }) => {
           course_id={lecture.course_id}
           section_id={lecture.section_id}
           lecture_id={lecture._id}
-          student_id={user.id}
+          student_id={user.sub}
           homework={lecture.homework as IHomeworkAssignment}
         />
       </TabsContent>

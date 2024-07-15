@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -47,6 +47,7 @@ export function Homework({
 }: HomeworkProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isZipping, setIsZipping] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -84,6 +85,9 @@ export function Homework({
       });
 
       form.reset();
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
       toast.success('Homework submitted successfully', toastOpts);
     } catch (error) {
       toast.error('Error submitting homework', toastOpts);
@@ -173,6 +177,8 @@ export function Homework({
                     <Input
                       type="file"
                       multiple
+                      required
+                      ref={fileInputRef}
                       onChange={(e) => {
                         const files = Array.from(e.target.files || []);
                         field.onChange(files);

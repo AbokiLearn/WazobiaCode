@@ -1,10 +1,13 @@
 import PageHeader from '@/components/page-header';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export default function Home() {
   return (
     <>
-      <PageHeader />
+      <Suspense fallback={<div>Loading...</div>}>
+        <PageHeader />
+      </Suspense>
       <main className="flex flex-col md:flex-col py-12 px-4 md:px-6">
         {/* Programming Languages */}
         <div

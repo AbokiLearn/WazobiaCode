@@ -105,8 +105,8 @@ export default function LandingPage() {
             </CardHeader>
             <CardContent>
               <p className="text-center mb-4">
-                We're sorry, but registration for the Summer 2024 cohort is now
-                closed.
+                We&apos;re sorry, but registration for the Summer 2024 cohort is
+                now closed.
               </p>
               <p className="text-center mb-4">
                 Thank you for your interest in WazobiaCode. We encourage you to

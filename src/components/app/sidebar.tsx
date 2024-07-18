@@ -9,7 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { SheetMenu } from '@/components/app/sheet-menu';
+import { SheetMenu } from '@/components/ui/sheet-menu';
 import { CourseWithSections } from '@/types/db/course';
 import { cn } from '@/lib/utils';
 
@@ -111,7 +111,7 @@ export const Sidebar = ({ course }: { course: CourseWithSections }) => {
   );
 };
 
-export const SheetSidebar = ({ course }: { course: CourseWithSections }) => {
+export const SidebarMobile = ({ course }: { course: CourseWithSections }) => {
   return (
     <SheetMenu className="bg-primary">
       <nav className="grid gap-2 text-lg font-medium">

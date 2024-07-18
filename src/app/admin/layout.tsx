@@ -16,7 +16,7 @@ export default function AdminLayout({
         <Sidebar />
         <div className="flex flex-col flex-1 w-full md:w-[calc(100%-300px)]">
           <main className="flex-1 bg-background overflow-y-auto">
-            <div className="h-full overflow-y-auto">{children}</div>
+            <div className="h-full overflow-y-auto p-4">{children}</div>
           </main>
           <Footer />
         </div>

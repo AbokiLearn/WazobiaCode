@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import LandingFAQ from '@/components/ui/landingPage/faq';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 // import Form from '@/components/ui/landingPage/form';
 
 export default function LandingPage() {
@@ -95,9 +96,35 @@ export default function LandingPage() {
         <section className="w-full py-15 md:py-20 lg:py-20">
           <LandingFAQ id="faq-section" />
         </section>
-        {/* <section className="w-full">
-          <Form />
-        </section> */}
+        <section className="w-full">
+          <Card className="max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-center">
+                Registration Closed
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-center mb-4">
+                We're sorry, but registration for the Summer 2024 cohort is now
+                closed.
+              </p>
+              <p className="text-center mb-4">
+                Thank you for your interest in WazobiaCode. We encourage you to
+                check back later for information about future cohorts.
+              </p>
+              <div className="flex justify-center">
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }
+                >
+                  Back to Top
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
       </div>
       <footer className="max-w-7xl mx-auto bg-gray-900 text-white p-4">
         <div className="mx-auto flex flex-col md:flex-row justify-between items-center">

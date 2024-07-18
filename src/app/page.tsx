@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import LandingFAQ from '@/components/ui/landingPage/faq';
-import Form from '@/components/ui/landingPage/form';
+// import Form from '@/components/ui/landingPage/form';
 
 export default function LandingPage() {
   return (
@@ -95,9 +95,9 @@ export default function LandingPage() {
         <section className="w-full py-15 md:py-20 lg:py-20">
           <LandingFAQ id="faq-section" />
         </section>
-        <section className="w-full">
+        {/* <section className="w-full">
           <Form />
-        </section>
+        </section> */}
       </div>
       <footer className="max-w-7xl mx-auto bg-gray-900 text-white p-4">
         <div className="mx-auto flex flex-col md:flex-row justify-between items-center">

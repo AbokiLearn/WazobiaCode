@@ -15,7 +15,6 @@ export interface CourseBase extends Document {
 export interface ICourse extends CourseBase {
   cover_image: string;
   icon: string;
-  overview: string;
 }
 
 export interface ISection extends CourseBase {

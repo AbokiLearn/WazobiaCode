@@ -1,3 +1,4 @@
+import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
 import { PipelineStage } from 'mongoose';
 
 import { APIResponse, APIErrorHandler } from '@/lib/api';
@@ -32,6 +33,43 @@ export async function GET(request: Request) {
     return APIResponse({
       data: { courses },
       message: 'Courses fetched',
+    });
+  } catch (error) {
+    return APIErrorHandler(error);
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    await connectMongoDB();
+
+    const { title, description, slug, cover_image, icon } =
+      await request.json();
+
+    // Validate required fields
+    if (!title || !description || !slug || !cover_image || !icon) {
+      return APIResponse({
+        error: 'Missing required fields',
+        status: 400,
+      });
+    }
+
+    // Create new course
+    const newCourse = new Course({
+      title,
+      description,
+      slug,
+      cover_image,
+      icon,
+      active: false,
+    });
+
+    await newCourse.save();
+
+    return APIResponse({
+      data: { course: newCourse },
+      message: 'Course created successfully',
+      status: 201,
     });
   } catch (error) {
     return APIErrorHandler(error);

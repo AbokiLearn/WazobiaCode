@@ -9,6 +9,7 @@ export interface IAssignment extends Document {
   lecture_id: Types.ObjectId | ILecture;
   type: 'quiz' | 'homework';
   tags: string[];
+  active: boolean;
   max_score: number;
   due_date: Date;
   created_at: Date;

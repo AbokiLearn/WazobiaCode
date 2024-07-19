@@ -12,6 +12,7 @@ JS_CODE="
   db.sections.drop()
   db.lectures.drop()
   db.assignments.drop()
+  db.submissions.drop()
   db.studentquestions.drop()
 
   db.createCollection('courses')
@@ -44,6 +45,7 @@ JS_CODE="
       title: 'Getting Started',
       description: 'Getting started with Replit',
       slug: 'getting-started',
+      active: true,
       icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-0-icon.svg',
     },
     {
@@ -52,6 +54,7 @@ JS_CODE="
       title: 'Web Development Fundamentals',
       description: 'An introduction to HTML, CSS, and JavaScript',
       slug: 'web-dev-fundamentals',
+      active: true,
       icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-1-icon.svg',
     },
     {
@@ -60,6 +63,7 @@ JS_CODE="
       title: 'Frontend Development with React.js',
       description: 'An introduction to React.js',
       slug: 'frontend-dev-react',
+      active: true,
       icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-2-icon.svg',
     },
     {
@@ -68,6 +72,7 @@ JS_CODE="
       title: 'Backend Development with Express.js',
       description: 'An introduction to Express.js',
       slug: 'backend-dev-express',
+      active: true,
       icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-3-icon.svg',
     },
     {
@@ -76,6 +81,7 @@ JS_CODE="
       title: 'Introduction to DevOps',
       description: 'An introduction to DevOps',
       slug: 'intro-to-devops',
+      active: true,
       icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-4-icon.svg',
     },
     {
@@ -84,6 +90,7 @@ JS_CODE="
       title: 'Getting Started',
       description: 'Getting started with Replit',
       slug: 'getting-started',
+      active: true,
       icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/fullstack-web-dev/icons/section-0-icon.svg',
     },
     {
@@ -92,6 +99,7 @@ JS_CODE="
       title: 'Python Programming Fundamentals',
       description: 'An introduction to Python programming',
       slug: 'python-fundamentals',
+      active: true,
       icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/icons/section-1-icon.svg',
     },
     {
@@ -100,12 +108,14 @@ JS_CODE="
       title: 'Introduction to Machine Learning',
       description: 'An introduction to machine learning with scikit-learn',
       slug: 'intro-to-machine-learning',
+      active: true,
       icon: 'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/icons/section-2-icon.svg',
     },
   ]).insertedIds
 
   db.createCollection('lectures')
   db.createCollection('assignments')
+  db.createCollection('submissions')
   db.createCollection('studentquestions')
 "
 
@@ -131,6 +141,7 @@ for i in {0..4}; do
         title: '${title}',
         description: 'A lecture',
         slug: 'lecture-${j}',
+        active: true,
         content: \"${content}\",
         tags: ['tag1', 'tag2'],
         video_url: 'https://www.youtube.com/watch?v=JphpuOcmUc4',
@@ -143,6 +154,7 @@ for i in {0..4}; do
         section_id: ${section_id},
         lecture_id: ${lecture_id},
         type: 'quiz',
+        active: true,
         tags: ['tag1', 'tag2'],
         max_score: 10,
         due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
@@ -172,6 +184,7 @@ for i in {0..4}; do
         lecture_id: ${lecture_id},
         type: 'homework',
         tags: ['tag1', 'tag2'],
+        active: true,
         max_score: 10,
         due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
         instructions: 'Complete the coding assignment as per the instructions in the lecture.',

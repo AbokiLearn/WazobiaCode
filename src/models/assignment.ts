@@ -15,6 +15,7 @@ export const AssignmentSchema = new Schema<IAssignment>(
     lecture_id: { type: Schema.Types.ObjectId, ref: 'Lecture', required: true },
     type: { type: String, enum: ['quiz', 'homework'], required: true },
     tags: [String],
+    active: { type: Boolean, default: false },
     max_score: { type: Number, required: true },
     due_date: { type: Date, required: true },
   },

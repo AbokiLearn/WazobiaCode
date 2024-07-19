@@ -4,12 +4,8 @@ import {
 } from '@auth0/nextjs-auth0/edge';
 import { NextRequest, NextResponse } from 'next/server';
 
+import { UserRole } from '@/types';
 import { env } from '@/lib/config';
-
-enum Role {
-  INSTRUCTOR = 'instructor',
-  STUDENT = 'student',
-}
 
 export default withMiddlewareAuthRequired(async function middleware(
   req: NextRequest,
@@ -20,10 +16,10 @@ export default withMiddlewareAuthRequired(async function middleware(
 
   const userRoles = session?.user[`${env.AUTH0_CUSTOM_CLAIMS_URI}/roles`] || [];
 
-  if (path.startsWith('/admin') && !userRoles.includes(Role.INSTRUCTOR)) {
+  if (path.startsWith('/admin') && !userRoles.includes(UserRole.INSTRUCTOR)) {
     return NextResponse.redirect(new URL('/', req.url));
-  } else if (path.startsWith('/app') && !userRoles.includes(Role.STUDENT)) {
-    if (userRoles.includes(Role.INSTRUCTOR)) {
+  } else if (path.startsWith('/app') && !userRoles.includes(UserRole.STUDENT)) {
+    if (userRoles.includes(UserRole.INSTRUCTOR)) {
       return NextResponse.redirect(new URL('/admin', req.url));
     }
     return NextResponse.redirect(new URL('/', req.url));

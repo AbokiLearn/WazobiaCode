@@ -12,3 +12,8 @@ export enum FileType {
   ZIP = 3,
   OTHER = 4,
 }
+
+export enum UserRole {
+  INSTRUCTOR = 'instructor',
+  STUDENT = 'student',
+}

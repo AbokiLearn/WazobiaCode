@@ -12,7 +12,7 @@ export const CourseSchema = new Schema<ICourse>(
     title: { type: String, required: true },
     description: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
-    active: { type: Boolean, default: true },
+    active: { type: Boolean, default: false },
     cover_image: { type: String, required: true },
     icon: { type: String, required: true },
     overview: { type: String, required: true },

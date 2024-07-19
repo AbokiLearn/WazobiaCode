@@ -119,7 +119,7 @@ JS_CODE="
   db.createCollection('studentquestions')
 "
 
-echo "-- Creating collections: courses, sections, lectures, assignments"
+echo "-- Creating collections: courses, sections, lectures, assignments, submissions, studentquestions"
 echo "-- Populating 'Course' and 'Section' collections..."
 ${MONGOSH} --eval "${JS_CODE}" > /dev/null
 

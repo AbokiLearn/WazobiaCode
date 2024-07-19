@@ -32,7 +32,7 @@ JS_CODE="
       description: '6-week bootcamp focused on data science with Python',
       slug: 'data-science-python',
       active: false,
-      coverImage:
+      cover_image:
         'https://images-dev-public.s3.amazonaws.com/course-resources/data-science-python/cover-image.png',
     }
   ]).insertedIds

@@ -16,3 +16,9 @@ export interface User {
   sub: string;
   sid: string;
 }
+
+export interface UserMetadata {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+}

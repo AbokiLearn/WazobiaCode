@@ -18,11 +18,12 @@ export default withMiddlewareAuthRequired(async function middleware(
 
   if (path.startsWith('/admin') && !userRoles.includes(UserRole.INSTRUCTOR)) {
     return NextResponse.redirect(new URL('/', req.url));
-  } else if (path.startsWith('/app') && !userRoles.includes(UserRole.STUDENT)) {
+  } else if (path.startsWith('/app')) {
     if (userRoles.includes(UserRole.INSTRUCTOR)) {
       return NextResponse.redirect(new URL('/admin', req.url));
+    } else if (userRoles.includes(UserRole.STUDENT)) {
+      return NextResponse.redirect(new URL('/', req.url));
     }
-    return NextResponse.redirect(new URL('/', req.url));
   }
 
   return res;

@@ -29,21 +29,33 @@ type PhoneInputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   'onChange' | 'value'
 > &
-  Omit<RPNInput.Props<typeof RPNInput.default>, 'onChange'> & {
+  Omit<RPNInput.Props<typeof RPNInput.default>, 'onChange' | 'value'> & {
     onChange?: (value: RPNInput.Value) => void;
+    value?: RPNInput.Value;
   };
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
   React.forwardRef<React.ElementRef<typeof RPNInput.default>, PhoneInputProps>(
-    ({ className, onChange, ...props }, ref) => {
+    ({ className, onChange, value, ...props }, ref) => {
+      const [internalValue, setInternalValue] = React.useState<RPNInput.Value>(
+        value!,
+      );
+
       const handleChange = React.useCallback(
-        (value: RPNInput.Value) => {
+        (newValue: RPNInput.Value) => {
+          setInternalValue(newValue);
           if (onChange) {
-            onChange(value);
+            onChange(newValue);
           }
         },
         [onChange],
       );
+
+      React.useEffect(() => {
+        if (value !== undefined) {
+          setInternalValue(value);
+        }
+      }, [value]);
 
       return (
         <RPNInput.default
@@ -54,15 +66,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
           inputComponent={InputComponent}
           defaultCountry="NG"
           international
-          /**
-           * Handles the onChange event.
-           *
-           * react-phone-number-input might trigger the onChange event as undefined
-           * when a valid phone number is not entered. To prevent this,
-           * the value is coerced to an empty string.
-           *
-           * @param {E164Number | undefined} value - The entered value
-           */
+          value={internalValue}
           onChange={handleChange}
           {...props}
         />

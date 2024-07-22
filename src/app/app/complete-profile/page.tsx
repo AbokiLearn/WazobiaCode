@@ -4,8 +4,12 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
+import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import type { E164Number } from 'libphonenumber-js/core';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -17,6 +21,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { PhoneInput } from '@/components/landing-page/phone-input';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -28,7 +33,12 @@ import { UserMetadata } from '@/types/auth';
 const profileSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
-  phoneNumber: z.string().min(10, 'Phone number must be at least 10 digits'),
+  phoneNumber: z
+    .string()
+    .refine(
+      (value) => isPossiblePhoneNumber(value, 'NG'),
+      'Phone number is not valid',
+    ),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
@@ -43,11 +53,12 @@ const CompleteProfilePage = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    control,
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstName: (user?.given_name as string) || '',
-      lastName: (user?.family_name as string) || '',
+      firstName: '',
+      lastName: '',
       phoneNumber: '',
     },
   });
@@ -93,8 +104,18 @@ const CompleteProfilePage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-muted">
-      <Card className="w-[350px]">
+    <div className="flex flex-col items-center justify-center h-screen bg-secondary">
+      <div className="mb-8">
+        <Image
+          src="/logo.svg"
+          alt="Logo"
+          width={150}
+          height={150}
+          className="rounded-lg w-28 h-28"
+        />
+      </div>
+
+      <Card className="bg-card rounded-lg w-[350px] md:w-[400px]">
         <CardHeader>
           <CardTitle>Complete Your Profile</CardTitle>
           <CardDescription>
@@ -132,12 +153,28 @@ const CompleteProfilePage = () => {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="phoneNumber">Phone Number</Label>
-                {/* TODO: Add phone number input */}
-                <Input
-                  id="phoneNumber"
-                  placeholder="Enter your phone number"
-                  {...register('phoneNumber')}
+                <Controller
+                  name="phoneNumber"
+                  control={control}
+                  render={({ field: { onChange, value, ...field } }) => (
+                    <PhoneInput
+                      id="phoneNumber"
+                      placeholder="Enter your Nigerian phone number"
+                      defaultCountry="NG"
+                      countries={['NG']}
+                      countrySelectProps={{ disabled: true }}
+                      value={value as E164Number}
+                      onChange={(v: E164Number | undefined) =>
+                        onChange(v || '')
+                      }
+                      {...field}
+                    />
+                  )}
                 />
+                <p className="text-sm text-muted-foreground mb-2">
+                  This phone number must be associated with your Telegram
+                  account.
+                </p>
                 {errors.phoneNumber && (
                   <p className="text-red-500 text-sm">
                     {errors.phoneNumber.message}

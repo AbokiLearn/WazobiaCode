@@ -1,5 +1,6 @@
 'use client';
 
+import type { E164Number } from 'libphonenumber-js/core';
 import { useState, FormEvent } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -61,7 +62,7 @@ export default function Form() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
+    phone: '' as E164Number | undefined,
     school: '',
     state: '',
     start_date: '',
@@ -77,7 +78,7 @@ export default function Form() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handlePhoneChange = (value: string) => {
+  const handlePhoneChange = (value: E164Number | undefined) => {
     setFormData({ ...formData, phone: value });
   };
 
@@ -95,7 +96,7 @@ export default function Form() {
     setFormData({
       name: '',
       email: '',
-      phone: '',
+      phone: undefined,
       school: '',
       state: '',
       start_date: '',
@@ -180,6 +181,9 @@ export default function Form() {
             type="tel"
             value={formData.phone}
             onChange={handlePhoneChange}
+            defaultCountry="NG"
+            countries={['NG']}
+            countrySelectProps={{ disabled: true }}
             required
           />
         </div>

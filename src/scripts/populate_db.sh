@@ -129,7 +129,7 @@ for i in {0..4}; do
   section_id=$(${MONGOSH} --eval "db.sections.findOne({ section_num: ${i} })._id")
   j=1
 
-  for f in $(ls -1 data/section_${i}-lecture_*.md); do
+  for f in $(ls -1 data/lectures/section_${i}-lecture_*.md); do
     content=$(cat "$f" | sed 's/[\\"]/\\&/g' | awk '{printf "%s\\n", $0}')
     title=$(head -n 1 $f | sed 's/# //')
 

@@ -3,6 +3,8 @@ import { PipelineStage } from 'mongoose';
 
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
+import { env } from '@/lib/config';
+import { UserRole } from '@/types/auth';
 import { Course } from '@/models';
 
 export const dynamic = 'force-dynamic';
@@ -39,7 +41,19 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export const POST = withApiAuthRequired(async function createCourse(
+  request: Request,
+) {
+  const session = await getSession();
+  const userRoles =
+    (session?.user[`${env.AUTH0_NAMESPACE}/roles`] as string[]) || [];
+  if (!userRoles.includes(UserRole.INSTRUCTOR)) {
+    return APIResponse({
+      error: 'Unauthorized',
+      status: 401,
+    });
+  }
+
   try {
     await connectMongoDB();
 
@@ -67,11 +81,11 @@ export async function POST(request: Request) {
     await newCourse.save();
 
     return APIResponse({
-      data: { course: newCourse },
+      data: { course: newCourse, user: session?.user },
       message: 'Course created successfully',
       status: 201,
     });
   } catch (error) {
     return APIErrorHandler(error);
   }
-}
+});

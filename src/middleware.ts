@@ -4,7 +4,7 @@ import {
 } from '@auth0/nextjs-auth0/edge';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { UserRole } from '@/types';
+import { UserRole } from '@/types/auth';
 import { env } from '@/lib/config';
 
 export default withMiddlewareAuthRequired(async function middleware(
@@ -14,7 +14,7 @@ export default withMiddlewareAuthRequired(async function middleware(
   const session = await getSession(req, res);
   const path = req.nextUrl.pathname;
 
-  const userRoles = session?.user[`${env.AUTH0_CUSTOM_CLAIMS_URI}/roles`] || [];
+  const userRoles = session?.user[`${env.AUTH0_NAMESPACE}/roles`] || [];
 
   if (path.startsWith('/admin') && !userRoles.includes(UserRole.INSTRUCTOR)) {
     return NextResponse.redirect(new URL('/', req.url));

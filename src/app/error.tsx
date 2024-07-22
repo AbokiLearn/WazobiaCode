@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
+import { UserRole } from '@/types/auth';
 import { env } from '@/lib/config';
 
 export default function Error({
@@ -25,9 +26,8 @@ export default function Error({
 
   let isInstructor = false;
   if (!isLoading && user) {
-    const userRoles =
-      (user[`${env.AUTH0_CUSTOM_CLAIMS_URI}/roles`] as string[]) || [];
-    isInstructor = userRoles.includes('instructor');
+    const userRoles = (user[`${env.AUTH0_NAMESPACE}/roles`] as string[]) || [];
+    isInstructor = userRoles.includes(UserRole.INSTRUCTOR);
   }
 
   return (

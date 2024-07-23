@@ -223,7 +223,7 @@ db.sections.drop()
 db.lectures.drop()
 db.assignments.drop()
 db.submissions.drop()
-db.studentquestions.drop()
+db.student_questions.drop()
 db.user_metadata.drop()
 
 db.createCollection('courses')
@@ -231,7 +231,7 @@ db.createCollection('sections')
 db.createCollection('lectures')
 db.createCollection('assignments')
 db.createCollection('submissions')
-db.createCollection('studentquestions')
+db.createCollection('student_questions')
 db.createCollection('user_metadata')
 " > /dev/null
 

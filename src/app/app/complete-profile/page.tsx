@@ -87,7 +87,7 @@ const CompleteProfilePage = () => {
   const onSubmit = async (data: ProfileFormData) => {
     setIsSubmitting(true);
     try {
-      const response = await postData('/auth/metadata', data);
+      const response = await postData('/auth/update-metadata', data);
 
       if (response.data.redirectUrl) {
         window.location.href = response.data.redirectUrl;

@@ -30,7 +30,7 @@ export const POST = withApiAuthRequired(async function handler(
     // Attempt to update or create user metadata in MongoDB
     await UserMetadata.findOneAndUpdate(
       { sub: session?.user!.sub },
-      { first_name, last_name, phone_number },
+      { first_name, last_name, phone_number, email: session?.user!.email },
       { upsert: true, new: true },
     );
   } catch (error: any) {

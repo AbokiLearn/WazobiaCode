@@ -158,9 +158,9 @@ const CompleteProfilePage = () => {
                   render={({ field: { onChange, value, ...field } }) => (
                     <PhoneInput
                       id="phone_number"
-                      placeholder="Enter your Nigerian phone number"
+                      placeholder="Enter your phone number"
                       defaultCountry="NG"
-                      countries={['NG']}
+                      countries={['NG', 'US']}
                       countrySelectProps={{ disabled: true }}
                       value={value as E164Number}
                       onChange={(v: E164Number | undefined) =>

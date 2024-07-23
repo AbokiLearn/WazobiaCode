@@ -27,6 +27,25 @@ export const POST = withApiAuthRequired(async function handler(
   const client = await getManagementClient();
 
   try {
+    // Attempt to update or create user metadata in MongoDB
+    await UserMetadata.findOneAndUpdate(
+      { sub: session?.user!.sub },
+      { first_name, last_name, phone_number },
+      { upsert: true, new: true },
+    );
+  } catch (error: any) {
+    // Check if the error is a MongoServerError due to duplicate phone number
+    if (error.name === 'MongoServerError' && error.code === 11000) {
+      return APIResponse({
+        error: 'Phone number already in use by another user',
+        status: 409,
+      });
+    } else {
+      throw error; // Rethrow the error if it's not a duplicate phone number error
+    }
+  }
+
+  try {
     // Update Auth0 user metadata
     await client.users.update(
       { id: session?.user!.sub },
@@ -37,13 +56,6 @@ export const POST = withApiAuthRequired(async function handler(
           phone_number,
         },
       },
-    );
-
-    // Update or create user metadata in MongoDB
-    await UserMetadata.findOneAndUpdate(
-      { sub: session?.user!.sub },
-      { first_name, last_name, phone_number },
-      { upsert: true, new: true },
     );
 
     return APIResponse({

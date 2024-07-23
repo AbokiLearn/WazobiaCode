@@ -49,9 +49,7 @@ export const postData = async (
     });
 
   if (response.error) {
-    throw new Error(
-      `${errorMessage} (status: ${response.status}): ${response.error}`,
-    );
+    throw new Error(response.error);
   }
 
   return response;

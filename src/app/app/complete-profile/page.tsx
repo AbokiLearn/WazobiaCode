@@ -95,9 +95,8 @@ const CompleteProfilePage = () => {
         // should not happen (fallback)
         router.push('/app');
       }
-    } catch (error) {
-      console.error(error);
-      toast.error('Failed to update profile');
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       setIsSubmitting(false);
     }

@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export interface IUserMetadata extends Document {
   sub: string;
@@ -7,4 +7,5 @@ export interface IUserMetadata extends Document {
   last_name: string;
   phone_number: string;
   telegram_user_id: string | null;
+  enrollments: Types.ObjectId[];
 }

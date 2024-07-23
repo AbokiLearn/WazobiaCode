@@ -9,4 +9,5 @@ export const UserMetadataSchema = new Schema<IUserMetadata>({
   last_name: { type: String, required: true },
   phone_number: { type: String, required: true, unique: true },
   telegram_user_id: { type: String, required: false, unique: true },
+  enrollments: [{ type: Schema.Types.ObjectId, ref: 'Enrollment' }],
 });

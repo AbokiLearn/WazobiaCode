@@ -15,6 +15,7 @@ export const CourseSchema = new Schema<ICourse>(
     active: { type: Boolean, default: false },
     cover_image: { type: String, required: true },
     icon: { type: String, required: true },
+    enrolled_students: { type: Number, default: 0 },
   },
   { timestamps: timeStamps },
 );

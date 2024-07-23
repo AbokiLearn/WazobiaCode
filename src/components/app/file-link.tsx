@@ -38,7 +38,6 @@ export const FileLink = ({ file }: FileLinkProps) => {
       try {
         const url = await getDownloadUrl(file);
         setDownloadURL(url);
-        console.log(url);
         window.open(url, '_blank');
       } catch (error) {
         toast.error('Failed to download file');

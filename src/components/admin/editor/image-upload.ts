@@ -42,8 +42,11 @@ const onUpload = (file: File) => {
           );
           // Unknown error
         } else {
-          console.log(res.status);
-          console.log(`error data: ${JSON.stringify(res)}`);
+          console.error(
+            `error data [response status = ${res.status}]: ${JSON.stringify(
+              res,
+            )}`,
+          );
           throw new Error(`Error uploading image. Please try again.`);
         }
       }),

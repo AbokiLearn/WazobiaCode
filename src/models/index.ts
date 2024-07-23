@@ -13,6 +13,7 @@ import {
   QuizSubmissionSchema,
   HomeworkSubmissionSchema,
 } from '@/models/submission';
+import { UserMetadataSchema } from '@/models/user-metadata';
 
 import {
   IAssignment,
@@ -27,6 +28,7 @@ import {
   IQuizSubmission,
   IHomeworkSubmission,
 } from '@/types/db/submission';
+import { IUserMetadata } from '@/types/db/user-metadata';
 
 // Assignment
 export const Assignment: Model<IAssignment> =
@@ -51,7 +53,8 @@ export const FAQ: Model<IFAQ> = models.FAQ || model('FAQ', FAQSchema);
 
 // StudentQuestion
 export const StudentQuestion: Model<IStudentQuestion> =
-  models.StudentQuestion || model('StudentQuestion', QuestionSchema);
+  models.StudentQuestion ||
+  model('StudentQuestion', QuestionSchema, 'student_questions');
 
 // Submission
 export const Submission: Model<ISubmission> =
@@ -62,3 +65,8 @@ export const QuizSubmission: Model<IQuizSubmission> =
 export const HomeworkSubmission: Model<IHomeworkSubmission> =
   models.HomeworkSubmission ||
   Submission.discriminator('HomeworkSubmission', HomeworkSubmissionSchema);
+
+// UserMetadata
+export const UserMetadata: Model<IUserMetadata> =
+  models.UserMetadata ||
+  model('UserMetadata', UserMetadataSchema, 'user_metadata');

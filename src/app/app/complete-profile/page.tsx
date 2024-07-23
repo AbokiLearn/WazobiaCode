@@ -31,9 +31,9 @@ import { env } from '@/lib/config';
 import { UserMetadata } from '@/types/auth';
 
 const profileSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  phoneNumber: z
+  first_name: z.string().min(1, 'First name is required'),
+  last_name: z.string().min(1, 'Last name is required'),
+  phone_number: z
     .string()
     .refine(
       (value) => isPossiblePhoneNumber(value, 'NG'),
@@ -57,9 +57,9 @@ const CompleteProfilePage = () => {
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
+      first_name: '',
+      last_name: '',
+      phone_number: '',
     },
   });
 
@@ -69,18 +69,18 @@ const CompleteProfilePage = () => {
         | UserMetadata
         | undefined;
       setValue(
-        'firstName',
-        (userMetadata?.firstName as string) ||
+        'first_name',
+        (userMetadata?.first_name as string) ||
           (user?.given_name as string) ||
           '',
       );
       setValue(
-        'lastName',
-        (userMetadata?.lastName as string) ||
+        'last_name',
+        (userMetadata?.last_name as string) ||
           (user?.family_name as string) ||
           '',
       );
-      setValue('phoneNumber', (userMetadata?.phoneNumber as string) || '');
+      setValue('phone_number', (userMetadata?.phone_number as string) || '');
     }
   }, [user, setValue]);
 
@@ -126,39 +126,39 @@ const CompleteProfilePage = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="first_name">First Name</Label>
                 <Input
-                  id="firstName"
+                  id="first_name"
                   placeholder="Enter your first name"
-                  {...register('firstName')}
+                  {...register('first_name')}
                 />
-                {errors.firstName && (
+                {errors.first_name && (
                   <p className="text-red-500 text-sm">
-                    {errors.firstName.message}
+                    {errors.first_name.message}
                   </p>
                 )}
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="last_name">Last Name</Label>
                 <Input
-                  id="lastName"
+                  id="last_name"
                   placeholder="Enter your last name"
-                  {...register('lastName')}
+                  {...register('last_name')}
                 />
-                {errors.lastName && (
+                {errors.last_name && (
                   <p className="text-red-500 text-sm">
-                    {errors.lastName.message}
+                    {errors.last_name.message}
                   </p>
                 )}
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="phoneNumber">Phone Number</Label>
+                <Label htmlFor="phone_number">Phone Number</Label>
                 <Controller
-                  name="phoneNumber"
+                  name="phone_number"
                   control={control}
                   render={({ field: { onChange, value, ...field } }) => (
                     <PhoneInput
-                      id="phoneNumber"
+                      id="phone_number"
                       placeholder="Enter your Nigerian phone number"
                       defaultCountry="NG"
                       countries={['NG']}
@@ -175,9 +175,9 @@ const CompleteProfilePage = () => {
                   This phone number must be associated with your Telegram
                   account.
                 </p>
-                {errors.phoneNumber && (
+                {errors.phone_number && (
                   <p className="text-red-500 text-sm">
-                    {errors.phoneNumber.message}
+                    {errors.phone_number.message}
                   </p>
                 )}
               </div>

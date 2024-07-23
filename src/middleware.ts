@@ -29,10 +29,11 @@ export default withMiddlewareAuthRequired(async function middleware(
 
   if (
     !userMetadata ||
-    !userMetadata.firstName ||
-    !userMetadata.lastName ||
-    !userMetadata.phoneNumber
+    !userMetadata.first_name ||
+    !userMetadata.last_name ||
+    !userMetadata.phone_number
   ) {
+    console.log(userMetadata);
     if (path !== '/app/complete-profile') {
       return NextResponse.redirect(new URL('/app/complete-profile', req.url));
     }

@@ -2,19 +2,21 @@ import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0';
 
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import { getManagementClient } from '@/lib/auth';
+import connectMongoDB from '@/lib/db/connect';
+import { UserMetadata } from '@/models';
 
 export const POST = withApiAuthRequired(async function handler(
   request: Request,
 ) {
+  await connectMongoDB();
   const session = await getSession();
 
-  const { firstName, lastName, phoneNumber } = await request.json();
-  console.log(firstName, lastName, phoneNumber);
+  const { first_name, last_name, phone_number } = await request.json();
 
   if (
-    typeof firstName !== 'string' ||
-    typeof lastName !== 'string' ||
-    typeof phoneNumber !== 'string'
+    typeof first_name !== 'string' ||
+    typeof last_name !== 'string' ||
+    typeof phone_number !== 'string'
   ) {
     return APIResponse({
       error: 'Invalid request',
@@ -25,15 +27,23 @@ export const POST = withApiAuthRequired(async function handler(
   const client = await getManagementClient();
 
   try {
+    // Update Auth0 user metadata
     await client.users.update(
       { id: session?.user!.sub },
       {
         user_metadata: {
-          firstName,
-          lastName,
-          phoneNumber,
+          first_name,
+          last_name,
+          phone_number,
         },
       },
+    );
+
+    // Update or create user metadata in MongoDB
+    await UserMetadata.findOneAndUpdate(
+      { sub: session?.user!.sub },
+      { first_name, last_name, phone_number },
+      { upsert: true, new: true },
     );
 
     return APIResponse({

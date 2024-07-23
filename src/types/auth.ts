@@ -18,7 +18,7 @@ export interface User {
 }
 
 export interface UserMetadata {
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
 }

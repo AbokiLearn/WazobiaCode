@@ -8,7 +8,6 @@ export interface CourseBase extends Document {
   description: string;
   slug: string;
   active: boolean;
-  telegram_channel_id?: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -17,6 +16,7 @@ export interface ICourse extends CourseBase {
   cover_image: string;
   icon: string;
   enrolled_students: number;
+  telegram_channel_id?: string;
 }
 
 export interface ISection extends CourseBase {

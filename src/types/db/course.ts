@@ -35,10 +35,13 @@ export interface ILecture extends CourseBase {
   homework: Types.ObjectId | IHomeworkAssignment;
 }
 
-export interface SectionWithLectures extends ISection {
-  lectures: ILecture[];
+// API response types
+export interface CourseResponse extends ICourse {
+  sections?: SectionResponse[];
 }
 
-export interface CourseWithSections extends ICourse {
-  sections: SectionWithLectures[];
+export interface SectionResponse extends ISection {
+  lectures?: LectureResponse[];
 }
+
+export type LectureResponse = Omit<ILecture, 'content'>;

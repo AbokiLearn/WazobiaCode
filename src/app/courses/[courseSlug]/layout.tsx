@@ -1,7 +1,7 @@
 import { Sidebar, SidebarMobile } from '@/components/app/sidebar';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
-import { getCourseWithSections } from '@/lib/client/course';
+import { getCourse } from '@/lib/client/course';
 
 export default async function CourseLayout({
   children,
@@ -11,7 +11,7 @@ export default async function CourseLayout({
   params: { courseSlug: string };
 }) {
   const { courseSlug } = params;
-  const course = await getCourseWithSections(courseSlug);
+  const course = await getCourse(courseSlug, true, true);
 
   return (
     <div className="flex flex-col min-h-screen">

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { CourseProgressIndicator } from '@/components/app/courses/course-progress';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { getCourseWithSections } from '@/lib/client/course';
+import { getCourse } from '@/lib/client/course';
 import { ISection } from '@/types/db/course';
 
 interface CoursePageProps {
@@ -15,7 +15,7 @@ export async function generateMetadata({
   params,
 }: CoursePageProps): Promise<Metadata> {
   const { courseSlug } = params;
-  const course = await getCourseWithSections(courseSlug);
+  const course = await getCourse(courseSlug);
   return {
     title: course.title,
   };
@@ -26,7 +26,7 @@ export const dynamic = 'force-dynamic';
 export default async function CoursePage({ params }: CoursePageProps) {
   const { courseSlug } = params;
 
-  const course = await getCourseWithSections(courseSlug);
+  const course = await getCourse(courseSlug, true);
 
   return (
     <div className="m-4 md:m-6 space-y-6">
@@ -53,8 +53,8 @@ export default async function CoursePage({ params }: CoursePageProps) {
         </CardContent>
       </Card>
 
-      {course.sections
-        .filter((section) => section.section_num > 0)
+      {course
+        .sections!.filter((section) => section.section_num > 0)
         .map((section) => (
           <SectionOverviewCard
             key={section.slug}

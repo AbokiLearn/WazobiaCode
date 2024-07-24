@@ -1,16 +1,19 @@
 import {
-  CourseWithSections,
-  SectionWithLectures,
+  CourseResponse,
+  SectionResponse,
+  LectureResponse,
   ILecture,
   ICourse,
 } from '@/types/db/course';
 import { getData, postData, deleteData, patchData } from '@/lib/client';
 
-export async function getCourseWithSections(
+export async function getCourse(
   courseSlug: string,
-): Promise<CourseWithSections> {
+  includeSections: boolean = false,
+  includeLectures: boolean = false,
+): Promise<CourseResponse> {
   const { data } = await getData(
-    `courses/${courseSlug}`,
+    `courses/${courseSlug}?sections=${includeSections}&lectures=${includeLectures}`,
     'no-store',
     'Failed to fetch course',
   );
@@ -19,7 +22,7 @@ export async function getCourseWithSections(
 
 export async function getCourses(
   includeSections: boolean = false,
-): Promise<CourseWithSections[]> {
+): Promise<CourseResponse[]> {
   const { data } = await getData(
     `/courses?sections=${includeSections}`,
     'no-store',
@@ -31,7 +34,7 @@ export async function getCourses(
 export async function getSectionWithLectures(
   courseSlug: string,
   sectionSlug: string,
-): Promise<SectionWithLectures> {
+): Promise<SectionResponse> {
   const { data } = await getData(
     `courses/${courseSlug}/${sectionSlug}`,
     'no-store',

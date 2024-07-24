@@ -44,4 +44,4 @@ export interface SectionResponse extends ISection {
   lectures?: LectureResponse[];
 }
 
-export type LectureResponse = Omit<ILecture, 'content'>;
+export type LectureResponse = Omit<ILecture, 'content'> & { content?: string };

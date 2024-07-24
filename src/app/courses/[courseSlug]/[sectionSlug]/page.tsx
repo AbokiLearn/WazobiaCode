@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { GradesCard } from '@/components/app/courses/grades-card';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { type ILecture } from '@/types/db/course';
+import { type LectureResponse } from '@/types/db/course';
 import { getSectionWithLectures } from '@/lib/client/course';
 import { getYouTubeThumbnail } from '@/lib/utils';
 
@@ -30,7 +30,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
 
   const section = await getSectionWithLectures(courseSlug, sectionSlug);
 
-  const LectureCard = ({ lecture }: { lecture: ILecture }) => {
+  const LectureCard = ({ lecture }: { lecture: LectureResponse }) => {
     const thumbnailUrl = getYouTubeThumbnail(lecture.video_url);
 
     return (
@@ -81,7 +81,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
         </h2>
       </div>
       <GradesCard courseSlug={courseSlug} sectionSlug={sectionSlug} />
-      {section.lectures.map((lecture) => (
+      {section.lectures?.map((lecture) => (
         <LectureCard key={lecture.slug} lecture={lecture} />
       ))}
     </div>

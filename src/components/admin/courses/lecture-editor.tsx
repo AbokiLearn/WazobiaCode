@@ -16,21 +16,6 @@ import Editor from '@/components/admin/editor';
 
 import { ILecture } from '@/types/db/course';
 
-const defaultValue = {
-  type: 'doc',
-  content: [
-    {
-      type: 'paragraph',
-      content: [
-        {
-          type: 'text',
-          text: "Cause if your GM is your BM secret BD\nThen this is all makin' plenty fuckin' sense to me",
-        },
-      ],
-    },
-  ],
-};
-
 export const LectureEditor = ({
   lecture,
   saveLectureContent,

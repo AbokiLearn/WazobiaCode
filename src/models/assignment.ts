@@ -21,6 +21,10 @@ export const AssignmentSchema = new Schema<IAssignment>(
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
 );
+AssignmentSchema.index(
+  { course_id: 1, section_id: 1, lecture_id: 1, type: 1 },
+  { unique: true },
+);
 
 AssignmentSchema.pre('save', async function (next) {
   if (this.isNew || this.isModified('course_id')) {

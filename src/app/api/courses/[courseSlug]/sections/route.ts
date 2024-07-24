@@ -3,7 +3,7 @@ import { getSession } from '@auth0/nextjs-auth0';
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
 import { env } from '@/lib/config';
-import { Course, Section, Lecture } from '@/models';
+import { Course, Section, Lecture, Assignment } from '@/models';
 import { UserRole } from '@/types/auth';
 
 export const dynamic = 'force-dynamic';
@@ -265,6 +265,7 @@ export const DELETE = async function deleteSection(
 
     // Delete associated lectures
     await Lecture.deleteMany({ section_id: id });
+    await Assignment.deleteMany({ course_id: course._id, section_id: id });
 
     // Update section numbers for remaining sections
     await Section.updateMany(

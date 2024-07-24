@@ -13,7 +13,7 @@ import {
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
 import { CourseWithSections } from '@/types/db/course';
-import { getCoursesWithSections } from '@/lib/client/course';
+import { getCourses } from '@/lib/client/course';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function Page() {
-  const courses = await getCoursesWithSections();
+  const courses = await getCourses(true);
 
   return (
     <>

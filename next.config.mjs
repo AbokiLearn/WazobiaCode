@@ -38,8 +38,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images-dev-public.s3.amazonaws.com',
+        hostname: 'wazobiacode-web.s3.us-east-1.amazonaws.com',
         port: '',
+        pathname: '/**',
       },
       {
         protocol: 'https',

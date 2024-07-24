@@ -5,7 +5,7 @@ import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
 import { env } from '@/lib/config';
 import { UserRole } from '@/types/auth';
-import { Course } from '@/models';
+import { Course, Section, Lecture } from '@/models';
 
 export const dynamic = 'force-dynamic';
 
@@ -181,10 +181,28 @@ export const DELETE = withApiAuthRequired(async function deleteCourse(
     await connectMongoDB();
 
     const { id } = await request.json();
+
+    // Find the course
+    const course = await Course.findById(id);
+    if (!course) {
+      return APIResponse({
+        error: 'Course not found',
+        status: 404,
+      });
+    }
+
+    // Delete associated lectures
+    await Lecture.deleteMany({ course_id: id });
+
+    // Delete associated sections
+    await Section.deleteMany({ course_id: id });
+
+    // Delete the course
     await Course.findByIdAndDelete(id);
 
     return APIResponse({
-      message: 'Course deleted successfully',
+      message:
+        'Course and associated sections and lectures deleted successfully',
       status: 200,
     });
   } catch (error) {

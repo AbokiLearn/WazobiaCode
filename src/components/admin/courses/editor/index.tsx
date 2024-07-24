@@ -13,10 +13,10 @@ import {
 } from 'novel';
 import { ImageResizer, handleCommandNavigation } from 'novel/extensions';
 
-import { NodeSelector } from '@/components/admin/editor/selectors/node-selector';
-import { LinkSelector } from '@/components/admin/editor/selectors/link-selector';
-import { TextButtons } from '@/components/admin/editor/selectors/text-buttons';
-import { defaultExtensions } from '@/components/admin/editor/extensions';
+import { NodeSelector } from '@/components/admin/courses/editor/selectors/node-selector';
+import { LinkSelector } from '@/components/admin/courses/editor/selectors/link-selector';
+import { TextButtons } from '@/components/admin/courses/editor/selectors/text-buttons';
+import { defaultExtensions } from '@/components/admin/courses/editor/extensions';
 
 import { slashCommand, suggestionItems } from './slash-command';
 import { handleImageDrop, handleImagePaste } from 'novel/plugins';

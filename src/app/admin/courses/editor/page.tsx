@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { type JSONContent } from 'novel';
-import Editor from '@/components/admin/editor';
+import Editor from '@/components/admin/courses/editor';
 
-import { defaultValue } from '@/components/admin/editor/default';
+import { defaultValue } from '@/components/admin/courses/editor/default';
 
 export default function Page() {
   const [value, setValue] = useState<JSONContent>(defaultValue);

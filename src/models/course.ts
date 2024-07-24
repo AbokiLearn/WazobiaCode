@@ -48,7 +48,7 @@ export const LectureSchema = new Schema<ILecture>(
     course_id: { type: Schema.Types.ObjectId, ref: 'Course' },
     section_id: { type: Schema.Types.ObjectId, ref: 'Section' },
     lecture_num: { type: Number, required: true },
-    content: { type: String, required: true },
+    content: { type: String },
     tags: [String],
     video_url: { type: String, required: true },
     quiz: { type: Schema.Types.ObjectId, ref: 'Assignment' },

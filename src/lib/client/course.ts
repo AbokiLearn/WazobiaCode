@@ -192,3 +192,55 @@ export async function deleteRecitationGroup(courseSlug: string, id: string) {
   );
   return message;
 }
+
+export async function getLectures(
+  courseSlug: string,
+  sectionSlug: string,
+): Promise<ILecture[]> {
+  const { data } = await getData(
+    `courses/${courseSlug}/${sectionSlug}/lectures`,
+    'no-store',
+    'Failed to fetch lectures',
+  );
+  return data.lectures;
+}
+
+export async function createLecture(
+  courseSlug: string,
+  sectionSlug: string,
+  data: Partial<ILecture>,
+) {
+  const { message, data: responseData } = await postData(
+    `courses/${courseSlug}/${sectionSlug}/lectures`,
+    data,
+    'Failed to create lecture',
+  );
+  return { message, lecture: responseData.lecture };
+}
+
+export async function updateLecture(
+  courseSlug: string,
+  sectionSlug: string,
+  id: string,
+  data: Partial<ILecture>,
+) {
+  const { message, data: responseData } = await patchData(
+    `courses/${courseSlug}/${sectionSlug}/lectures`,
+    { id, ...data },
+    'Failed to update lecture',
+  );
+  return { message, lecture: responseData.lecture };
+}
+
+export async function deleteLecture(
+  courseSlug: string,
+  sectionSlug: string,
+  id: string,
+) {
+  const { message } = await deleteData(
+    `courses/${courseSlug}/${sectionSlug}/lectures`,
+    id,
+    'Failed to delete lecture',
+  );
+  return message;
+}

@@ -44,8 +44,6 @@ export function EditCourse({ initialData, onSubmit }: EditCourseProps) {
     initialData?.cover_image as string | null,
   );
 
-  console.log(initialData);
-
   const form = useForm<CourseFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {

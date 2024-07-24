@@ -37,9 +37,9 @@ const DeleteCourseDialog = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent aria-describedby="delete-course-description">
+      <DialogContent>
         <DialogTitle>Delete Course</DialogTitle>
-        <DialogDescription id="delete-course-description">
+        <DialogDescription>
           Are you sure you want to delete this course? This action cannot be
           undone.
         </DialogDescription>

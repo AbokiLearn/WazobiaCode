@@ -45,15 +45,20 @@ import {
   getSections,
   deleteSection,
 } from '@/lib/client/course';
-import { ISection } from '@/types/db/course';
+import { uploadFiles } from '@/lib/client/files';
 import { cn } from '@/lib/utils';
+import { ISection as SectionBase } from '@/types/db/course';
+
+interface ISection extends Omit<SectionBase, 'icon'> {
+  icon: string | File | null;
+}
 
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().min(1, 'Description is required'),
   slug: z.string().min(1, 'Slug is required'),
   active: z.boolean().default(false),
-  icon: z.union([z.instanceof(File), z.string()]).optional(),
+  icon: z.union([z.instanceof(File), z.string(), z.null()]).optional(),
 });
 
 const SectionDialog = ({
@@ -90,7 +95,9 @@ const SectionDialog = ({
         icon: section.icon,
         active: section.active,
       });
-      setIconPreview(section.icon);
+      if (typeof section.icon === 'string') {
+        setIconPreview(section.icon);
+      }
     } else {
       form.reset({
         title: '',
@@ -107,6 +114,7 @@ const SectionDialog = ({
     onConfirm({
       ...section,
       ...values,
+      icon: values.icon instanceof File ? values.icon : values.icon || null,
     } as ISection);
   };
 
@@ -165,7 +173,6 @@ const SectionDialog = ({
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="icon"
@@ -195,7 +202,7 @@ const SectionDialog = ({
                     />
                   )}
                   <FormDescription>
-                    Upload an icon for the course (optional)
+                    Upload an icon for the section (optional)
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -256,18 +263,38 @@ export const Sections = ({ courseSlug }: { courseSlug: string }) => {
 
   const handleConfirmDialog = async (updatedSection: ISection) => {
     try {
+      let iconUrl: string | undefined = undefined;
+
+      if (updatedSection.icon instanceof File) {
+        const uploadResponse = await uploadFiles(
+          [updatedSection.icon],
+          'course-icons',
+        );
+        iconUrl = uploadResponse[0].data.file_url;
+      } else if (typeof updatedSection.icon === 'string') {
+        iconUrl = updatedSection.icon;
+      }
+
+      const sectionToSave: Partial<SectionBase> = {
+        title: updatedSection.title,
+        description: updatedSection.description,
+        slug: updatedSection.slug,
+        active: updatedSection.active,
+        icon: iconUrl,
+      };
+
       if (editSection) {
         // Edit existing section
         const { section } = await updateSection(
           courseSlug,
-          editSection._id.toString(),
-          updatedSection,
+          editSection._id!.toString(),
+          sectionToSave,
         );
         setSections(sections.map((s) => (s._id === section._id ? section : s)));
         toast.success('Section updated successfully.');
       } else {
         // Add new section
-        const { section } = await createSection(courseSlug, updatedSection);
+        const { section } = await createSection(courseSlug, sectionToSave);
         setSections([...sections, section]);
         toast.success('Section created successfully.');
       }

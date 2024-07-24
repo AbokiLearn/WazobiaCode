@@ -5,7 +5,13 @@ import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
 import { env } from '@/lib/config';
 import { UserRole } from '@/types/auth';
-import { Course, Section, Lecture } from '@/models';
+import {
+  Course,
+  Section,
+  Lecture,
+  RecitationGroup,
+  Enrollment,
+} from '@/models';
 
 export const dynamic = 'force-dynamic';
 
@@ -191,11 +197,11 @@ export const DELETE = withApiAuthRequired(async function deleteCourse(
       });
     }
 
-    // Delete associated lectures
+    // Delete associated lectures, sections, recitation groups, and enrollments
     await Lecture.deleteMany({ course_id: id });
-
-    // Delete associated sections
     await Section.deleteMany({ course_id: id });
+    await RecitationGroup.deleteMany({ course_id: id });
+    await Enrollment.deleteMany({ course_id: id });
 
     // Delete the course
     await Course.findByIdAndDelete(id);

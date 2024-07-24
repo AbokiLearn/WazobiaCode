@@ -1,0 +1,156 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+
+const formSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  slug: z.string().min(1, 'Slug is required'),
+  description: z.string().min(1, 'Description is required'),
+  icon: z.string().optional(),
+  cover_image: z.string().optional(),
+  active: z.boolean().default(false),
+});
+
+export type CourseFormValues = z.infer<typeof formSchema>;
+
+interface EditCourseProps {
+  initialData?: CourseFormValues;
+  onSubmit: (data: CourseFormValues) => void;
+}
+
+export function EditCourse({ initialData, onSubmit }: EditCourseProps) {
+  const form = useForm<CourseFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData || {
+      title: '',
+      slug: '',
+      description: '',
+      icon: '',
+      cover_image: '',
+      active: false,
+    },
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="py-4 space-y-8">
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter course title" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Slug</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter course slug" {...field} />
+              </FormControl>
+              <FormDescription>
+                This will be used in the URL for your course
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Enter course description"
+                  className="resize-none"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="icon"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Icon</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter icon URL" {...field} />
+              </FormControl>
+              <FormDescription>
+                URL for the course icon (optional)
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="cover_image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cover Image</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter cover image URL" {...field} />
+              </FormControl>
+              <FormDescription>
+                URL for the course cover image (optional)
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="active"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center justify-between rounded-lg border border-muted p-4">
+              <div className="space-y-0.5">
+                <FormLabel className="text-base">Active</FormLabel>
+                <FormDescription>
+                  Make this course visible to students
+                </FormDescription>
+              </div>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  className="data-[state=checked]:bg-green-400 data-[state=unchecked]:bg-red-400"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  );
+}

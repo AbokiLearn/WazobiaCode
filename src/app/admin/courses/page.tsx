@@ -41,8 +41,8 @@ export default function CoursesPage() {
 
   const handleSubmit = (data: CourseFormValues) => {
     const uploadPromises = [];
-    let iconUrl = '';
-    let coverImageUrl = '';
+    let iconUrl = undefined;
+    let coverImageUrl = undefined;
 
     // upload icon if provided
     if (data.icon instanceof File) {
@@ -67,8 +67,8 @@ export default function CoursesPage() {
       .then(() => {
         const courseData: Partial<ICourse> = {
           ...data,
-          icon: iconUrl,
-          cover_image: coverImageUrl,
+          icon: iconUrl!,
+          cover_image: coverImageUrl!,
         };
 
         if (editingCourse) {

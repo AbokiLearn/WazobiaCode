@@ -42,8 +42,9 @@ import {
   deleteRecitationGroup,
 } from '@/lib/client/course';
 import {
-  getRecitationInviteRequests,
-  sendRecitationInvites,
+  getRecitationInvites,
+  sendInvites,
+  getChannelInvites,
 } from '@/lib/client/telegram';
 import { IRecitationGroup } from '@/types/db/recitation-group';
 
@@ -245,20 +246,24 @@ export const RecitationCard = ({ courseSlug }: { courseSlug: string }) => {
   };
 
   const handleSendInvites = async () => {
-    const message =
-      'Welcome to WazobiaCode. We are excited to get started. Please join your recitation group to get started.';
-    const inviteRequests = await getRecitationInviteRequests(
+    const groupInvites = await getRecitationInvites(
       courseSlug,
-      message,
+      'Welcome to WazobiaCode. We are excited to get started. Please join your recitation group. Class sessions will be conducted in the group.',
     );
-    await sendRecitationInvites(inviteRequests)
+    const channelInvites = await getChannelInvites(
+      courseSlug,
+      'Welcome to WazobiaCode. We are excited to get started. Please join our main channel to access course content.',
+    );
+    const invites = [...groupInvites, ...channelInvites];
+
+    await sendInvites(invites)
       .then((res) => {
         console.log(res);
-        toast.success('Recitation invites sent successfully.');
+        toast.success('Invites sent successfully.');
       })
       .catch((err) => {
         console.error(err);
-        toast.error('Failed to send recitation invites.');
+        toast.error('Failed to send invites.');
       });
   };
 

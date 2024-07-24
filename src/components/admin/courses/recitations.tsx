@@ -180,7 +180,7 @@ const RecitationDialog = ({
   );
 };
 
-export const RecitationCard = ({ courseSlug }: { courseSlug: string }) => {
+export const Recitations = ({ courseSlug }: { courseSlug: string }) => {
   const [recitations, setRecitations] = useState<IRecitationGroup[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editRecitation, setEditRecitation] = useState<IRecitationGroup | null>(

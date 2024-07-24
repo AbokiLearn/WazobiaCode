@@ -1,5 +1,5 @@
-import { RecitationCard } from '@/components/admin/courses/recitations';
-import { SectionCard } from '@/components/admin/courses/sections';
+import { Recitations } from '@/components/admin/courses/recitations';
+import { Sections } from '@/components/admin/courses/sections';
 import { CourseCard } from '@/components/admin/courses/course-card';
 import { Breadcrumbs } from '@/components/admin/breadcrumbs';
 
@@ -26,8 +26,8 @@ export default async function CoursePage({
       <div className="flex flex-col w-full">
         <CourseCard course={course} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-          <SectionCard courseSlug={courseSlug} />
-          <RecitationCard courseSlug={courseSlug} />
+          <Sections courseSlug={courseSlug} />
+          <Recitations courseSlug={courseSlug} />
         </div>
       </div>
     </div>

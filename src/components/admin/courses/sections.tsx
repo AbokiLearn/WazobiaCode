@@ -235,7 +235,7 @@ const SectionDialog = ({
   );
 };
 
-export const SectionCard = ({ courseSlug }: { courseSlug: string }) => {
+export const Sections = ({ courseSlug }: { courseSlug: string }) => {
   const [sections, setSections] = useState<ISection[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editSection, setEditSection] = useState<ISection | null>(null);

@@ -84,6 +84,20 @@ export async function deleteCourse(id: string) {
   return message;
 }
 
+export async function getSection(
+  courseSlug: string,
+  sectionSlug: string,
+  includeLectures: boolean = false,
+  includeLectureContent: boolean = false,
+): Promise<ISection> {
+  const { data } = await getData(
+    `courses/${courseSlug}/sections?slug=${sectionSlug}&lectures=${includeLectures}&content=${includeLectureContent}`,
+    'no-store',
+    'Failed to fetch section',
+  );
+  return data.sections[0];
+}
+
 export async function getSections(
   courseSlug: string,
   includeLectures: boolean = false,

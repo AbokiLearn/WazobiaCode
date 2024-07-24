@@ -6,7 +6,7 @@ import connectMongoDB from '@/lib/db/connect';
 import { env } from '@/lib/config';
 import { UserMetadata, Enrollment, RecitationGroup, Course } from '@/models';
 
-const DEFAULT_COURSE_ID = '66a0db45857a771fd7482f8b';
+const DEFAULT_COURSE_SLUG = 'fullstack-web-dev';
 
 export const POST = withApiAuthRequired(async function handler(
   request: Request,
@@ -95,46 +95,54 @@ const updateAuth0Metadata = async (updatedMetadata: any, session: any) => {
 };
 
 const oneTimeEnrollment = async (userMetadata: any) => {
-  // Check if the user is already enrolled in the default course
-  const existingEnrollment = await Enrollment.findOne({
-    student_id: userMetadata.sub,
-    course_id: DEFAULT_COURSE_ID,
-  });
+  const course = await Course.findOne({ slug: DEFAULT_COURSE_SLUG });
 
-  if (!existingEnrollment) {
-    // Find the recitation group with the fewest student
-    const recitationGroup = (
-      await RecitationGroup.find({ course_id: DEFAULT_COURSE_ID })
-        .sort({ student_count: 1 })
-        .limit(1)
-    )[0];
+  if (course) {
+    const course_id = course._id;
 
-    if (!recitationGroup) {
-      throw new Error('No recitation group found for the default course');
-    }
-
-    // Create a new enrollment
-    const newEnrollment = new Enrollment({
+    // Check if the user is already enrolled in the default course
+    const existingEnrollment = await Enrollment.findOne({
       student_id: userMetadata.sub,
-      course_id: DEFAULT_COURSE_ID,
-      recitation_group_id: recitationGroup._id,
-    });
-    await newEnrollment.save();
-
-    // Update the recitation group's student count
-    await RecitationGroup.updateOne(
-      { _id: recitationGroup._id },
-      { $inc: { student_count: 1 } },
-    );
-
-    // Update the user's enrollment status
-    await UserMetadata.findByIdAndUpdate(userMetadata._id, {
-      $push: { enrollments: newEnrollment._id },
+      course_id,
     });
 
-    // Update the course's enrolled_students count
-    await Course.findByIdAndUpdate(DEFAULT_COURSE_ID, {
-      $inc: { enrolled_students: 1 },
-    });
+    if (!existingEnrollment) {
+      // Find the recitation group with the fewest student
+      const recitationGroup = (
+        await RecitationGroup.find({ course_id })
+          .sort({ student_count: 1 })
+          .limit(1)
+      )[0];
+
+      if (!recitationGroup) {
+        throw new Error('No recitation group found for the default course');
+      }
+
+      // Create a new enrollment
+      const newEnrollment = new Enrollment({
+        student_id: userMetadata.sub,
+        course_id,
+        recitation_group_id: recitationGroup._id,
+      });
+      await newEnrollment.save();
+
+      // Update the recitation group's student count
+      await RecitationGroup.updateOne(
+        { _id: recitationGroup._id },
+        { $inc: { student_count: 1 } },
+      );
+
+      // Update the user's enrollment status
+      await UserMetadata.findByIdAndUpdate(userMetadata._id, {
+        $push: { enrollments: newEnrollment._id },
+      });
+
+      // Update the course's enrolled_students count
+      await Course.findByIdAndUpdate(course_id, {
+        $inc: { enrolled_students: 1 },
+      });
+    }
+  } else {
+    console.log('Course not found');
   }
 };

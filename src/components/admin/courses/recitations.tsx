@@ -3,6 +3,7 @@
 import { Pencil, Plus, Send, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -295,7 +296,13 @@ export const RecitationCard = ({ courseSlug }: { courseSlug: string }) => {
               >
                 <div className="flex items-center space-x-3">
                   <div>
-                    <div className="text-sm font-medium">{recitation.name}</div>
+                    <div className="text-sm font-medium">
+                      <Link
+                        href={`/admin/students?recitation=${recitation._id.toString()}&course=${courseSlug}`}
+                      >
+                        {recitation.name}
+                      </Link>
+                    </div>
                     <div className="text-sm text-gray-500">
                       Students: {recitation.student_count}
                     </div>

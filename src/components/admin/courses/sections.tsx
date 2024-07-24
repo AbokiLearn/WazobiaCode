@@ -4,6 +4,7 @@ import { CircleCheck, CircleX, Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -332,7 +333,13 @@ export const SectionCard = ({ courseSlug }: { courseSlug: string }) => {
                       )}
                     </div>
                     <div>
-                      <div className="text-sm font-medium">{section.title}</div>
+                      <div className="text-sm font-medium">
+                        <Link
+                          href={`/admin/courses/${courseSlug}/${section.slug}`}
+                        >
+                          {section.title}
+                        </Link>
+                      </div>
                       <div className="text-sm text-gray-500">
                         {section.description}
                       </div>

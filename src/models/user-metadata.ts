@@ -24,5 +24,6 @@ export const UserMetadataSchema = new Schema<IUserMetadata>({
       message: 'Telegram user ID must be unique',
     },
   },
+  roles: [{ type: String, required: true }],
   enrollments: [{ type: Schema.Types.ObjectId, ref: 'Enrollment' }],
 });

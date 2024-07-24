@@ -63,28 +63,34 @@ export const POST = withApiAuthRequired(async function createCourse(
   try {
     await connectMongoDB();
 
-    const { title, description, slug, cover_image, icon } =
-      await request.json();
+    const data = await request.json();
 
     // Validate required fields
-    if (!title || !description || !slug || !cover_image || !icon) {
-      console.log(
-        `title: ${title}, description: ${description}, slug: ${slug}, cover_image: ${cover_image}, icon: ${icon}`,
-      );
+    if (!data.title || !data.description || !data.slug) {
       return APIResponse({
         error: 'Missing required fields',
         status: 400,
       });
     }
 
+    if (!data.icon) {
+      data.icon =
+        'https://wazobiacode-web.s3.us-east-1.amazonaws.com/course-assets/d47743b5-63ed-45d9-a24f-95caf592a393.svg';
+    }
+
+    if (!data.cover_image) {
+      data.cover_image =
+        'https://wazobiacode-web.s3.us-east-1.amazonaws.com/course-assets/efb13664-1308-4230-a6af-91f03a023770.png';
+    }
+
     // Create new course
     const newCourse = new Course({
-      title,
-      description,
-      slug,
-      cover_image,
-      icon,
-      active: false,
+      title: data.title,
+      description: data.description,
+      slug: data.slug,
+      cover_image: data.cover_image,
+      icon: data.icon,
+      active: data.active,
     });
 
     await newCourse.save();

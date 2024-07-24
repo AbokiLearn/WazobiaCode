@@ -2,6 +2,7 @@
 
 import { Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import Link from 'next/link';
 
 import {
   Dialog,
@@ -109,7 +110,14 @@ export function CourseTable({
               key={course._id.toString()}
               className="hover:bg-muted md:text-[16px] border-b border-muted transition-colors"
             >
-              <TableCell className="font-medium">{course.title}</TableCell>
+              <TableCell className="font-medium">
+                <Link
+                  href={`/admin/courses/${course.slug.toString()}`}
+                  className="hover:underline"
+                >
+                  {course.title}
+                </Link>
+              </TableCell>
               <TableCell>{course.enrolled_students}</TableCell>
               <TableCell>
                 <Badge

@@ -17,6 +17,7 @@ import { CourseTable } from '@/components/admin/courses/course-table';
 import { EditCourse } from '@/components/admin/courses/edit-course';
 
 import { createCourse, getCourses, updateCourse } from '@/lib/client/course';
+import { uploadFiles } from '@/lib/client/files';
 import { ICourse } from '@/types/db/course';
 
 export default function CoursesPage() {
@@ -39,33 +40,58 @@ export default function CoursesPage() {
   };
 
   const handleSubmit = (data: CourseFormValues) => {
-    try {
-      if (editingCourse) {
-        // Update course
-        updateCourse(editingCourse._id, data)
-          .then(() => {
-            toast.success('Course updated');
-            getCourses().then(setCourses);
-            setIsSheetOpen(false);
-          })
-          .catch((error: any) => {
-            toast.error(error.message);
-          });
-      } else {
-        // Create course
-        createCourse(data)
-          .then(() => {
-            toast.success('Course created');
-            getCourses().then(setCourses);
-            setIsSheetOpen(false);
-          })
-          .catch((error: any) => {
-            toast.error(error.message);
-          });
-      }
-    } catch (error: any) {
-      toast.error(error.message);
+    const uploadPromises = [];
+    let iconUrl = '';
+    let coverImageUrl = '';
+
+    // upload icon if provided
+    if (data.icon instanceof File) {
+      uploadPromises.push(
+        uploadFiles([data.icon], 'course-assets').then(([result]) => {
+          iconUrl = result.data.file_url;
+        }),
+      );
     }
+
+    // upload cover image if provided
+    if (data.cover_image instanceof File) {
+      uploadPromises.push(
+        uploadFiles([data.cover_image], 'course-assets').then(([result]) => {
+          coverImageUrl = result.data.file_url;
+        }),
+      );
+    }
+
+    // wait for uploads to complete
+    Promise.all(uploadPromises)
+      .then(() => {
+        const courseData: Partial<ICourse> = {
+          ...data,
+          icon: iconUrl,
+          cover_image: coverImageUrl,
+        };
+
+        if (editingCourse) {
+          return updateCourse(editingCourse._id, courseData);
+        } else {
+          return createCourse(courseData);
+        }
+      })
+      .then((result) => {
+        if (result instanceof Error) {
+          throw result;
+        }
+        toast.success(editingCourse ? 'Course updated' : 'Course created');
+        return getCourses();
+      })
+      .then((updatedCourses) => {
+        setCourses(updatedCourses);
+        setIsSheetOpen(false);
+        setEditingCourse(null);
+      })
+      .catch((error: any) => {
+        toast.error(error.message);
+      });
   };
 
   return (
@@ -92,7 +118,7 @@ export default function CoursesPage() {
         />
       </div>
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-        <SheetContent>
+        <SheetContent className="overflow-y-auto">
           <SheetHeader>
             <SheetTitle>
               {editingCourse ? 'Edit Course' : 'New Course'}

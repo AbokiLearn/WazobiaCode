@@ -2,6 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import Image from 'next/image';
 import * as z from 'zod';
 
 import {
@@ -22,8 +24,8 @@ const formSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   slug: z.string().min(1, 'Slug is required'),
   description: z.string().min(1, 'Description is required'),
-  icon: z.string().optional(),
-  cover_image: z.string().optional(),
+  icon: z.union([z.instanceof(File), z.string()]).optional(),
+  cover_image: z.union([z.instanceof(File), z.string()]).optional(),
   active: z.boolean().default(false),
 });
 
@@ -35,14 +37,23 @@ interface EditCourseProps {
 }
 
 export function EditCourse({ initialData, onSubmit }: EditCourseProps) {
+  const [iconPreview, setIconPreview] = useState<string | null>(
+    initialData?.icon as string | null,
+  );
+  const [coverImagePreview, setCoverImagePreview] = useState<string | null>(
+    initialData?.cover_image as string | null,
+  );
+
+  console.log(initialData);
+
   const form = useForm<CourseFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       title: '',
       slug: '',
       description: '',
-      icon: '',
-      cover_image: '',
+      icon: undefined,
+      cover_image: undefined,
       active: false,
     },
   });
@@ -99,14 +110,33 @@ export function EditCourse({ initialData, onSubmit }: EditCourseProps) {
         <FormField
           control={form.control}
           name="icon"
-          render={({ field }) => (
+          render={({ field: { onChange, value, ...rest } }) => (
             <FormItem>
               <FormLabel>Icon</FormLabel>
               <FormControl>
-                <Input placeholder="Enter icon URL" {...field} />
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      onChange(file);
+                      setIconPreview(URL.createObjectURL(file));
+                    }
+                  }}
+                  {...rest}
+                />
               </FormControl>
+              {iconPreview && (
+                <Image
+                  src={iconPreview}
+                  alt="Icon preview"
+                  width={64}
+                  height={64}
+                />
+              )}
               <FormDescription>
-                URL for the course icon (optional)
+                Upload an icon for the course (optional)
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -115,14 +145,33 @@ export function EditCourse({ initialData, onSubmit }: EditCourseProps) {
         <FormField
           control={form.control}
           name="cover_image"
-          render={({ field }) => (
+          render={({ field: { onChange, value, ...rest } }) => (
             <FormItem>
               <FormLabel>Cover Image</FormLabel>
               <FormControl>
-                <Input placeholder="Enter cover image URL" {...field} />
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      onChange(file);
+                      setCoverImagePreview(URL.createObjectURL(file));
+                    }
+                  }}
+                  {...rest}
+                />
               </FormControl>
+              {coverImagePreview && (
+                <Image
+                  src={coverImagePreview}
+                  alt="Cover image preview"
+                  width={64}
+                  height={64}
+                />
+              )}
               <FormDescription>
-                URL for the course cover image (optional)
+                Upload a cover image for the course (optional)
               </FormDescription>
               <FormMessage />
             </FormItem>

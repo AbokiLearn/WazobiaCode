@@ -15,7 +15,9 @@ export async function GET(
   const { courseSlug } = params;
   const { searchParams } = new URL(request.url);
   const sectionId = searchParams.get('id');
+  const sectionSlug = searchParams.get('slug');
   const includeLectures = searchParams.get('lectures') === 'true';
+  const includeLectureContent = searchParams.get('content') === 'true';
 
   try {
     await connectMongoDB();
@@ -32,6 +34,9 @@ export async function GET(
     if (sectionId) {
       query = { ...query, _id: sectionId };
     }
+    if (sectionSlug) {
+      query = { ...query, slug: sectionSlug };
+    }
 
     let sections = await Section.find(query).sort({ section_num: 1 }).lean();
 
@@ -40,7 +45,7 @@ export async function GET(
         sections.map(async (section) => {
           const lectures = await Lecture.find({ section_id: section._id })
             .sort({ lecture_num: 1 })
-            .select('-content')
+            .select(includeLectureContent ? '' : '-content')
             .lean();
           return { ...section, lectures };
         }),

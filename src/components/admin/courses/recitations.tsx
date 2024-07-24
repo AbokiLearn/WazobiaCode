@@ -1,9 +1,8 @@
 'use client';
 
-import { CircleCheck, CircleX, Pencil, Plus, Trash2 } from 'lucide-react';
+import { Pencil, Plus, Send, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import Image from 'next/image';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -20,7 +19,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,13 +27,12 @@ import {
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
   CardDescription,
 } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
 
 import {
@@ -44,8 +41,11 @@ import {
   getRecitationGroups,
   deleteRecitationGroup,
 } from '@/lib/client/course';
+import {
+  getRecitationInviteRequests,
+  sendRecitationInvites,
+} from '@/lib/client/telegram';
 import { IRecitationGroup } from '@/types/db/recitation-group';
-import { cn } from '@/lib/utils';
 
 // Update the form schema
 const formSchema = z.object({
@@ -141,6 +141,7 @@ const RecitationDialog = ({
                       type="number"
                       {...field}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
+                      disabled
                     />
                   </FormControl>
                   <FormMessage />
@@ -243,9 +244,27 @@ export const RecitationCard = ({ courseSlug }: { courseSlug: string }) => {
     }
   };
 
+  const handleSendInvites = async () => {
+    const message =
+      'Welcome to WazobiaCode. We are excited to get started. Please join your recitation group to get started.';
+    const inviteRequests = await getRecitationInviteRequests(
+      courseSlug,
+      message,
+    );
+    await sendRecitationInvites(inviteRequests)
+      .then((res) => {
+        console.log(res);
+        toast.success('Recitation invites sent successfully.');
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error('Failed to send recitation invites.');
+      });
+  };
+
   return (
     <>
-      <Card className="w-full bg-card shadow">
+      <Card className="w-full bg-card shadow flex flex-col">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Recitation Groups</CardTitle>
@@ -262,7 +281,7 @@ export const RecitationCard = ({ courseSlug }: { courseSlug: string }) => {
             Manage recitation groups for this course.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex-grow">
           <div className="space-y-4">
             {recitations.map((recitation) => (
               <div
@@ -301,6 +320,20 @@ export const RecitationCard = ({ courseSlug }: { courseSlug: string }) => {
             ))}
           </div>
         </CardContent>
+        <CardFooter className="flex justify-between">
+          <p className="text-sm font-medium text-gray-500">
+            Total students:{' '}
+            {recitations.reduce((acc, rec) => acc + rec.student_count, 0)}
+          </p>
+          <Button
+            variant="outline"
+            className="bg-primary text-primary-foreground hover:text-accent hover:bg-primary"
+            onClick={handleSendInvites}
+          >
+            <Send className="w-5 h-5 mr-2" />
+            Send Invites
+          </Button>
+        </CardFooter>
       </Card>
       <RecitationDialog
         isOpen={dialogOpen}

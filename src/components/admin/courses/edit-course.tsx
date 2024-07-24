@@ -27,6 +27,7 @@ const formSchema = z.object({
   icon: z.union([z.instanceof(File), z.string()]).optional(),
   cover_image: z.union([z.instanceof(File), z.string()]).optional(),
   active: z.boolean().default(false),
+  telegram_channel_id: z.string().optional(),
 });
 
 export type CourseFormValues = z.infer<typeof formSchema>;
@@ -53,6 +54,7 @@ export function EditCourse({ initialData, onSubmit }: EditCourseProps) {
       icon: undefined,
       cover_image: undefined,
       active: false,
+      telegram_channel_id: undefined,
     },
   });
 
@@ -100,6 +102,19 @@ export function EditCourse({ initialData, onSubmit }: EditCourseProps) {
                   className="resize-none"
                   {...field}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="telegram_channel_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Telegram Channel ID</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter telegram channel ID" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

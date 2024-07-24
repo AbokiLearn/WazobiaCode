@@ -1,7 +1,7 @@
 'use client';
 
 import { Pencil } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -16,12 +16,23 @@ import { CourseResponse } from '@/types/db/course';
 // TODO: make this a form; enable editing when button toggle is clicked
 
 export const CourseCard = ({ course }: { course: CourseResponse }) => {
-  const [title, setTitle] = useState(course.title);
-  const [slug, setSlug] = useState(course.slug);
-  const [description, setDescription] = useState(course.description);
-  const [coverImage, setCoverImage] = useState(course.cover_image);
-  const [icon, setIcon] = useState(course.icon);
-  const [active, setActive] = useState(course.active);
+  const [title, setTitle] = useState('');
+  const [slug, setSlug] = useState('');
+  const [description, setDescription] = useState('');
+  const [coverImage, setCoverImage] = useState('');
+  const [icon, setIcon] = useState('');
+  const [active, setActive] = useState(false);
+  const [telegramChannelId, setTelegramChannelId] = useState('');
+
+  useEffect(() => {
+    setTitle(course.title);
+    setSlug(course.slug);
+    setDescription(course.description);
+    setCoverImage(course.cover_image);
+    setIcon(course.icon);
+    setActive(course.active);
+    setTelegramChannelId(course.telegram_channel_id || '');
+  }, [course]);
 
   return (
     <Card className="bg-card shadow">
@@ -126,6 +137,22 @@ export const CourseCard = ({ course }: { course: CourseResponse }) => {
                 />
               </div>
             </div>
+          </div>
+          <div className="col-span-2 space-y-2">
+            <Label
+              className="text-md font-semibold"
+              htmlFor="course-description"
+            >
+              Telegram Channel ID
+            </Label>
+            <Input
+              id="course-telegram-channel-id"
+              // placeholder="Telegram Channel ID"
+              value={telegramChannelId}
+              onChange={(e) => setTelegramChannelId(e.target.value)}
+              className="text-lg"
+              disabled
+            />
           </div>
         </div>
       </CardContent>

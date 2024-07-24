@@ -30,6 +30,7 @@ export interface ILecture extends CourseBase {
   section_id: Types.ObjectId | ISection;
   lecture_num: number;
   content: string;
+  json_content: Record<string, any>;
   tags: string[];
   video_url: string;
   quiz: Types.ObjectId | IQuizAssignment;

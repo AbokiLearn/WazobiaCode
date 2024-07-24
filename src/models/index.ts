@@ -14,6 +14,7 @@ import {
   HomeworkSubmissionSchema,
 } from '@/models/submission';
 import { UserMetadataSchema } from '@/models/user-metadata';
+import { EnrollmentSchema } from '@/models/enrollment';
 
 import {
   IAssignment,
@@ -29,6 +30,7 @@ import {
   IHomeworkSubmission,
 } from '@/types/db/submission';
 import { IUserMetadata } from '@/types/db/user-metadata';
+import { IEnrollment } from '@/types/db/enrollment';
 
 // Assignment
 export const Assignment: Model<IAssignment> =
@@ -70,3 +72,7 @@ export const HomeworkSubmission: Model<IHomeworkSubmission> =
 export const UserMetadata: Model<IUserMetadata> =
   models.UserMetadata ||
   model('UserMetadata', UserMetadataSchema, 'user_metadata');
+
+// Enrollment
+export const Enrollment: Model<IEnrollment> =
+  models.Enrollment || model('Enrollment', EnrollmentSchema);

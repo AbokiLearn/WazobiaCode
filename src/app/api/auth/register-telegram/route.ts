@@ -40,6 +40,8 @@ export async function POST(request: Request) {
       });
     }
 
+    // TODO: trigger <telegram-server>/send-invite to invite user to their recitation group
+
     return APIResponse({
       message: `Your telegram account has been successfully linked to your WazobiaCode account (${updatedUser.email}).`,
       status: 200,

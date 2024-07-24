@@ -26,9 +26,11 @@ export const POST = withApiAuthRequired(async function handler(
 
   const client = await getManagementClient();
 
+  // TODO: assign users to recitation groups if they don't have one
+
   try {
     // Attempt to update or create user metadata in MongoDB
-    await UserMetadata.findOneAndUpdate(
+    const userMetadata = await UserMetadata.findOneAndUpdate(
       { sub: session?.user!.sub },
       { first_name, last_name, phone_number, email: session?.user!.email },
       { upsert: true, new: true },

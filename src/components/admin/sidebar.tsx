@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import {
   Bot,
   GraduationCap,
-  Home,
   Library,
   MessageCircleQuestion,
   Send,
@@ -17,11 +16,6 @@ import { cn } from '@/lib/utils';
 
 const MenuLinks = () => {
   const tab_links = [
-    {
-      href: '',
-      icon: Home,
-      label: 'Dashboard',
-    },
     {
       href: '/courses',
       label: 'My Courses',
@@ -59,7 +53,7 @@ const MenuLinks = () => {
   return (
     <>
       {tab_links.map((tab, idx) => {
-        const isActive = pathname === `/admin${tab.href}`;
+        const isActive = pathname.startsWith(`/admin${tab.href}`);
 
         return (
           <Link

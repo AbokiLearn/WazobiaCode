@@ -18,7 +18,7 @@ export async function getCourseWithSections(
 
 export async function getCoursesWithSections(): Promise<CourseWithSections[]> {
   const { data } = await getData(
-    'courses',
+    'courses?sections=true',
     'no-store',
     'Failed to fetch courses',
   );

@@ -10,26 +10,32 @@ import { Course } from '@/models';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const includeSections = searchParams.get('sections') === 'true';
+
   try {
     await connectMongoDB();
 
-    // get all courses with their sections
-    const aggregation = [
-      {
+    let aggregation: PipelineStage[] = [];
+
+    if (includeSections) {
+      aggregation.push({
         $lookup: {
           from: 'sections',
           localField: '_id',
           foreignField: 'course_id',
           as: 'sections',
         },
+      });
+    }
+
+    aggregation.push({
+      $sort: {
+        active: -1,
+        'sections.section_num': 1,
       },
-      {
-        $sort: {
-          active: -1,
-          'sections.section_num': 1,
-        },
-      },
-    ] as PipelineStage[];
+    });
+
     const courses = await Course.aggregate(aggregation);
 
     return APIResponse({

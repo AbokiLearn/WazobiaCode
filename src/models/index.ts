@@ -15,6 +15,7 @@ import {
 } from '@/models/submission';
 import { UserMetadataSchema } from '@/models/user-metadata';
 import { EnrollmentSchema } from '@/models/enrollment';
+import { RecitationGroupSchema } from '@/models/recitation-group';
 
 import {
   IAssignment,
@@ -31,6 +32,7 @@ import {
 } from '@/types/db/submission';
 import { IUserMetadata } from '@/types/db/user-metadata';
 import { IEnrollment } from '@/types/db/enrollment';
+import { IRecitationGroup } from '@/types/db/recitation-group';
 
 // Assignment
 export const Assignment: Model<IAssignment> =
@@ -76,3 +78,8 @@ export const UserMetadata: Model<IUserMetadata> =
 // Enrollment
 export const Enrollment: Model<IEnrollment> =
   models.Enrollment || model('Enrollment', EnrollmentSchema);
+
+// RecitationGroup
+export const RecitationGroup: Model<IRecitationGroup> =
+  models.RecitationGroup ||
+  model('RecitationGroup', RecitationGroupSchema, 'recitation_groups');

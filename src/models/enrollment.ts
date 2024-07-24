@@ -5,6 +5,10 @@ export const EnrollmentSchema = new Schema<IEnrollment>(
   {
     student_id: { type: String, required: true },
     course_id: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
+    recitation_group_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'RecitationGroup',
+    },
     status: {
       type: String,
       enum: EnrollmentStatus,

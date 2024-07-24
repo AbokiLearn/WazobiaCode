@@ -9,6 +9,7 @@ export enum EnrollmentStatus {
 export interface IEnrollment extends Document {
   student_id: string;
   course_id: Types.ObjectId;
+  recitation_group_id: Types.ObjectId | null;
   status: EnrollmentStatus;
   enrollment_date: Date;
   completion_date?: Date;

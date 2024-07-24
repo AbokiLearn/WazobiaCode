@@ -19,6 +19,7 @@ export const CourseSchema = new Schema<ICourse>(
   },
   { timestamps: timeStamps },
 );
+CourseSchema.index({ slug: 1 }, { unique: true });
 
 export const SectionSchema = new Schema<ISection>(
   {
@@ -31,6 +32,10 @@ export const SectionSchema = new Schema<ISection>(
     section_num: { type: Number, required: true },
   },
   { timestamps: timeStamps },
+);
+SectionSchema.index(
+  { course_id: 1, section_num: 1, slug: 1 },
+  { unique: true },
 );
 
 export const LectureSchema = new Schema<ILecture>(
@@ -50,7 +55,7 @@ export const LectureSchema = new Schema<ILecture>(
   },
   { timestamps: timeStamps },
 );
-
-CourseSchema.index({ slug: 1 });
-SectionSchema.index({ course_id: 1, section_num: 1 });
-LectureSchema.index({ course_id: 1, section_id: 1, lecture_num: 1 });
+LectureSchema.index(
+  { course_id: 1, section_id: 1, lecture_num: 1, slug: 1 },
+  { unique: true },
+);

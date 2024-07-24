@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
-import { CourseWithSections } from '@/types/db/course';
+import { CourseResponse } from '@/types/db/course';
 import { getCourses } from '@/lib/client/course';
 import { cn } from '@/lib/utils';
 
@@ -39,7 +39,7 @@ export default async function Page() {
   );
 }
 
-const CourseList = ({ courses }: { courses: CourseWithSections[] }) => {
+const CourseList = ({ courses }: { courses: CourseResponse[] }) => {
   return (
     <>
       {courses.map((course) => {
@@ -79,9 +79,11 @@ const CourseList = ({ courses }: { courses: CourseWithSections[] }) => {
             </CardHeader>
             <CardContent className="flex flex-row">
               <div className="flex-1">
-                {course.sections
-                  .sort((a, b) => a.section_num - b.section_num)
-                  .filter((section) => section.section_num > 0)
+                {course
+                  .sections!.sort((a, b) => a.section_num - b.section_num)
+                  .filter(
+                    (section) => section.section_num > 0 && section.active,
+                  )
                   .map((section) => (
                     <div
                       key={section.title}

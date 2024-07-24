@@ -54,7 +54,9 @@ export default async function CoursePage({ params }: CoursePageProps) {
       </Card>
 
       {course
-        .sections!.filter((section) => section.section_num > 0)
+        .sections!.filter(
+          (section) => section.section_num > 0 && section.active,
+        )
         .map((section) => (
           <SectionOverviewCard
             key={section.slug}

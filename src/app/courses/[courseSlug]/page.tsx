@@ -53,17 +53,13 @@ export default async function CoursePage({ params }: CoursePageProps) {
         </CardContent>
       </Card>
 
-      {course
-        .sections!.filter(
-          (section) => section.section_num > 0 && section.active,
-        )
-        .map((section) => (
-          <SectionOverviewCard
-            key={section.slug}
-            courseSlug={courseSlug}
-            section={section}
-          />
-        ))}
+      {course.sections!.map((section) => (
+        <SectionOverviewCard
+          key={section.slug}
+          courseSlug={courseSlug}
+          section={section}
+        />
+      ))}
     </div>
   );
 }

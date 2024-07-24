@@ -81,9 +81,6 @@ const CourseList = ({ courses }: { courses: CourseResponse[] }) => {
               <div className="flex-1">
                 {course
                   .sections!.sort((a, b) => a.section_num - b.section_num)
-                  .filter(
-                    (section) => section.section_num > 0 && section.active,
-                  )
                   .map((section) => (
                     <div
                       key={section.title}

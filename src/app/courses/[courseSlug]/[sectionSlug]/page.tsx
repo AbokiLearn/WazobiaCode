@@ -81,9 +81,11 @@ export default async function SectionPage({ params }: SectionPageProps) {
         </h2>
       </div>
       <GradesCard courseSlug={courseSlug} sectionSlug={sectionSlug} />
-      {section.lectures?.map((lecture) => (
-        <LectureCard key={lecture.slug} lecture={lecture} />
-      ))}
+      {section.lectures?.map((lecture) => {
+        if (lecture.active) {
+          return <LectureCard key={lecture.slug} lecture={lecture} />;
+        }
+      })}
     </div>
   );
 }

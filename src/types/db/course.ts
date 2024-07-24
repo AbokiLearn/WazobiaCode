@@ -33,8 +33,10 @@ export interface ILecture extends CourseBase {
   json_content: Record<string, any>;
   tags: string[];
   video_url: string;
-  quiz: Types.ObjectId | IQuizAssignment;
-  homework: Types.ObjectId | IHomeworkAssignment;
+  has_quiz: boolean;
+  has_homework: boolean;
+  quiz_id?: Types.ObjectId | IQuizAssignment;
+  homework_id?: Types.ObjectId | IHomeworkAssignment;
 }
 
 // API response types

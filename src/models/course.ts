@@ -52,8 +52,10 @@ export const LectureSchema = new Schema<ILecture>(
     json_content: { type: Object },
     tags: [String],
     video_url: { type: String, required: true },
-    quiz: { type: Schema.Types.ObjectId, ref: 'Assignment' },
-    homework: { type: Schema.Types.ObjectId, ref: 'Assignment' },
+    quiz_id: { type: Schema.Types.ObjectId, ref: 'Assignment' },
+    homework_id: { type: Schema.Types.ObjectId, ref: 'Assignment' },
+    has_quiz: { type: Boolean, default: false },
+    has_homework: { type: Boolean, default: false },
   },
   { timestamps: timeStamps },
 );

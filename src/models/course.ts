@@ -16,6 +16,7 @@ export const CourseSchema = new Schema<ICourse>(
     cover_image: { type: String, required: true },
     icon: { type: String, required: true },
     enrolled_students: { type: Number, default: 0 },
+    telegram_channel_id: { type: String, default: null },
   },
   { timestamps: timeStamps },
 );

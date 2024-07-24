@@ -11,6 +11,7 @@ export const UserMetadataSchema = new Schema<IUserMetadata>({
   telegram_user_id: {
     type: String,
     required: false,
+    default: null,
     unique: true,
     sparse: true,
     validate: {

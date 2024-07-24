@@ -8,6 +8,7 @@ export interface CourseBase extends Document {
   description: string;
   slug: string;
   active: boolean;
+  telegram_channel_id?: string;
   created_at: Date;
   updated_at: Date;
 }

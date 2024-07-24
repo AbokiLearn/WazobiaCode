@@ -68,6 +68,9 @@ export const POST = withApiAuthRequired(async function createCourse(
 
     // Validate required fields
     if (!title || !description || !slug || !cover_image || !icon) {
+      console.log(
+        `title: ${title}, description: ${description}, slug: ${slug}, cover_image: ${cover_image}, icon: ${icon}`,
+      );
       return APIResponse({
         error: 'Missing required fields',
         status: 400,
@@ -87,9 +90,96 @@ export const POST = withApiAuthRequired(async function createCourse(
     await newCourse.save();
 
     return APIResponse({
-      data: { course: newCourse, user: session?.user },
       message: 'Course created successfully',
       status: 201,
+    });
+  } catch (error: any) {
+    if (error.name === 'MongoServerError' && error.code === 11000) {
+      return APIResponse({
+        error: 'Course slug already in use',
+        status: 409,
+      });
+    } else {
+      return APIErrorHandler(error);
+    }
+  }
+});
+
+export const PATCH = withApiAuthRequired(async function updateCourse(
+  request: Request,
+) {
+  const session = await getSession();
+  const userRoles =
+    (session?.user[`${env.AUTH0_NAMESPACE}/roles`] as string[]) || [];
+  if (!userRoles.includes(UserRole.INSTRUCTOR)) {
+    return APIResponse({
+      error: 'Unauthorized',
+      status: 401,
+    });
+  }
+
+  try {
+    await connectMongoDB();
+
+    const { id, ...updateData } = await request.json();
+
+    if (!id) {
+      return APIResponse({
+        error: 'Missing course ID',
+        status: 400,
+      });
+    }
+
+    const updatedCourse = await Course.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
+
+    if (!updatedCourse) {
+      return APIResponse({
+        error: 'Course not found',
+        status: 404,
+      });
+    }
+
+    return APIResponse({
+      data: { course: updatedCourse },
+      message: 'Course updated successfully',
+      status: 200,
+    });
+  } catch (error: any) {
+    if (error.name === 'MongoServerError' && error.code === 11000) {
+      return APIResponse({
+        error: 'Course slug already in use',
+        status: 409,
+      });
+    } else {
+      return APIErrorHandler(error);
+    }
+  }
+});
+
+export const DELETE = withApiAuthRequired(async function deleteCourse(
+  request: Request,
+) {
+  const session = await getSession();
+  const userRoles =
+    (session?.user[`${env.AUTH0_NAMESPACE}/roles`] as string[]) || [];
+  if (!userRoles.includes(UserRole.INSTRUCTOR)) {
+    return APIResponse({
+      error: 'Unauthorized',
+      status: 401,
+    });
+  }
+
+  try {
+    await connectMongoDB();
+
+    const { id } = await request.json();
+    await Course.findByIdAndDelete(id);
+
+    return APIResponse({
+      message: 'Course deleted successfully',
+      status: 200,
     });
   } catch (error) {
     return APIErrorHandler(error);

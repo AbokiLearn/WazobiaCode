@@ -2,8 +2,9 @@ import {
   CourseWithSections,
   SectionWithLectures,
   ILecture,
+  ICourse,
 } from '@/types/db/course';
-import { getData } from '@/lib/client';
+import { getData, postData, deleteData, patchData } from '@/lib/client';
 
 export async function getCourseWithSections(
   courseSlug: string,
@@ -16,9 +17,11 @@ export async function getCourseWithSections(
   return data.course;
 }
 
-export async function getCoursesWithSections(): Promise<CourseWithSections[]> {
+export async function getCourses(
+  includeSections: boolean = false,
+): Promise<CourseWithSections[]> {
   const { data } = await getData(
-    'courses?sections=true',
+    `/courses?sections=${includeSections}`,
     'no-store',
     'Failed to fetch courses',
   );
@@ -48,4 +51,31 @@ export async function getLecture(
     'Failed to fetch lecture',
   );
   return data.lecture;
+}
+
+export async function createCourse(data: Partial<ICourse>) {
+  const { message } = await postData(
+    '/courses',
+    data,
+    'Failed to create course',
+  );
+  return message;
+}
+
+export async function updateCourse(id: string, data: Partial<ICourse>) {
+  const { message } = await patchData(
+    '/courses',
+    { id, ...data },
+    'Failed to update course',
+  );
+  return message;
+}
+
+export async function deleteCourse(id: string) {
+  const { message } = await deleteData(
+    '/courses',
+    id,
+    'Failed to delete course',
+  );
+  return message;
 }

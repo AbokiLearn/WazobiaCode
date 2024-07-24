@@ -86,6 +86,9 @@ const MenuLinks = ({ course }: { course: CourseResponse }) => {
             <AccordionContent>
               {section.lectures?.map((lecture, index) => {
                 const isLectureActive = activeLecture === lecture.slug;
+                if (!lecture.active) {
+                  return null;
+                }
                 return (
                   <NavItem
                     key={index}

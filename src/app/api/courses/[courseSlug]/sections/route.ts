@@ -203,8 +203,15 @@ export const PATCH = async function updateSection(
       data: { section: updatedSection },
       message: 'Section updated successfully',
     });
-  } catch (error) {
-    return APIErrorHandler(error);
+  } catch (error: any) {
+    if (error.name === 'MongoServerError' && error.code === 11000) {
+      return APIResponse({
+        error: 'Section slug already exists',
+        status: 409,
+      });
+    } else {
+      return APIErrorHandler(error);
+    }
   }
 };
 

@@ -299,9 +299,8 @@ export const Sections = ({ courseSlug }: { courseSlug: string }) => {
         toast.success('Section created successfully.');
       }
       handleCloseDialog();
-    } catch (error) {
-      console.error('Failed to save section:', error);
-      toast.error('Failed to save section.');
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

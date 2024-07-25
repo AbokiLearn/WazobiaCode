@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,10 +18,18 @@ export async function generateMetadata({
   params,
 }: SectionPageProps): Promise<Metadata> {
   const { courseSlug, sectionSlug } = params;
-  const section = await getSectionWithLectures(courseSlug, sectionSlug);
-  return {
-    title: section.title,
-  };
+
+  try {
+    const section = await getSectionWithLectures(courseSlug, sectionSlug);
+    if (!section.active) {
+      throw new Error('Section is not active');
+    }
+    return {
+      title: section.title,
+    };
+  } catch (error) {
+    notFound();
+  }
 }
 
 export const dynamic = 'force-dynamic';

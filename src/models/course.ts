@@ -34,10 +34,7 @@ export const SectionSchema = new Schema<ISection>(
   },
   { timestamps: timeStamps },
 );
-SectionSchema.index(
-  { course_id: 1, section_num: 1, slug: 1 },
-  { unique: true },
-);
+SectionSchema.index({ course_id: 1, slug: 1 }, { unique: true });
 
 export const LectureSchema = new Schema<ILecture>(
   {

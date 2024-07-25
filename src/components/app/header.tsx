@@ -11,10 +11,10 @@ export const HeaderLinks = ({ className }: { className?: string }) => {
       label: 'Courses',
       href: '/courses',
     },
-    {
-      label: 'FAQ',
-      href: '/faq',
-    },
+    // {
+    //   label: 'FAQ',
+    //   href: '/faq',
+    // },
   ];
 
   return (
@@ -44,7 +44,7 @@ export const Header = async ({ children }: { children?: React.ReactNode }) => {
         <HeaderLinks className="text-lg font-semibold" />
       </div>
       <div className="ml-auto flex items-center">
-        <Search />
+        {/* <Search /> */}
         <ProfileMenu />
       </div>
     </header>

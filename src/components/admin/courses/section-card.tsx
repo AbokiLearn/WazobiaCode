@@ -1,8 +1,5 @@
-'use client';
-
-import { Pencil } from 'lucide-react';
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { Pencil } from 'lucide-react';
 
 import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
@@ -16,19 +13,7 @@ import { SectionResponse } from '@/types/db/course';
 // TODO: make this a form; enable editing when button toggle is clicked
 
 export const SectionCard = ({ section }: { section: SectionResponse }) => {
-  const [title, setTitle] = useState('');
-  const [slug, setSlug] = useState('');
-  const [description, setDescription] = useState('');
-  const [icon, setIcon] = useState('');
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    setTitle(section.title);
-    setSlug(section.slug);
-    setDescription(section.description);
-    setIcon(section.icon);
-    setActive(section.active);
-  }, [section]);
+  const { title, slug, description, icon, active } = section;
 
   return (
     <Card className="bg-card shadow">
@@ -40,7 +25,6 @@ export const SectionCard = ({ section }: { section: SectionResponse }) => {
             </Label>
             <Switch
               checked={active}
-              onCheckedChange={setActive}
               className="data-[state=checked]:bg-green-400 data-[state=unchecked]:bg-red-400"
               disabled
             />
@@ -58,7 +42,6 @@ export const SectionCard = ({ section }: { section: SectionResponse }) => {
               id="course-title"
               placeholder="Course Title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
               className="text-lg"
               disabled
             />
@@ -71,7 +54,6 @@ export const SectionCard = ({ section }: { section: SectionResponse }) => {
               id="course-slug"
               placeholder="course-title"
               value={slug}
-              onChange={(e) => setSlug(e.target.value)}
               className="text-lg"
               disabled
             />
@@ -87,7 +69,6 @@ export const SectionCard = ({ section }: { section: SectionResponse }) => {
               id="course-description"
               placeholder="Course Description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
               className="text-lg"
               disabled
             />

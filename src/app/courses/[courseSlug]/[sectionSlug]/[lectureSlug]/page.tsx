@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -20,10 +21,18 @@ export async function generateMetadata({
   params,
 }: LecturePageProps): Promise<Metadata> {
   const { courseSlug, sectionSlug, lectureSlug } = params;
-  const lecture = await getLecture(courseSlug, sectionSlug, lectureSlug);
-  return {
-    title: lecture.title,
-  };
+  try {
+    const lecture = await getLecture(courseSlug, sectionSlug, lectureSlug);
+    if (!lecture.active) {
+      throw new Error('Lecture is not active');
+    }
+
+    return {
+      title: lecture.title,
+    };
+  } catch (error) {
+    notFound();
+  }
 }
 
 export const dynamic = 'force-dynamic';

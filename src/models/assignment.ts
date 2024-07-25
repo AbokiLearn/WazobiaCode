@@ -12,12 +12,12 @@ export const AssignmentSchema = new Schema<IAssignment>(
   {
     course_id: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     section_id: { type: Schema.Types.ObjectId, ref: 'Section', required: true },
-    lecture_id: { type: Schema.Types.ObjectId, ref: 'Lecture' },
+    lecture_id: { type: Schema.Types.ObjectId, ref: 'Lecture', required: true },
     type: { type: String, enum: ['quiz', 'homework'], required: true },
     tags: [String],
     active: { type: Boolean, default: false },
-    max_score: { type: Number, required: true },
-    due_date: { type: Date, required: true },
+    max_score: { type: Number, default: 10 },
+    due_date: { type: Date, default: null },
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
 );
@@ -42,19 +42,19 @@ AssignmentSchema.pre('save', async function (next) {
 
 const QuizQuestionSchema = new Schema<IQuizQuestion>({
   _id: { type: Schema.Types.ObjectId, default: () => new Types.ObjectId() },
-  question: { type: String, required: true },
-  options: { type: [String], required: true },
-  correct_answer: { type: Number, required: true },
+  question: { type: String },
+  options: { type: [String] },
+  correct_answer: { type: Number },
   points: { type: Number, default: 1 },
 });
 
 export const QuizAssignmentSchema = new Schema<IQuizAssignment>({
   questions: [QuizQuestionSchema],
-  type: { type: String, enum: ['quiz'], required: true },
+  type: { type: String, enum: ['quiz'], default: 'quiz', required: true },
 });
 
 export const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
-  instructions: { type: String, required: true },
+  instructions: { type: String },
   files: [
     {
       file_url: String,
@@ -63,5 +63,10 @@ export const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
       file_mimetype: String,
     },
   ],
-  type: { type: String, enum: ['homework'], required: true },
+  type: {
+    type: String,
+    enum: ['homework'],
+    default: 'homework',
+    required: true,
+  },
 });

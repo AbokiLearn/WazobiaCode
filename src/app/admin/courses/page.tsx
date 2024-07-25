@@ -41,62 +41,51 @@ export default function CoursesPage() {
     setIsSheetOpen(true);
   };
 
-  const handleSubmit = (data: CourseFormValues) => {
-    const uploadPromises = [];
-    let iconUrl = undefined;
-    let coverImageUrl = undefined;
+  const handleSubmit = async (data: CourseFormValues) => {
+    try {
+      let iconUrl: string | undefined =
+        typeof data.icon === 'string' ? data.icon : undefined;
+      let coverImageUrl: string | undefined =
+        typeof data.cover_image === 'string' ? data.cover_image : undefined;
 
-    // check if browser env
-    const isBrowser = typeof window !== 'undefined';
-
-    // upload icon if provided
-    if (isBrowser && data.icon instanceof File) {
-      uploadPromises.push(
-        uploadFiles([data.icon], 'course-assets').then(([result]) => {
-          iconUrl = result.data.file_url;
-        }),
-      );
-    }
-
-    // upload cover image if provided
-    if (isBrowser && data.cover_image instanceof File) {
-      uploadPromises.push(
-        uploadFiles([data.cover_image], 'course-assets').then(([result]) => {
-          coverImageUrl = result.data.file_url;
-        }),
-      );
-    }
-
-    // wait for uploads to complete
-    Promise.all(uploadPromises)
-      .then(() => {
-        const courseData: Partial<ICourse> = {
-          ...data,
-          icon: iconUrl!,
-          cover_image: coverImageUrl!,
-        };
-
-        if (editingCourse) {
-          return updateCourse(editingCourse._id, courseData);
-        } else {
-          return createCourse(courseData);
+      // Check if we're in a browser environment
+      if (typeof window !== 'undefined') {
+        // Upload icon if it's a File object
+        if (data.icon instanceof File) {
+          const [iconResult] = await uploadFiles([data.icon], 'course-assets');
+          iconUrl = iconResult.data.file_url;
         }
-      })
-      .then((result) => {
-        if (result instanceof Error) {
-          throw result;
+
+        // Upload cover image if it's a File object
+        if (data.cover_image instanceof File) {
+          const [coverResult] = await uploadFiles(
+            [data.cover_image],
+            'course-assets',
+          );
+          coverImageUrl = coverResult.data.file_url;
         }
-        toast.success(editingCourse ? 'Course updated' : 'Course created');
-        return getCourses();
-      })
-      .then((updatedCourses) => {
-        setCourses(updatedCourses);
-        setIsSheetOpen(false);
-        setEditingCourse(null);
-      })
-      .catch((error: any) => {
-        toast.error(error.message);
-      });
+      }
+
+      const courseData: Partial<ICourse> = {
+        ...data,
+        icon: iconUrl,
+        cover_image: coverImageUrl,
+      };
+
+      if (editingCourse) {
+        await updateCourse(editingCourse._id, courseData);
+      } else {
+        await createCourse(courseData);
+      }
+
+      toast.success(editingCourse ? 'Course updated' : 'Course created');
+      const updatedCourses = await getCourses();
+      setCourses(updatedCourses);
+      setIsSheetOpen(false);
+      setEditingCourse(null);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (

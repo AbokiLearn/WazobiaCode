@@ -1,11 +1,44 @@
 import { getSession } from '@auth0/nextjs-auth0';
+
+import {
+  Course,
+  Section,
+  Lecture,
+  QuizAssignment,
+  HomeworkAssignment,
+  Assignment,
+} from '@/models';
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
 import { env } from '@/lib/config';
-import { Course, Section, Lecture, Assignment } from '@/models';
+import { ILecture } from '@/types/db/course';
 import { UserRole } from '@/types/auth';
 
 export const dynamic = 'force-dynamic';
+
+async function createAssignmentIfNeeded(lecture: ILecture) {
+  if (lecture.has_quiz && !lecture.quiz_id) {
+    const quizAssignment = new QuizAssignment({
+      course_id: lecture.course_id,
+      section_id: lecture.section_id,
+      lecture_id: lecture._id,
+    });
+    await quizAssignment.save();
+    lecture.quiz_id = quizAssignment._id;
+  }
+
+  if (lecture.has_homework && !lecture.homework_id) {
+    const homeworkAssignment = new HomeworkAssignment({
+      course_id: lecture.course_id,
+      section_id: lecture.section_id,
+      lecture_id: lecture._id,
+    });
+    await homeworkAssignment.save();
+    lecture.homework_id = homeworkAssignment._id;
+  }
+
+  return lecture;
+}
 
 export async function GET(
   request: Request,
@@ -104,7 +137,7 @@ export async function POST(
     );
     const lecture_num = lastLecture ? lastLecture.lecture_num + 1 : 1;
 
-    const newLecture = new Lecture({
+    let newLecture = new Lecture({
       title: data.title,
       description: data.description,
       slug: data.slug,
@@ -115,8 +148,11 @@ export async function POST(
       section_id: section._id,
       lecture_num,
       active: data.active !== undefined ? data.active : true,
+      has_quiz: data.has_quiz || false,
+      has_homework: data.has_homework || false,
     });
 
+    newLecture = await createAssignmentIfNeeded(newLecture);
     await newLecture.save();
 
     return APIResponse({
@@ -177,7 +213,7 @@ export async function PATCH(
       });
     }
 
-    const updatedLecture = await Lecture.findOneAndUpdate(
+    let updatedLecture = await Lecture.findOneAndUpdate(
       { _id: id, course_id: course._id, section_id: section._id },
       updateData,
       { new: true },
@@ -189,6 +225,9 @@ export async function PATCH(
         status: 404,
       });
     }
+
+    updatedLecture = await createAssignmentIfNeeded(updatedLecture);
+    await updatedLecture.save();
 
     return APIResponse({
       data: { lecture: updatedLecture },

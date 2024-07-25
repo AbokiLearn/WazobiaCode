@@ -20,6 +20,8 @@ import { createCourse, getCourses, updateCourse } from '@/lib/client/course';
 import { uploadFiles } from '@/lib/client/files';
 import { ICourse } from '@/types/db/course';
 
+export const dynamic = 'force-dynamic';
+
 export default function CoursesPage() {
   const [editingCourse, setEditingCourse] = useState<any | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -44,8 +46,11 @@ export default function CoursesPage() {
     let iconUrl = undefined;
     let coverImageUrl = undefined;
 
+    // check if browser env
+    const isBrowser = typeof window !== 'undefined';
+
     // upload icon if provided
-    if (data.icon instanceof File) {
+    if (isBrowser && data.icon instanceof File) {
       uploadPromises.push(
         uploadFiles([data.icon], 'course-assets').then(([result]) => {
           iconUrl = result.data.file_url;
@@ -54,7 +59,7 @@ export default function CoursesPage() {
     }
 
     // upload cover image if provided
-    if (data.cover_image instanceof File) {
+    if (isBrowser && data.cover_image instanceof File) {
       uploadPromises.push(
         uploadFiles([data.cover_image], 'course-assets').then(([result]) => {
           coverImageUrl = result.data.file_url;

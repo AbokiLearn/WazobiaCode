@@ -16,6 +16,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -52,6 +53,8 @@ const formSchema = z.object({
   slug: z.string().min(1, 'Slug is required'),
   active: z.boolean().default(false),
   video_url: z.string(),
+  has_quiz: z.boolean().default(false),
+  has_homework: z.boolean().default(false),
 });
 
 const LectureDialog = ({
@@ -69,13 +72,19 @@ const LectureDialog = ({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: lecture || {
-      title: '',
-      description: '',
-      slug: '',
-      active: false,
-      video_url: '',
-    },
+    defaultValues: lecture
+      ? {
+          ...lecture,
+        }
+      : {
+          title: '',
+          description: '',
+          slug: '',
+          active: false,
+          video_url: '',
+          has_quiz: false,
+          has_homework: false,
+        },
   });
 
   useEffect(() => {
@@ -86,6 +95,8 @@ const LectureDialog = ({
         slug: lecture.slug,
         active: lecture.active,
         video_url: lecture.video_url,
+        has_quiz: lecture.has_quiz,
+        has_homework: lecture.has_homework,
       });
     } else {
       form.reset({
@@ -94,6 +105,8 @@ const LectureDialog = ({
         slug: '',
         active: false,
         video_url: '',
+        has_quiz: false,
+        has_homework: false,
       });
     }
   }, [lecture, form]);
@@ -109,12 +122,12 @@ const LectureDialog = ({
     onConfirm({
       ...lecture,
       ...values,
-    } as ILecture);
+    } as unknown as ILecture);
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
             {isEditMode ? 'Edit Lecture' : 'New Lecture'}
@@ -167,47 +180,6 @@ const LectureDialog = ({
                 </FormItem>
               )}
             />
-            <div
-              className={cn(
-                'flex items-center justify-between my-2 py-2 px-4 rounded-lg',
-                lecture?.content && lecture?.json_content
-                  ? 'bg-green-100'
-                  : 'bg-red-100',
-              )}
-            >
-              <FormLabel className="text-base">Has Content</FormLabel>
-              {!!lecture?.content && !!lecture?.json_content ? (
-                <CircleCheck className="w-6 h-6 text-green-700" />
-              ) : (
-                <CircleX className="w-6 h-6 text-red-700" />
-              )}
-            </div>
-            <div
-              className={cn(
-                'flex items-center justify-between my-2 py-2 px-4 rounded-lg',
-                lecture?.homework ? 'bg-green-100' : 'bg-red-100',
-              )}
-            >
-              <FormLabel className="text-base">Has Homework</FormLabel>
-              {!!lecture?.homework ? (
-                <CircleCheck className="w-6 h-6 text-green-700" />
-              ) : (
-                <CircleX className="w-6 h-6 text-red-700" />
-              )}
-            </div>
-            <div
-              className={cn(
-                'flex items-center justify-between my-2 py-2 px-4 rounded-lg',
-                lecture?.quiz ? 'bg-green-100' : 'bg-red-100',
-              )}
-            >
-              <FormLabel className="text-base">Has Quiz</FormLabel>
-              {!!lecture?.quiz ? (
-                <CircleCheck className="w-6 h-6 text-green-700" />
-              ) : (
-                <CircleX className="w-6 h-6 text-red-700" />
-              )}
-            </div>
             <FormField
               control={form.control}
               name="video_url"
@@ -221,6 +193,49 @@ const LectureDialog = ({
                 </FormItem>
               )}
             />
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Assignments</h3>
+              <FormField
+                control={form.control}
+                name="has_quiz"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border border-muted p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Include Quiz</FormLabel>
+                      <FormDescription>
+                        Add a quiz to this lecture
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="has_homework"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border border-muted p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Include Homework</FormLabel>
+                      <FormDescription>
+                        Add homework to this lecture
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="active"
@@ -244,18 +259,6 @@ const LectureDialog = ({
                                 message:
                                   'Cannot set lecture to active without content. Use the editor to add content.',
                               });
-                            } else if (!lecture?.homework) {
-                              form.setError('active', {
-                                type: 'manual',
-                                message:
-                                  'Cannot set lecture to active without homework. Use the editor to add homework.',
-                              });
-                            } else if (!lecture?.quiz) {
-                              form.setError('active', {
-                                type: 'manual',
-                                message:
-                                  'Cannot set lecture to active without quiz. Use the editor to add quiz.',
-                              });
                             } else {
                               form.clearErrors('active');
                               field.onChange(checked);
@@ -273,6 +276,21 @@ const LectureDialog = ({
                 </FormItem>
               )}
             />
+            <div
+              className={cn(
+                'flex items-center justify-between my-2 py-2 px-4 rounded-lg',
+                lecture?.content && lecture?.json_content
+                  ? 'bg-green-100'
+                  : 'bg-red-100',
+              )}
+            >
+              <FormLabel className="text-base">Has Content</FormLabel>
+              {!!lecture?.content && !!lecture?.json_content ? (
+                <CircleCheck className="w-6 h-6 text-green-700" />
+              ) : (
+                <CircleX className="w-6 h-6 text-red-700" />
+              )}
+            </div>
             <DialogFooter>
               <Button variant="ghost" onClick={onClose} type="button">
                 Cancel
@@ -331,7 +349,11 @@ export const Lectures = ({
         slug: updatedLecture.slug,
         active: updatedLecture.active,
         video_url: updatedLecture.video_url,
+        has_quiz: updatedLecture.has_quiz,
+        has_homework: updatedLecture.has_homework,
       };
+
+      console.log(lectureToSave);
 
       if (editLectureMetadata) {
         // Edit existing lecture

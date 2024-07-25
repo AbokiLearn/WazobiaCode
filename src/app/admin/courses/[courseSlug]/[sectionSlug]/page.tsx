@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { type JSONContent } from 'novel';
 import { toast } from 'sonner';
 
-import { LectureEditor } from '@/components/admin/courses/lecture-editor';
+import { LectureEditorTab } from '@/components/admin/courses/lecture-editor';
 import { SectionCard } from '@/components/admin/courses/section-card';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Lectures } from '@/components/admin/courses/lectures';
 import { Breadcrumbs } from '@/components/admin/breadcrumbs';
 
@@ -41,8 +42,6 @@ export default function CoursePage({
     if (!editingLecture) return;
 
     try {
-      console.log(content);
-      console.log(json_content);
       const { lecture } = await updateLecture(
         courseSlug,
         sectionSlug,
@@ -75,10 +74,19 @@ export default function CoursePage({
             />
           </div>
           <div className="lg:col-span-2">
-            <LectureEditor
-              lecture={editingLecture}
-              saveLectureContent={saveLectureContent}
-            />
+            <Tabs defaultValue="content" className="justify-center">
+              <div className="flex flex-row justify-center items-center mb-4">
+                <TabsList>
+                  <TabsTrigger value="content">Content</TabsTrigger>
+                  <TabsTrigger value="homework">Homework</TabsTrigger>
+                  <TabsTrigger value="quizzes">Quizzes</TabsTrigger>
+                </TabsList>
+              </div>
+              <LectureEditorTab
+                lecture={editingLecture}
+                saveLectureContent={saveLectureContent}
+              />
+            </Tabs>
           </div>
         </div>
       </div>

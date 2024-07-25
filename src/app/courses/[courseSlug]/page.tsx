@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,10 +16,15 @@ export async function generateMetadata({
   params,
 }: CoursePageProps): Promise<Metadata> {
   const { courseSlug } = params;
-  const course = await getCourse(courseSlug);
-  return {
-    title: course.title,
-  };
+
+  try {
+    const course = await getCourse(courseSlug);
+    return {
+      title: course.title,
+    };
+  } catch (error) {
+    notFound();
+  }
 }
 
 export const dynamic = 'force-dynamic';

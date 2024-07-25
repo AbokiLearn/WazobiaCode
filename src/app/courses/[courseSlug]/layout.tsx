@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { Sidebar, SidebarMobile } from '@/components/app/sidebar';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
@@ -11,7 +13,19 @@ export default async function CourseLayout({
   params: { courseSlug: string };
 }) {
   const { courseSlug } = params;
-  const course = await getCourse(courseSlug, true, true);
+  let course = null;
+
+  try {
+    course = await getCourse(courseSlug, true, true);
+    if (!course) {
+      throw new Error('Course not found');
+    }
+    if (!course.active) {
+      throw new Error('Course is not active');
+    }
+  } catch (error) {
+    notFound();
+  }
 
   return (
     <div className="flex flex-col min-h-screen">

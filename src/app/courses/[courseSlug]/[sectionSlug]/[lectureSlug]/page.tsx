@@ -78,7 +78,7 @@ export default async function LecturePage({ params }: LecturePageProps) {
         <LectureHeader />
         <Tabs defaultValue="content">
           <div className="flex flex-row justify-center mb-4">
-            <LectureTabList />
+            <LectureTabList lecture={lecture} />
           </div>
           <TabsContent value="content">
             <LectureContent />

@@ -5,13 +5,13 @@ export const dynamic = 'force-dynamic';
 
 export const GET = handleAuth({
   login: handleLogin({
-    returnTo: '/app',
+    returnTo: '/api/auth/silent',
   }),
   signup: handleLogin({
     authorizationParams: {
       screen_hint: 'signup',
     },
-    returnTo: '/app',
+    returnTo: '/api/auth/logout',
   }),
   silent: async (req: NextApiRequest, res: NextApiResponse) => {
     const url = new URL(req.url || '');

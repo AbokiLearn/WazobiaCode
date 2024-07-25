@@ -25,7 +25,6 @@ export const POST = withApiAuthRequired(async function handler(
   try {
     // Attempt to update or create user metadata in MongoDB
     const userMetadata = await updateMongoMetadata(updatedMetadata, session);
-    console.log('userMetadata', userMetadata);
 
     // Update Auth0 user metadata
     await updateAuth0Metadata(updatedMetadata, session);
@@ -41,9 +40,7 @@ export const POST = withApiAuthRequired(async function handler(
       status: 200,
     });
   } catch (error: any) {
-    // Check if the error is a MongoServerError due to duplicate phone number
     if (error.name === 'MongoServerError' && error.code === 11000) {
-      console.log(JSON.stringify(error));
       return APIResponse({
         error: 'Phone number already in use by another user',
         status: 409,

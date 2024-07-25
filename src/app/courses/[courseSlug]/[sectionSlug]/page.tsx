@@ -1,3 +1,4 @@
+import { getSession } from '@auth0/nextjs-auth0';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -9,6 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { type LectureResponse } from '@/types/db/course';
 import { getSectionWithLectures } from '@/lib/client/course';
 import { getYouTubeThumbnail } from '@/lib/utils';
+import { checkUserRole } from '@/lib/auth';
+import { UserRole } from '@/types/auth';
 
 interface SectionPageProps {
   params: { courseSlug: string; sectionSlug: string };
@@ -21,14 +24,13 @@ export async function generateMetadata({
 
   try {
     const section = await getSectionWithLectures(courseSlug, sectionSlug);
-    if (!section.active) {
-      throw new Error('Section is not active');
-    }
     return {
       title: section.title,
     };
   } catch (error) {
-    notFound();
+    return {
+      title: 'Section not found',
+    };
   }
 }
 
@@ -37,7 +39,14 @@ export const dynamic = 'force-dynamic';
 export default async function SectionPage({ params }: SectionPageProps) {
   const { courseSlug, sectionSlug } = params;
 
+  const session = await getSession();
+  const isInstructor = await checkUserRole(session, UserRole.INSTRUCTOR);
+
   const section = await getSectionWithLectures(courseSlug, sectionSlug);
+
+  if (!section.active && !isInstructor) {
+    notFound();
+  }
 
   const LectureCard = ({ lecture }: { lecture: LectureResponse }) => {
     const thumbnailUrl = getYouTubeThumbnail(lecture.video_url);

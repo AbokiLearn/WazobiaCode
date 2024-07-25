@@ -1,3 +1,4 @@
+import { getSession } from '@auth0/nextjs-auth0';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { Metadata } from 'next';
@@ -12,6 +13,8 @@ import CustomMDX from '@/components/app/custom-mdx';
 import { Badge } from '@/components/ui/badge';
 
 import { getLecture } from '@/lib/client/course';
+import { checkUserRole } from '@/lib/auth';
+import { UserRole } from '@/types/auth';
 
 interface LecturePageProps {
   params: { courseSlug: string; sectionSlug: string; lectureSlug: string };
@@ -21,17 +24,16 @@ export async function generateMetadata({
   params,
 }: LecturePageProps): Promise<Metadata> {
   const { courseSlug, sectionSlug, lectureSlug } = params;
+
   try {
     const lecture = await getLecture(courseSlug, sectionSlug, lectureSlug);
-    if (!lecture.active) {
-      throw new Error('Lecture is not active');
-    }
-
     return {
       title: lecture.title,
     };
   } catch (error) {
-    notFound();
+    return {
+      title: 'Lecture not found',
+    };
   }
 }
 
@@ -39,7 +41,15 @@ export const dynamic = 'force-dynamic';
 
 export default async function LecturePage({ params }: LecturePageProps) {
   const { courseSlug, sectionSlug, lectureSlug } = params;
+
+  const session = await getSession();
+  const isInstructor = await checkUserRole(session, UserRole.INSTRUCTOR);
+
   const lecture = await getLecture(courseSlug, sectionSlug, lectureSlug);
+
+  if (!lecture.active && !isInstructor) {
+    notFound();
+  }
 
   const LectureHeader = () => {
     return (

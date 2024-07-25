@@ -13,7 +13,13 @@ import { SheetMenu } from '@/components/ui/sheet-menu';
 import { CourseResponse } from '@/types/db/course';
 import { cn } from '@/lib/utils';
 
-const MenuLinks = ({ course }: { course: CourseResponse }) => {
+const MenuLinks = ({
+  course,
+  isInstructor,
+}: {
+  course: CourseResponse;
+  isInstructor: boolean;
+}) => {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<string>('');
   const [activeLecture, setActiveLecture] = useState<string>('');
@@ -65,7 +71,7 @@ const MenuLinks = ({ course }: { course: CourseResponse }) => {
       {course.sections?.map((section, index) => {
         const isSectionActive = activeSection === section.slug;
 
-        if (!section.active) {
+        if (!section.active && !isInstructor) {
           return null;
         }
 
@@ -86,7 +92,7 @@ const MenuLinks = ({ course }: { course: CourseResponse }) => {
             <AccordionContent>
               {section.lectures?.map((lecture, index) => {
                 const isLectureActive = activeLecture === lecture.slug;
-                if (!lecture.active) {
+                if (!lecture.active && !isInstructor) {
                   return null;
                 }
                 return (
@@ -107,23 +113,35 @@ const MenuLinks = ({ course }: { course: CourseResponse }) => {
   );
 };
 
-export const Sidebar = ({ course }: { course: CourseResponse }) => {
+export const Sidebar = ({
+  course,
+  isInstructor,
+}: {
+  course: CourseResponse;
+  isInstructor: boolean;
+}) => {
   return (
     <div className="hidden md:block border-r bg-primary w-[300px] min-h-screen overflow-y-auto">
       <div className="flex flex-col gap-2">
         <nav className="grid items-start text-sm font-medium px-2 lg:px-4">
-          <MenuLinks course={course} />
+          <MenuLinks course={course} isInstructor={isInstructor} />
         </nav>
       </div>
     </div>
   );
 };
 
-export const SidebarMobile = ({ course }: { course: CourseResponse }) => {
+export const SidebarMobile = ({
+  course,
+  isInstructor,
+}: {
+  course: CourseResponse;
+  isInstructor: boolean;
+}) => {
   return (
     <SheetMenu className="bg-primary">
       <nav className="grid gap-2 text-lg font-medium">
-        <MenuLinks course={course} />
+        <MenuLinks course={course} isInstructor={isInstructor} />
       </nav>
     </SheetMenu>
   );

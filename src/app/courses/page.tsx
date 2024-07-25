@@ -1,3 +1,4 @@
+import { getSession } from '@auth0/nextjs-auth0';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,8 +13,9 @@ import {
 } from '@/components/ui/card';
 import { Header } from '@/components/app/header';
 import { Footer } from '@/components/ui/footer';
-import { CourseResponse } from '@/types/db/course';
 import { getCourses } from '@/lib/client/course';
+import { checkUserRole } from '@/lib/auth';
+import { UserRole } from '@/types/auth';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
@@ -23,14 +25,113 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 export default async function Page() {
+  const session = await getSession();
   const courses = await getCourses(true);
+  const isInstructor = await checkUserRole(session, UserRole.INSTRUCTOR);
+
+  const CourseList = () => {
+    return (
+      <>
+        {courses.map((course) => {
+          const isActive = course.active || isInstructor;
+          const cardClassName = isActive
+            ? 'bg-card text-card-foreground'
+            : 'bg-muted text-muted-foreground';
+
+          return (
+            <Card
+              key={course.title}
+              className={cn(
+                'overflow-hidden mx-1 md:mx-6 border-border',
+                cardClassName,
+              )}
+            >
+              <CardHeader>
+                <div className="flex items-center gap-4">
+                  <Image
+                    src={course.icon}
+                    alt={course.title}
+                    width={32}
+                    height={32}
+                  />
+                  <Link href={isActive ? `/courses/${course.slug}` : '#'}>
+                    <CardTitle>{course.title}</CardTitle>
+                  </Link>
+                </div>
+                <CardDescription
+                  className={cn(
+                    '',
+                    isActive ? 'text-card-foreground' : 'text-muted-foreground',
+                  )}
+                >
+                  {course.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-row">
+                <div className="flex-1">
+                  {course
+                    .sections!.sort((a, b) => a.section_num - b.section_num)
+                    .map((section) => (
+                      <div
+                        key={section.title}
+                        className="flex items-center gap-2 p-1"
+                      >
+                        <Image
+                          src={section.icon}
+                          alt={section.title}
+                          width={32}
+                          height={32}
+                        />
+                        <Link
+                          href={
+                            isActive
+                              ? `/courses/${course.slug}/${section.slug}`
+                              : '#'
+                          }
+                          className={cn(
+                            'text-md sm:font-[400]',
+                            isActive
+                              ? 'hover:text-accent transition-colors'
+                              : '',
+                          )}
+                        >
+                          {section.title}
+                        </Link>
+                      </div>
+                    ))}
+                </div>
+              </CardContent>
+              <CardFooter
+                className={cn(
+                  'items-center py-3',
+                  isActive ? 'bg-muted-foreground' : 'bg-muted',
+                )}
+              >
+                <Link
+                  className={cn(
+                    'font-semibold',
+                    isActive
+                      ? 'text-accent hover:text-accent-foreground transition-colors'
+                      : 'text-muted-foreground',
+                  )}
+                  href={course.active ? `/courses/${course.slug}` : '#'}
+                >
+                  {course.active ? 'View Course' : 'Coming Soon'}
+                </Link>
+              </CardFooter>
+            </Card>
+          );
+        })}
+      </>
+    );
+  };
 
   return (
     <>
       <div className="flex flex-col flex-grow overflow-hidden">
         <Header />
         <main className="flex-grow bg-background text-foreground overflow-auto space-y-6 p-4 md:p-6">
-          <CourseList courses={courses} />
+          <CourseList />
           <ComingSoonCard />
         </main>
       </div>
@@ -38,101 +139,6 @@ export default async function Page() {
     </>
   );
 }
-
-const CourseList = ({ courses }: { courses: CourseResponse[] }) => {
-  return (
-    <>
-      {courses.map((course) => {
-        const isActive = course.active;
-        const cardClassName = isActive
-          ? 'bg-card text-card-foreground'
-          : 'bg-muted text-muted-foreground';
-
-        return (
-          <Card
-            key={course.title}
-            className={cn(
-              'overflow-hidden mx-1 md:mx-6 border-border',
-              cardClassName,
-            )}
-          >
-            <CardHeader>
-              <div className="flex items-center gap-4">
-                <Image
-                  src={course.icon}
-                  alt={course.title}
-                  width={32}
-                  height={32}
-                />
-                <Link href={isActive ? `/courses/${course.slug}` : '#'}>
-                  <CardTitle>{course.title}</CardTitle>
-                </Link>
-              </div>
-              <CardDescription
-                className={cn(
-                  '',
-                  isActive ? 'text-card-foreground' : 'text-muted-foreground',
-                )}
-              >
-                {course.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-row">
-              <div className="flex-1">
-                {course
-                  .sections!.sort((a, b) => a.section_num - b.section_num)
-                  .map((section) => (
-                    <div
-                      key={section.title}
-                      className="flex items-center gap-2 p-1"
-                    >
-                      <Image
-                        src={section.icon}
-                        alt={section.title}
-                        width={32}
-                        height={32}
-                      />
-                      <Link
-                        href={
-                          isActive
-                            ? `/courses/${course.slug}/${section.slug}`
-                            : '#'
-                        }
-                        className={cn(
-                          'text-md sm:font-[400]',
-                          isActive ? 'hover:text-accent transition-colors' : '',
-                        )}
-                      >
-                        {section.title}
-                      </Link>
-                    </div>
-                  ))}
-              </div>
-            </CardContent>
-            <CardFooter
-              className={cn(
-                'items-center py-3',
-                isActive ? 'bg-muted-foreground' : 'bg-muted',
-              )}
-            >
-              <Link
-                className={cn(
-                  'font-semibold',
-                  isActive
-                    ? 'text-accent hover:text-accent-foreground transition-colors'
-                    : 'text-muted-foreground',
-                )}
-                href={course.active ? `/courses/${course.slug}` : '#'}
-              >
-                {course.active ? 'View Course' : 'Coming Soon'}
-              </Link>
-            </CardFooter>
-          </Card>
-        );
-      })}
-    </>
-  );
-};
 
 const ComingSoonCard = () => {
   return (

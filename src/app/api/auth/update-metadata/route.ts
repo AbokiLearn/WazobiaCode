@@ -43,6 +43,7 @@ export const POST = withApiAuthRequired(async function handler(
   } catch (error: any) {
     // Check if the error is a MongoServerError due to duplicate phone number
     if (error.name === 'MongoServerError' && error.code === 11000) {
+      console.log(JSON.stringify(error));
       return APIResponse({
         error: 'Phone number already in use by another user',
         status: 409,

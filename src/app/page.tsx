@@ -1,10 +1,11 @@
 import Image from 'next/image';
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageHeader } from '@/components/landing-page/page-header';
 import { LearnMore } from '@/components/landing-page/learn-more';
 import LandingFAQ from '@/components/landing-page/faq';
-import Form from '@/components/landing-page/form';
 import { Footer } from '@/components/ui/footer';
+import { Button } from '@/components/ui/button';
 
 export default function LandingPage() {
   return (
@@ -81,7 +82,33 @@ export default function LandingPage() {
           <LandingFAQ id="faq-section" />
         </section>
         <section className="w-full">
-          <Form />
+          <Card className="max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-center">
+                Registration Closed
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-center mb-4">
+                We&apos;re sorry, but registration for the Summer 2024 cohort is
+                now closed.
+              </p>
+              <p className="text-center mb-4">
+                Thank you for your interest in WazobiaCode. We encourage you to
+                check back later for information about future cohorts.
+              </p>
+              <div className="flex justify-center">
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }
+                >
+                  Back to Top
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </section>
       </div>
       <Footer />

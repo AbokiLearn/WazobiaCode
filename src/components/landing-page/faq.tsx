@@ -45,7 +45,7 @@ const faqs = [
   {
     question: 'How long is the program?',
     answer:
-      'The program lasts for approximately 7 weeks, starting July 22, 2024.',
+      'The program lasts for approximately 6 weeks, starting Friday, July 26th 2024.',
   },
   {
     question: 'What should students expect after they fill out the form?',

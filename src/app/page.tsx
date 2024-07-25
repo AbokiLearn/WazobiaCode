@@ -42,10 +42,10 @@ export default function LandingPage() {
             WazobiaCode is a free coding bootcamp that takes beginners and
             transforms them into full-stack web developers, equipping them with
             the tools to thrive in the developing tech industry. Our program,
-            which is completely free of charge, starts on [DATE]. It is
-            accessible via mobile device or laptops to ensure that location and
-            resources are no barrier. Your journey towards become a developer
-            starts here.
+            which is completely free of charge, starts on Friday, July 26th
+            2024. It is accessible via mobile device or laptops to ensure that
+            location and resources are no barrier. Your journey towards become a
+            developer starts here.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-md">

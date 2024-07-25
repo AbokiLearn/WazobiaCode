@@ -1,14 +1,14 @@
-import { UserProvider } from '@auth0/nextjs-auth0/client';
-import { Inter } from 'next/font/google';
-import type { Metadata } from 'next';
+import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { Inter } from "next/font/google";
+import type { Metadata } from "next";
 
-import { Toaster } from '@/components/ui/sonner';
-import './globals.css';
+import { Toaster } from "@/components/ui/sonner";
+import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'WazobiaCode',
+  title: "WazobiaCode",
 };
 
 export default function RootLayout({

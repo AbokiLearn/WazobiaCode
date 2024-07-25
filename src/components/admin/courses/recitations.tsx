@@ -99,6 +99,7 @@ const RecitationDialog = ({
       ...recitation,
       ...values,
     } as IRecitationGroup);
+    form.reset();
   };
 
   return (

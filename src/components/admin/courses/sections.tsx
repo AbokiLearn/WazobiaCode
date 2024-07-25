@@ -116,6 +116,7 @@ const SectionDialog = ({
       ...values,
       icon: values.icon instanceof File ? values.icon : values.icon || null,
     } as ISection);
+    form.reset();
   };
 
   return (
@@ -248,7 +249,13 @@ export const Sections = ({ courseSlug }: { courseSlug: string }) => {
   const [editSection, setEditSection] = useState<ISection | null>(null);
 
   useEffect(() => {
-    getSections(courseSlug).then(setSections);
+    getSections(courseSlug)
+      .then(setSections)
+      .catch((error) => {
+        if (error.message !== 'Section not found') {
+          toast.error(error.message);
+        }
+      });
   }, [courseSlug]);
 
   const handleOpenDialog = (section: ISection | null = null) => {

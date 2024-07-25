@@ -123,6 +123,7 @@ const LectureDialog = ({
       ...lecture,
       ...values,
     } as unknown as ILecture);
+    form.reset();
   };
 
   return (

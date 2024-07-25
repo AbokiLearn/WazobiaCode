@@ -37,7 +37,6 @@ export const getChannelInvites = async (
 };
 
 export const sendInvites = async (inviteRequests: any[]) => {
-  console.log({ invites: inviteRequests });
   const response = await axios.post(
     `${env.TELEGRAM_API_URL}/send-invites`,
     { invites: inviteRequests },

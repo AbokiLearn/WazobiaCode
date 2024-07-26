@@ -54,7 +54,7 @@ export function EditCourse({ initialData, onSubmit }: EditCourseProps) {
       icon: undefined,
       cover_image: undefined,
       active: false,
-      telegram_channel_id: undefined,
+      telegram_channel_id: '',
     },
   });
 

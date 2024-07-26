@@ -327,7 +327,6 @@ export const Lectures = ({
 
   useEffect(() => {
     if (!editingLecture) {
-      console.log('fetching lectures');
       getLectures(courseSlug, sectionSlug).then(setLectures);
     }
   }, [editingLecture, courseSlug, sectionSlug]);
@@ -353,8 +352,6 @@ export const Lectures = ({
         has_quiz: updatedLecture.has_quiz,
         has_homework: updatedLecture.has_homework,
       };
-
-      console.log(lectureToSave);
 
       if (editLectureMetadata) {
         // Edit existing lecture

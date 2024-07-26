@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import { type JSONContent } from 'novel';
+import { useState } from 'react';
 import { toast } from 'sonner';
+
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Lectures } from '@/components/admin/courses/lectures';
+import { Card, CardContent } from '@/components/ui/card';
 import { LectureEditorTab } from '@/components/admin/courses/lecture-editor';
+import { Lectures } from '@/components/admin/courses/lectures';
+
 import { updateLecture } from '@/lib/client/course';
 import { ISection, ILecture } from '@/types/db/course';
 
@@ -55,19 +58,39 @@ export function ClientSideContent({
         />
       </div>
       <div className="lg:col-span-2">
-        <Tabs defaultValue="content" className="justify-center">
-          <div className="flex flex-row justify-center items-center mb-4">
-            <TabsList>
-              <TabsTrigger value="content">Content</TabsTrigger>
-              <TabsTrigger value="homework">Homework</TabsTrigger>
-              <TabsTrigger value="quizzes">Quizzes</TabsTrigger>
-            </TabsList>
-          </div>
-          <LectureEditorTab
-            lecture={editingLecture}
-            saveLectureContent={saveLectureContent}
-          />
-        </Tabs>
+        {editingLecture ? (
+          <Tabs defaultValue="content" className="justify-center">
+            <div className="flex flex-row justify-center items-center mb-4">
+              <TabsList>
+                <TabsTrigger value="content">Content</TabsTrigger>
+                <TabsTrigger
+                  value="homework"
+                  disabled={!editingLecture.has_homework}
+                >
+                  Homework
+                </TabsTrigger>
+                <TabsTrigger
+                  value="quizzes"
+                  disabled={!editingLecture.has_quiz}
+                >
+                  Quizzes
+                </TabsTrigger>
+              </TabsList>
+            </div>
+            <LectureEditorTab
+              lecture={editingLecture}
+              saveLectureContent={saveLectureContent}
+            />
+          </Tabs>
+        ) : (
+          <Card className="w-full bg-card shadow">
+            <CardContent className="flex items-center justify-center h-[400px]">
+              <p className="text-muted-foreground text-lg">
+                Select a lecture to edit
+              </p>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );

@@ -103,39 +103,3 @@ export const LectureEditorTab = ({
     </TabsContent>
   );
 };
-
-{
-  /* <TabsContent value="homework">
-          <CardHeader className="flex flex-row justify-between items-center">
-            <div>
-              <CardTitle>Homework: &quot;{lecture.title}&quot;</CardTitle>
-              <CardDescription className="text-md mt-2">
-                {lecture.description}
-              </CardDescription>
-            </div>
-            <div className="flex space-x-2">
-              <Button
-                className="text-md hover:text-accent"
-                onClick={() =>
-                  saveLectureContent({
-                    content: markdown,
-                    json_content: editorContent!,
-                  })
-                }
-              >
-                <Save className="w-6 h-6 mr-2" />
-                Save
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col items-center max-h-[600px] overflow-hidden">
-              <Editor
-                key={editorKey}
-                initialValue={editorContent}
-                onChange={onEditorChange}
-              />
-            </div>
-          </CardContent>
-        </TabsContent> */
-}

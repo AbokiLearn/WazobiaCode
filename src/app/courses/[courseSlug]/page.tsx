@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { CourseProgressIndicator } from '@/components/app/courses/course-progress';
+// import { CourseProgressIndicator } from '@/components/app/courses/course-progress';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { getCourse } from '@/lib/client/course';
 import { ISection } from '@/types/db/course';
@@ -55,7 +55,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
         <CardContent className="flex flex-row">
           <div className="flex flex-col w-full">
             <p className="text-justify">{course.description}</p>
-            <CourseProgressIndicator courseSlug={course.slug} />
+            {/* <CourseProgressIndicator courseSlug={course.slug} /> */}
           </div>
         </CardContent>
       </Card>

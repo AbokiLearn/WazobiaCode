@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { GradesCard } from '@/components/app/courses/grades-card';
+// import { GradesCard } from '@/components/app/courses/grades-card';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { type LectureResponse } from '@/types/db/course';
@@ -98,7 +98,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
           {section.title}
         </h2>
       </div>
-      <GradesCard courseSlug={courseSlug} sectionSlug={sectionSlug} />
+      {/* <GradesCard courseSlug={courseSlug} sectionSlug={sectionSlug} /> */}
       {section.lectures?.map((lecture) => {
         if (lecture.active) {
           return <LectureCard key={lecture.slug} lecture={lecture} />;

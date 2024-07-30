@@ -9,6 +9,19 @@ import LandingFAQ from '@/components/landing-page/faq';
 import { Footer } from '@/components/ui/footer';
 import { Button } from '@/components/ui/button';
 
+const LogInLink = () => {
+  return (
+    <Button
+      className="bg-accent text-white text-md"
+      onClick={() => {
+        window.location.href = '/api/auth/login';
+      }}
+    >
+      Register Now
+    </Button>
+  );
+};
+
 export default function LandingPage() {
   return (
     <>
@@ -36,7 +49,8 @@ export default function LandingPage() {
             <p className="mb-6">
               Learn to code at home - No experience required
             </p>
-            <LearnMore />
+            {/* <LearnMore /> */}
+            <LogInLink />
           </div>
         </section>
         <section className="mb-12">
@@ -83,6 +97,7 @@ export default function LandingPage() {
         <section className="w-full py-15 md:py-20 lg:py-20">
           <LandingFAQ id="faq-section" />
         </section>
+        {/*
         <section className="w-full">
           <Card className="max-w-2xl mx-auto">
             <CardHeader>
@@ -112,6 +127,7 @@ export default function LandingPage() {
             </CardContent>
           </Card>
         </section>
+        */}
       </div>
       <Footer />
     </>

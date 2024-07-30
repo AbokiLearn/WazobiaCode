@@ -70,7 +70,7 @@ To join the Telegram groups for the WaZoBiaCode Bootcamp course, please follow t
       'https://wazobiacode-web.s3.us-east-1.amazonaws.com/image-bin/e37578d9-4100-4c2b-9e4c-54c352ffbcfe.png',
       'https://wazobiacode-web.s3.us-east-1.amazonaws.com/image-bin/109e0952-db7a-441c-84fd-b7db07575447.png',
       'https://wazobiacode-web.s3.us-east-1.amazonaws.com/image-bin/13897d86-f8e7-4e4e-a444-261b6fff21d6.png',
-      'https://wazobiacode-web.s3.us-east-1.amazonaws.com/image-bin/632ee387-a33a-439b-b058-43937dff55bb.png',
+      'https://wazobiacode-web.s3.us-east-1.amazonaws.com/image-bin/b7a53047-3496-493d-92b2-a79d641b86e9.png',
     ],
   },
 ];

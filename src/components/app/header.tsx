@@ -11,10 +11,10 @@ export const HeaderLinks = ({ className }: { className?: string }) => {
       label: 'Courses',
       href: '/courses',
     },
-    // {
-    //   label: 'FAQ',
-    //   href: '/faq',
-    // },
+    {
+      label: 'FAQ',
+      href: '/faq',
+    },
   ];
 
   return (

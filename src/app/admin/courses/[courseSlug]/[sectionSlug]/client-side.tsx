@@ -2,12 +2,14 @@
 
 import { type JSONContent } from 'novel';
 import { useState } from 'react';
+import { X } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent } from '@/components/ui/card';
 import { LectureEditorTab } from '@/components/admin/courses/lecture-editor';
 import { Lectures } from '@/components/admin/courses/lectures';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 import { updateLecture } from '@/lib/client/course';
 import { ISection, ILecture } from '@/types/db/course';
@@ -60,22 +62,33 @@ export function ClientSideContent({
       <div className="lg:col-span-2">
         {editingLecture ? (
           <Tabs defaultValue="content" className="justify-center">
-            <div className="flex flex-row justify-center items-center mb-4">
-              <TabsList>
-                <TabsTrigger value="content">Content</TabsTrigger>
-                <TabsTrigger
-                  value="homework"
-                  disabled={!editingLecture.has_homework}
+            <div className="flex flex-row justify-between items-center mb-4">
+              <div className="flex flex-row items-center">
+                <TabsList>
+                  <TabsTrigger value="content">Content</TabsTrigger>
+                  <TabsTrigger
+                    value="homework"
+                    disabled={!editingLecture.has_homework}
+                  >
+                    Homework
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="quizzes"
+                    disabled={!editingLecture.has_quiz}
+                  >
+                    Quizzes
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+              <div className="flex flex-row items-center">
+                <Button
+                  className="hover:text-accent"
+                  variant="link"
+                  onClick={() => setEditingLecture(null)}
                 >
-                  Homework
-                </TabsTrigger>
-                <TabsTrigger
-                  value="quizzes"
-                  disabled={!editingLecture.has_quiz}
-                >
-                  Quizzes
-                </TabsTrigger>
-              </TabsList>
+                  <X />
+                </Button>
+              </div>
             </div>
             <LectureEditorTab
               lecture={editingLecture}

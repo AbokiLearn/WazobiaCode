@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0/client";
-import { toast } from "sonner";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { toast } from 'sonner';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,10 +12,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { User as UserIcon } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/dropdown-menu';
+import { User as UserIcon } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 
 export const PageHeader = ({
   isAuthPage = false,
@@ -26,21 +26,13 @@ export const PageHeader = ({
   const { user, error } = useUser();
 
   if (error) {
-    toast.error("Error fetching user");
+    toast.error('Error fetching user');
   }
 
   const NavLinks = () => {
     return (
       <>
-        <Link
-          href="#"
-          onClick={() =>
-            document
-              .getElementById("faq-section")
-              ?.scrollIntoView({ behavior: "smooth" })
-          }
-          className="py-2 text-foreground hover:text-accent"
-        >
+        <Link href="/faq" className="py-2 text-foreground hover:text-accent">
           FAQ
         </Link>
         <Link
@@ -127,7 +119,7 @@ const ProfileMenu = () => {
   const { user, error } = useUser();
 
   if (error) {
-    toast.error("Error fetching user");
+    toast.error('Error fetching user');
     return null;
   }
 
@@ -137,7 +129,7 @@ const ProfileMenu = () => {
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">
             <Avatar className="w-10 h-10">
-              <AvatarImage src={user.picture || ""} />
+              <AvatarImage src={user.picture || ''} />
               <AvatarFallback>
                 <UserIcon />
               </AvatarFallback>

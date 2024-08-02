@@ -7,8 +7,8 @@ import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { ILecture } from '@/types/db/course';
 
-export const LectureTabList = () => {
-  const { user, error, isLoading } = useUser();
+export const LectureTabList = ({ lecture }: { lecture: ILecture }) => {
+  const { user, error } = useUser();
 
   if (error) {
     toast.error('Failed to fetch user');
@@ -21,8 +21,12 @@ export const LectureTabList = () => {
   return (
     <TabsList className={user ? '' : 'hidden'}>
       <TabsTrigger value="content">Content</TabsTrigger>
-      <TabsTrigger value="quiz">Quiz</TabsTrigger>
-      <TabsTrigger value="homework">Homework</TabsTrigger>
+      <TabsTrigger value="quiz" disabled={!lecture.has_quiz}>
+        Quiz
+      </TabsTrigger>
+      <TabsTrigger value="homework" disabled={!lecture.has_homework}>
+        Homework
+      </TabsTrigger>
     </TabsList>
   );
 };

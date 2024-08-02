@@ -15,7 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 
 export const ProfileMenu = () => {
-  const { user, error, isLoading } = useUser();
+  const { user, error } = useUser();
 
   if (error) {
     toast.error('Error fetching user');
@@ -35,10 +35,12 @@ export const ProfileMenu = () => {
             <span className="sr-only">Toggle user menu</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="end" className="w-[100px]">
           <DropdownMenuLabel>Hi, {user.name}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
+          <a href="/app/complete-profile">
+            <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+          </a>
           <DropdownMenuSeparator />
           <a href="/api/auth/logout">
             <DropdownMenuItem>Logout</DropdownMenuItem>

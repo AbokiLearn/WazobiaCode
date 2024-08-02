@@ -1,5 +1,11 @@
 import { APIResponse, APIErrorHandler } from '@/lib/api';
-import { Course, Section, Lecture } from '@/models';
+import {
+  Course,
+  Section,
+  Lecture,
+  QuizAssignment,
+  HomeworkAssignment,
+} from '@/models';
 import connectMongoDB from '@/lib/db/connect';
 
 export const dynamic = 'force-dynamic';
@@ -38,12 +44,29 @@ export async function GET(
       course_id: course._id,
       section_id: section._id,
       slug: lectureSlug,
-    }).populate(['quiz', 'homework']);
+    });
+
     if (!lecture) {
       return APIResponse({
         data: null,
         message: 'Lecture not found',
       });
+    }
+
+    if (lecture.has_quiz && lecture.quiz_id) {
+      const quiz = await QuizAssignment.findOne({ _id: lecture.quiz_id });
+      if (quiz) {
+        lecture.quiz_id = quiz._id;
+      }
+    }
+
+    if (lecture.has_homework && lecture.homework_id) {
+      const homework = await HomeworkAssignment.findOne({
+        _id: lecture.homework_id,
+      });
+      if (homework) {
+        lecture.homework_id = homework._id;
+      }
     }
 
     return APIResponse({

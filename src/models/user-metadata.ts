@@ -11,18 +11,16 @@ export const UserMetadataSchema = new Schema<IUserMetadata>({
   telegram_user_id: {
     type: String,
     required: false,
-    unique: true,
-    sparse: true,
-    validate: {
-      validator: async function (value: string) {
-        if (value === null) return true;
-        const count = await (this.constructor as any).countDocuments({
-          telegram_user_id: value,
-        });
-        return count === 0;
-      },
-      message: 'Telegram user ID must be unique',
-    },
+    default: null,
   },
+  roles: [{ type: String, required: true }],
   enrollments: [{ type: Schema.Types.ObjectId, ref: 'Enrollment' }],
 });
+UserMetadataSchema.index(
+  { telegram_user_id: 1 },
+  {
+    unique: true,
+    sparse: true,
+    partialFilterExpression: { telegram_user_id: { $type: 'string' } },
+  },
+);

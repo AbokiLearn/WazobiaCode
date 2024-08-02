@@ -7,5 +7,6 @@ export interface IUserMetadata extends Document {
   last_name: string;
   phone_number: string;
   telegram_user_id: string | null;
+  roles: string[];
   enrollments: Types.ObjectId[];
 }

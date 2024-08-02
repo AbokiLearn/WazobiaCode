@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { CourseProgressIndicator } from '@/components/app/courses/course-progress';
+// import { CourseProgressIndicator } from '@/components/app/courses/course-progress';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { getCourseWithSections } from '@/lib/client/course';
+import { getCourse } from '@/lib/client/course';
 import { ISection } from '@/types/db/course';
 
 interface CoursePageProps {
@@ -15,10 +15,17 @@ export async function generateMetadata({
   params,
 }: CoursePageProps): Promise<Metadata> {
   const { courseSlug } = params;
-  const course = await getCourseWithSections(courseSlug);
-  return {
-    title: course.title,
-  };
+
+  try {
+    const course = await getCourse(courseSlug);
+    return {
+      title: course.title,
+    };
+  } catch (error) {
+    return {
+      title: 'Course not found',
+    };
+  }
 }
 
 export const dynamic = 'force-dynamic';
@@ -26,7 +33,7 @@ export const dynamic = 'force-dynamic';
 export default async function CoursePage({ params }: CoursePageProps) {
   const { courseSlug } = params;
 
-  const course = await getCourseWithSections(courseSlug);
+  const course = await getCourse(courseSlug, true);
 
   return (
     <div className="m-4 md:m-6 space-y-6">
@@ -48,20 +55,18 @@ export default async function CoursePage({ params }: CoursePageProps) {
         <CardContent className="flex flex-row">
           <div className="flex flex-col w-full">
             <p className="text-justify">{course.description}</p>
-            <CourseProgressIndicator courseSlug={course.slug} />
+            {/* <CourseProgressIndicator courseSlug={course.slug} /> */}
           </div>
         </CardContent>
       </Card>
 
-      {course.sections
-        .filter((section) => section.section_num > 0)
-        .map((section) => (
-          <SectionOverviewCard
-            key={section.slug}
-            courseSlug={courseSlug}
-            section={section}
-          />
-        ))}
+      {course.sections!.map((section) => (
+        <SectionOverviewCard
+          key={section.slug}
+          courseSlug={courseSlug}
+          section={section}
+        />
+      ))}
     </div>
   );
 }

@@ -23,26 +23,30 @@ export const AssignmentContents = ({ lecture }: { lecture: ILecture }) => {
 
   return (
     <>
-      <TabsContent value="quiz">
-        <Quiz
-          quiz_id={lecture.quiz._id}
-          course_id={lecture.course_id}
-          section_id={lecture.section_id}
-          lecture_id={lecture._id}
-          questions={(lecture.quiz as IQuizAssignment).questions}
-          user_id={user.sub as string}
-        />
-      </TabsContent>
-      <TabsContent value="homework">
-        <Homework
-          assignment_id={lecture.homework._id}
-          course_id={lecture.course_id}
-          section_id={lecture.section_id}
-          lecture_id={lecture._id}
-          student_id={user.sub}
-          homework={lecture.homework as IHomeworkAssignment}
-        />
-      </TabsContent>
+      {lecture.has_quiz && lecture.quiz_id && (
+        <TabsContent value="quiz">
+          <Quiz
+            quiz_id={lecture.quiz_id._id}
+            course_id={lecture.course_id}
+            section_id={lecture.section_id}
+            lecture_id={lecture._id}
+            questions={(lecture.quiz_id as IQuizAssignment).questions}
+            user_id={user.sub as string}
+          />
+        </TabsContent>
+      )}
+      {lecture.has_homework && lecture.homework_id && (
+        <TabsContent value="homework">
+          <Homework
+            assignment_id={lecture.homework_id._id}
+            course_id={lecture.course_id}
+            section_id={lecture.section_id}
+            lecture_id={lecture._id}
+            student_id={user.sub}
+            homework={lecture.homework_id as IHomeworkAssignment}
+          />
+        </TabsContent>
+      )}
     </>
   );
 };

@@ -17,11 +17,11 @@ import { NodeSelector } from '@/components/admin/editor/selectors/node-selector'
 import { LinkSelector } from '@/components/admin/editor/selectors/link-selector';
 import { TextButtons } from '@/components/admin/editor/selectors/text-buttons';
 import { defaultExtensions } from '@/components/admin/editor/extensions';
+import { Separator } from '@/components/ui/separator';
 
 import { slashCommand, suggestionItems } from './slash-command';
 import { handleImageDrop, handleImagePaste } from 'novel/plugins';
 import { uploadFn } from './image-upload';
-import { Separator } from '@/components/ui/separator';
 
 import './editor.css';
 
@@ -37,10 +37,10 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openLink, setOpenLink] = useState(false);
 
   return (
-    <div className="flex w-full m-8">
+    <div className="flex w-full overflow-y-auto">
       <EditorRoot>
         <EditorContent
-          className="border p-8 rounded-xl w-full"
+          className="bg-background border border-muted p-4 rounded-lg w-full h-full"
           {...(initialValue && { initialContent: initialValue })}
           extensions={extensions}
           editorProps={{

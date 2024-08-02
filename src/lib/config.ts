@@ -17,6 +17,8 @@ export const env = {
   SHEET_ID: process.env.SHEET_ID!,
   SHEET_NAME: process.env.SHEET_NAME!,
 
+  TELEGRAM_API_KEY: process.env.TELEGRAM_API_KEY!,
+  TELEGRAM_API_URL: process.env.TELEGRAM_API_URL!,
   TELEGRAM_BOT_API_KEY: process.env.TELEGRAM_BOT_API_KEY!,
 
   MY_AWS_REGION: process.env.MY_AWS_REGION!,

@@ -44,7 +44,7 @@ export const Header = async ({ children }: { children?: React.ReactNode }) => {
         <HeaderLinks className="text-lg font-semibold" />
       </div>
       <div className="ml-auto flex items-center">
-        <Search />
+        {/* <Search /> */}
         <ProfileMenu />
       </div>
     </header>

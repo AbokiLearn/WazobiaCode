@@ -10,19 +10,25 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { SheetMenu } from '@/components/ui/sheet-menu';
-import { CourseWithSections } from '@/types/db/course';
+import { CourseResponse } from '@/types/db/course';
 import { cn } from '@/lib/utils';
 
-const MenuLinks = ({ course }: { course: CourseWithSections }) => {
+const MenuLinks = ({
+  course,
+  isInstructor,
+}: {
+  course: CourseResponse;
+  isInstructor: boolean;
+}) => {
   const pathname = usePathname();
   const [activeSection, setActiveSection] = useState<string>('');
   const [activeLecture, setActiveLecture] = useState<string>('');
 
   useEffect(() => {
-    const currentSection = course.sections.find((section) =>
+    const currentSection = course.sections?.find((section) =>
       pathname.includes(`/${section.slug}`),
     );
-    const currentLecture = currentSection?.lectures.find((lecture) =>
+    const currentLecture = currentSection?.lectures?.find((lecture) =>
       pathname.includes(`/${lecture.slug}`),
     );
     setActiveSection(currentSection?.slug || '');
@@ -62,8 +68,13 @@ const MenuLinks = ({ course }: { course: CourseWithSections }) => {
       value={activeSection}
       onValueChange={setActiveSection}
     >
-      {course.sections.map((section, index) => {
+      {course.sections?.map((section, index) => {
         const isSectionActive = activeSection === section.slug;
+
+        if (!section.active && !isInstructor) {
+          return null;
+        }
+
         return (
           <AccordionItem
             key={index}
@@ -79,8 +90,11 @@ const MenuLinks = ({ course }: { course: CourseWithSections }) => {
               />
             </AccordionTrigger>
             <AccordionContent>
-              {section.lectures.map((lecture, index) => {
+              {section.lectures?.map((lecture, index) => {
                 const isLectureActive = activeLecture === lecture.slug;
+                if (!lecture.active && !isInstructor) {
+                  return null;
+                }
                 return (
                   <NavItem
                     key={index}
@@ -99,23 +113,35 @@ const MenuLinks = ({ course }: { course: CourseWithSections }) => {
   );
 };
 
-export const Sidebar = ({ course }: { course: CourseWithSections }) => {
+export const Sidebar = ({
+  course,
+  isInstructor,
+}: {
+  course: CourseResponse;
+  isInstructor: boolean;
+}) => {
   return (
     <div className="hidden md:block border-r bg-primary w-[300px] min-h-screen overflow-y-auto">
       <div className="flex flex-col gap-2">
         <nav className="grid items-start text-sm font-medium px-2 lg:px-4">
-          <MenuLinks course={course} />
+          <MenuLinks course={course} isInstructor={isInstructor} />
         </nav>
       </div>
     </div>
   );
 };
 
-export const SidebarMobile = ({ course }: { course: CourseWithSections }) => {
+export const SidebarMobile = ({
+  course,
+  isInstructor,
+}: {
+  course: CourseResponse;
+  isInstructor: boolean;
+}) => {
   return (
     <SheetMenu className="bg-primary">
       <nav className="grid gap-2 text-lg font-medium">
-        <MenuLinks course={course} />
+        <MenuLinks course={course} isInstructor={isInstructor} />
       </nav>
     </SheetMenu>
   );

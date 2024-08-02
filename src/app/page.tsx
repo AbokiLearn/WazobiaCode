@@ -1,10 +1,26 @@
+'use client';
+
 import Image from 'next/image';
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageHeader } from '@/components/landing-page/page-header';
 import { LearnMore } from '@/components/landing-page/learn-more';
 import LandingFAQ from '@/components/landing-page/faq';
-import Form from '@/components/landing-page/form';
 import { Footer } from '@/components/ui/footer';
+import { Button } from '@/components/ui/button';
+
+const LogInLink = () => {
+  return (
+    <Button
+      className="bg-accent text-white text-md"
+      onClick={() => {
+        window.location.href = '/api/auth/login';
+      }}
+    >
+      Register Now
+    </Button>
+  );
+};
 
 export default function LandingPage() {
   return (
@@ -33,7 +49,8 @@ export default function LandingPage() {
             <p className="mb-6">
               Learn to code at home - No experience required
             </p>
-            <LearnMore />
+            {/* <LearnMore /> */}
+            <LogInLink />
           </div>
         </section>
         <section className="mb-12">
@@ -42,10 +59,10 @@ export default function LandingPage() {
             WazobiaCode is a free coding bootcamp that takes beginners and
             transforms them into full-stack web developers, equipping them with
             the tools to thrive in the developing tech industry. Our program,
-            which is completely free of charge, starts on [DATE]. It is
-            accessible via mobile device or laptops to ensure that location and
-            resources are no barrier. Your journey towards become a developer
-            starts here.
+            which is completely free of charge, starts on Friday, July 26th
+            2024. It is accessible via mobile device or laptops to ensure that
+            location and resources are no barrier. Your journey towards become a
+            developer starts here.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-md">
@@ -80,9 +97,37 @@ export default function LandingPage() {
         <section className="w-full py-15 md:py-20 lg:py-20">
           <LandingFAQ id="faq-section" />
         </section>
+        {/*
         <section className="w-full">
-          <Form />
+          <Card className="max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-center">
+                Registration Closed
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-center mb-4">
+                We&apos;re sorry, but registration for the Summer 2024 cohort is
+                now closed.
+              </p>
+              <p className="text-center mb-4">
+                Thank you for your interest in WazobiaCode. We encourage you to
+                check back later for information about future cohorts.
+              </p>
+              <div className="flex justify-center">
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }
+                >
+                  Back to Top
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </section>
+        */}
       </div>
       <Footer />
     </>

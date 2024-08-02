@@ -16,6 +16,7 @@ export interface ICourse extends CourseBase {
   cover_image: string;
   icon: string;
   enrolled_students: number;
+  telegram_channel_id?: string;
 }
 
 export interface ISection extends CourseBase {
@@ -29,16 +30,22 @@ export interface ILecture extends CourseBase {
   section_id: Types.ObjectId | ISection;
   lecture_num: number;
   content: string;
+  json_content: Record<string, any>;
   tags: string[];
   video_url: string;
-  quiz: Types.ObjectId | IQuizAssignment;
-  homework: Types.ObjectId | IHomeworkAssignment;
+  has_quiz: boolean;
+  has_homework: boolean;
+  quiz_id?: Types.ObjectId | IQuizAssignment;
+  homework_id?: Types.ObjectId | IHomeworkAssignment;
 }
 
-export interface SectionWithLectures extends ISection {
-  lectures: ILecture[];
+// API response types
+export interface CourseResponse extends ICourse {
+  sections?: SectionResponse[];
 }
 
-export interface CourseWithSections extends ICourse {
-  sections: SectionWithLectures[];
+export interface SectionResponse extends ISection {
+  lectures?: LectureResponse[];
 }
+
+export type LectureResponse = Omit<ILecture, 'content'> & { content?: string };

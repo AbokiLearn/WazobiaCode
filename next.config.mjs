@@ -25,6 +25,8 @@ const nextConfig = {
     SHEET_ID: process.env.SHEET_ID,
     SHEET_NAME: process.env.SHEET_NAME,
 
+    TELEGRAM_API_KEY: process.env.TELEGRAM_API_KEY,
+    TELEGRAM_API_URL: process.env.TELEGRAM_API_URL,
     TELEGRAM_BOT_API_KEY: process.env.TELEGRAM_BOT_API_KEY,
 
     MY_AWS_REGION: process.env.MY_AWS_REGION,
@@ -38,8 +40,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images-dev-public.s3.amazonaws.com',
+        hostname: 'wazobiacode-web.s3.us-east-1.amazonaws.com',
         port: '',
+        pathname: '/**',
       },
       {
         protocol: 'https',
@@ -53,6 +56,9 @@ const nextConfig = {
       },
     ],
   },
+  reactStrictMode: true,
+  swcMinify: true,
+  output: 'standalone',
 };
 
 const withMDX = createMDX({

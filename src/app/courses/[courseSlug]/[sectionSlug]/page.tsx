@@ -1,13 +1,17 @@
+import { getSession } from '@auth0/nextjs-auth0';
+import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { GradesCard } from '@/components/app/courses/grades-card';
+// import { GradesCard } from '@/components/app/courses/grades-card';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { type ILecture } from '@/types/db/course';
+import { type LectureResponse } from '@/types/db/course';
 import { getSectionWithLectures } from '@/lib/client/course';
 import { getYouTubeThumbnail } from '@/lib/utils';
+import { checkUserRole } from '@/lib/auth';
+import { UserRole } from '@/types/auth';
 
 interface SectionPageProps {
   params: { courseSlug: string; sectionSlug: string };
@@ -17,10 +21,17 @@ export async function generateMetadata({
   params,
 }: SectionPageProps): Promise<Metadata> {
   const { courseSlug, sectionSlug } = params;
-  const section = await getSectionWithLectures(courseSlug, sectionSlug);
-  return {
-    title: section.title,
-  };
+
+  try {
+    const section = await getSectionWithLectures(courseSlug, sectionSlug);
+    return {
+      title: section.title,
+    };
+  } catch (error) {
+    return {
+      title: 'Section not found',
+    };
+  }
 }
 
 export const dynamic = 'force-dynamic';
@@ -28,9 +39,16 @@ export const dynamic = 'force-dynamic';
 export default async function SectionPage({ params }: SectionPageProps) {
   const { courseSlug, sectionSlug } = params;
 
+  const session = await getSession();
+  const isInstructor = await checkUserRole(session, UserRole.INSTRUCTOR);
+
   const section = await getSectionWithLectures(courseSlug, sectionSlug);
 
-  const LectureCard = ({ lecture }: { lecture: ILecture }) => {
+  if (!section.active && !isInstructor) {
+    notFound();
+  }
+
+  const LectureCard = ({ lecture }: { lecture: LectureResponse }) => {
     const thumbnailUrl = getYouTubeThumbnail(lecture.video_url);
 
     return (
@@ -80,10 +98,12 @@ export default async function SectionPage({ params }: SectionPageProps) {
           {section.title}
         </h2>
       </div>
-      <GradesCard courseSlug={courseSlug} sectionSlug={sectionSlug} />
-      {section.lectures.map((lecture) => (
-        <LectureCard key={lecture.slug} lecture={lecture} />
-      ))}
+      {/* <GradesCard courseSlug={courseSlug} sectionSlug={sectionSlug} /> */}
+      {section.lectures?.map((lecture) => {
+        if (lecture.active) {
+          return <LectureCard key={lecture.slug} lecture={lecture} />;
+        }
+      })}
     </div>
   );
 }

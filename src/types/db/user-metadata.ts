@@ -1,5 +1,7 @@
 import { Document, Types } from 'mongoose';
 
+import { IEnrollment } from './enrollment';
+
 export interface IUserMetadata extends Document {
   sub: string;
   email: string;
@@ -8,5 +10,7 @@ export interface IUserMetadata extends Document {
   phone_number: string;
   telegram_user_id: string | null;
   roles: string[];
-  enrollments: Types.ObjectId[];
+  enrollments: Types.ObjectId[] | IEnrollment[];
+  created_at: Date;
+  updated_at: Date;
 }

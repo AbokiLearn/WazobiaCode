@@ -18,35 +18,52 @@ export const GET = withApiAuthRequired(async function GET(request: Request) {
   }
 
   const { searchParams } = new URL(request.url);
-  const recitation = searchParams.get('recitation') === 'true';
+  const recitation = searchParams.get('recitation');
 
   try {
     await connectMongoDB();
     let query = UserMetadata.find({
-      roles: { $in: [UserRole.STUDENT], $not: { $in: [UserRole.INSTRUCTOR] } },
+      // roles: { $in: [UserRole.STUDENT], $not: { $in: [UserRole.INSTRUCTOR] } },
+      roles: { $in: [UserRole.STUDENT] },
+    }).populate({
+      path: 'enrollments',
+      populate: {
+        path: 'recitation_group_id',
+        model: 'RecitationGroup',
+      },
     });
 
-    if (recitation) {
-      query = query.populate({
-        path: 'enrollments',
-        populate: {
-          path: 'recitation_group_id',
-          model: 'RecitationGroup',
-        },
-      });
-    }
-
     const users = await query.lean().exec();
-    const users_data = users.map((user) => ({
-      ...user,
-      enrollments: user.enrollments.map((enrollment) => ({
+
+    let users_data = users.map((user) => {
+      const enrollments = user.enrollments.map((enrollment) => ({
         ...enrollment,
         recitation_group_id:
           (enrollment as any)?.recitation_group_id?._id || null,
         recitation_group:
           (enrollment as any)?.recitation_group_id?.name || null,
-      })),
-    }));
+      }));
+
+      return {
+        ...user,
+        enrollments,
+      };
+    });
+
+    console.log(`users_data: ${JSON.stringify(users_data, null, 2)}`);
+
+    if (recitation) {
+      console.log(`recitation: ${recitation}`);
+      users_data = users_data.filter((user) =>
+        user.enrollments.some(
+          (enrollment) =>
+            enrollment.recitation_group_id &&
+            enrollment.recitation_group_id.toString() === recitation,
+        ),
+      );
+    }
+
+    console.log(`users_data: ${JSON.stringify(users_data, null, 2)}`);
 
     return APIResponse({ data: users_data, status: 200 });
   } catch (error) {

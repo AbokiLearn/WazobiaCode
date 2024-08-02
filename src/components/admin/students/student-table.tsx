@@ -1,16 +1,7 @@
 'use client';
 
-import { Eye } from 'lucide-react';
-import { useState } from 'react';
 import Link from 'next/link';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogClose,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
 import {
   Table,
   TableBody,
@@ -25,19 +16,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
-// import { deleteStudent } from '@/lib/client/student'; // You'll need to implement this function
 import { IUserMetadata } from '@/types/db/user-metadata';
-import { cn } from '@/lib/utils';
 
 interface StudentTableProps {
   students: IUserMetadata[];
-  refreshStudents: () => void;
 }
 
-export function StudentTable({ students, refreshStudents }: StudentTableProps) {
+export function StudentTable({ students }: StudentTableProps) {
   const headers = [
     'Name',
     'Email',

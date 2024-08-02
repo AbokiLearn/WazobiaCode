@@ -1,8 +1,8 @@
 'use client';
 
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { PlusCircle } from 'lucide-react';
-import { toast } from 'sonner';
+import { X } from 'lucide-react';
 
 import {
   Sheet,
@@ -10,13 +10,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
-// import { StudentFormValues } from '@/components/admin/students/edit-student';
 import { StudentTable } from '@/components/admin/students/student-table';
-// import { EditStudent } from '@/components/admin/students/edit-student';
 
-import { getStudents, updateStudent } from '@/lib/client/students';
+import { getStudents } from '@/lib/client/students';
 import { IUserMetadata } from '@/types/db/user-metadata';
 
 export const dynamic = 'force-dynamic';
@@ -27,10 +25,22 @@ export default function StudentsPage() {
   );
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [students, setStudents] = useState<IUserMetadata[]>([]);
+  const [recitationFilter, setRecitationFilter] = useState<string | undefined>(
+    undefined,
+  );
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    getStudents().then(setStudents);
-  }, []);
+    const recitation = searchParams.get('recitation') || undefined;
+    setRecitationFilter(recitation);
+    getStudents(recitation).then(setStudents);
+  }, [searchParams]);
+
+  const removeRecitationFilter = () => {
+    router.push('/admin/students');
+  };
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -42,8 +52,21 @@ export default function StudentsPage() {
           </p>
         </div>
       </div>
+      {recitationFilter && (
+        <div className="mb-4">
+          <Badge className="text-sm">
+            Recitation: {recitationFilter}
+            <button
+              onClick={removeRecitationFilter}
+              className="ml-2 hover:text-destructive"
+            >
+              <X size={14} />
+            </button>
+          </Badge>
+        </div>
+      )}
       <div className="bg-card rounded-lg shadow">
-        <StudentTable students={students} refreshStudents={() => {}} />
+        <StudentTable students={students} />
       </div>
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetContent className="overflow-y-auto">
@@ -52,10 +75,6 @@ export default function StudentsPage() {
               {editingStudent ? 'Edit Student' : 'New Student'}
             </SheetTitle>
           </SheetHeader>
-          {/* <EditStudent
-            initialData={editingStudent || undefined}
-            onSubmit={handleSubmit}
-          /> */}
         </SheetContent>
       </Sheet>
     </div>

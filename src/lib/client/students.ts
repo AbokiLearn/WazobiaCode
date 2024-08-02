@@ -1,9 +1,11 @@
 import { getData, postData, deleteData, patchData } from '@/lib/client';
 import { IUserMetadata } from '@/types/db/user-metadata';
 
-export async function getStudents(): Promise<IUserMetadata[]> {
+export async function getStudents(
+  recitation?: string,
+): Promise<IUserMetadata[]> {
   const { data } = await getData(
-    '/students?recitation=true',
+    recitation ? `/students?recitation=${recitation}` : '/students',
     'no-store',
     'Failed to fetch students',
   );

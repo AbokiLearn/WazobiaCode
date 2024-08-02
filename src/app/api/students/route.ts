@@ -12,7 +12,7 @@ export const GET = withApiAuthRequired(async function GET(request: Request) {
   const session = await getSession();
 
   if (
-    !session?.user[`${env.AUTH0_NAMESPACE}/roles`].includes(UserRole.STUDENT)
+    !session?.user[`${env.AUTH0_NAMESPACE}/roles`].includes(UserRole.INSTRUCTOR)
   ) {
     return APIErrorHandler({ message: 'Unauthorized', status: 401 });
   }

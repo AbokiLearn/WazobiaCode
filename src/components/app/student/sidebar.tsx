@@ -19,9 +19,9 @@ import { cn } from "@/lib/utils";
 const MenuLinks = () => {
   const tab_links = [
     {
-      href: "/dashboard",
+      href: "",
       icon: Home,
-      label: "Dashboard",
+      label: "Home",
     },
     {
       href: "/grades",
@@ -33,11 +33,11 @@ const MenuLinks = () => {
       label: "Leaderboard",
       icon: Trophy,
     },
-    {
-      href: "/assistant",
-      label: "Assistant",
-      icon: Bot,
-    },
+    // {
+    //   href: "/assistant",
+    //   label: "Assistant",
+    //   icon: Bot,
+    // },
   ];
 
   const pathname = usePathname();

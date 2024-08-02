@@ -1,12 +1,19 @@
+import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0';
+
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
+import { env } from '@/lib/config';
 import { StudentQuestion } from '@/models';
+import { UserRole } from '@/types/auth';
 
 export const dynamic = 'force-dynamic';
 
-// TODO: protect routes
+export const GET = withApiAuthRequired(async function GET(request: Request) {
+  const session = await getSession();
+  if (!session?.user[`${env.AUTH0_NAMESPACE}/roles`].includes(UserRole.STUDENT)) {
+    return APIErrorHandler({ message: 'Unauthorized', status: 401 });
+  }
 
-export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const courseId = searchParams.get('courseId');
@@ -28,10 +35,14 @@ export async function GET(request: Request) {
   } catch (error) {
     return APIErrorHandler(error);
   }
-}
+})
 
-// TODO: protect routes
-export async function POST(request: Request) {
+export const POST = withApiAuthRequired(async function POST(request: Request) {
+  const session = await getSession();
+  if (!session?.user[`${env.AUTH0_NAMESPACE}/roles`].includes(UserRole.STUDENT)) {
+    return APIErrorHandler({ message: 'Unauthorized', status: 401 });
+  }
+
   try {
     await connectMongoDB();
 
@@ -46,4 +57,4 @@ export async function POST(request: Request) {
   } catch (error) {
     return APIErrorHandler(error);
   }
-}
+})

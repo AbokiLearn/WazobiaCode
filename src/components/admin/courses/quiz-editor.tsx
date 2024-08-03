@@ -52,15 +52,23 @@ export const QuizEditorTab = ({
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    return d.toISOString().slice(0, 16);
+  };
+
   useEffect(() => {
     const fetchQuiz = async () => {
       if (lecture.quiz_id) {
         try {
-          const quizData = await getAssignment(lecture.quiz_id.toString());
+          const { assignment: quizData } = await getAssignment(
+            lecture.quiz_id.toString(),
+          );
+
           if (quizData) {
-            setActiveDate(quizData.active_date || '');
+            setActiveDate(formatDate(quizData.active_date));
             setMaxScore(quizData.max_score || 10);
-            setDueDate(quizData.due_date || '');
+            setDueDate(formatDate(quizData.due_date));
             setQuestions(quizData.questions || []);
           }
         } catch (error) {
@@ -70,6 +78,15 @@ export const QuizEditorTab = ({
     };
     fetchQuiz();
   }, [lecture.quiz_id]);
+
+  useEffect(() => {
+    console.log('State updated:', {
+      activeDate,
+      maxScore,
+      dueDate,
+      questions,
+    });
+  }, [activeDate, maxScore, dueDate, questions]);
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};

@@ -50,10 +50,7 @@ export const GET = withApiAuthRequired(async function GET(request: Request) {
       };
     });
 
-    console.log(`users_data: ${JSON.stringify(users_data, null, 2)}`);
-
     if (recitation) {
-      console.log(`recitation: ${recitation}`);
       users_data = users_data.filter((user) =>
         user.enrollments.some(
           (enrollment) =>
@@ -62,8 +59,6 @@ export const GET = withApiAuthRequired(async function GET(request: Request) {
         ),
       );
     }
-
-    console.log(`users_data: ${JSON.stringify(users_data, null, 2)}`);
 
     return APIResponse({ data: users_data, status: 200 });
   } catch (error) {

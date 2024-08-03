@@ -1,4 +1,4 @@
-import { Sidebar, SidebarMobile } from '@/components/app/student/sidebar';
+// import { Sidebar, SidebarMobile } from '@/components/app/student/sidebar';
 import { Header } from '@/components/admin/header';
 import { Footer } from '@/components/ui/footer';
 

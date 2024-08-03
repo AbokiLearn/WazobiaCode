@@ -92,11 +92,17 @@ export function Quiz({
 
     try {
       const answers: IQuizAnswer[] = Object.entries(data).map(
-        ([key, value]) => ({
-          question_id: questions[parseInt(key.split('_')[1])]._id,
-          selected_option: value,
-          feedback: '',
-        }),
+        ([key, value]) => {
+          const question_id = questions[parseInt(key.split('_')[1])]._id;
+          if (!question_id) {
+            throw new Error('Question ID not found');
+          }
+          return {
+            question_id,
+            selected_option: value,
+            feedback: '',
+          };
+        },
       );
 
       await submitQuiz({

@@ -18,7 +18,7 @@ export interface ISubmission extends Document {
 }
 
 export interface IQuizAnswer {
-  question_id: Types.ObjectId;
+  question_id: Types.ObjectId | string;
   selected_option: number;
   feedback: string | null;
 }

@@ -10,6 +10,7 @@ import {
   HomeworkEditorTab,
   type HomeworkFormValues,
 } from '@/components/admin/courses/homework-editor';
+import { QuizEditorTab } from '@/components/admin/courses/quiz-editor';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Lectures } from '@/components/admin/courses/lectures';
@@ -64,15 +65,25 @@ export function ClientSideContent({
 
     try {
       const data = { ...homework, type: AssignmentType.HOMEWORK };
-      const { assignment: updatedHomework } = await updateAssignment(
-        homework_id,
-        data,
-      );
+      const updatedHomework = await updateAssignment(homework_id, data);
       toast.success('Homework saved');
       return updatedHomework;
     } catch (error) {
       console.error(error);
       toast.error('Failed to save homework');
+    }
+  };
+
+  const saveQuiz = async (quiz_id: string, quiz: any) => {
+    if (!editingLecture || !editingLecture.has_quiz) return;
+
+    try {
+      const updatedQuiz = await updateAssignment(quiz_id, quiz);
+      toast.success('Quiz saved');
+      return updatedQuiz;
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to save quiz');
     }
   };
 
@@ -99,11 +110,8 @@ export function ClientSideContent({
                   >
                     Homework
                   </TabsTrigger>
-                  <TabsTrigger
-                    value="quizzes"
-                    disabled={!editingLecture.has_quiz}
-                  >
-                    Quizzes
+                  <TabsTrigger value="quiz" disabled={!editingLecture.has_quiz}>
+                    Quiz
                   </TabsTrigger>
                 </TabsList>
               </div>
@@ -126,6 +134,7 @@ export function ClientSideContent({
                 lecture={editingLecture}
                 saveHomework={saveHomework}
               />
+              <QuizEditorTab lecture={editingLecture} saveQuiz={saveQuiz} />
             </Card>
           </Tabs>
         ) : (

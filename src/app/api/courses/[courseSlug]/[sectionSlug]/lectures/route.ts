@@ -125,7 +125,7 @@ export async function POST(
 
     const data = await request.json();
 
-    if (!data.title || !data.description || !data.slug || !data.video_url) {
+    if (!data.title || !data.description || !data.slug) {
       return APIResponse({
         error: 'Missing required fields',
         status: 400,

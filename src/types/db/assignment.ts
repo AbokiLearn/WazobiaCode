@@ -22,7 +22,7 @@ export interface IAssignment extends Document {
 }
 
 export interface IQuizQuestion {
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
   question: string;
   options: string[];
   correct_answer: number;

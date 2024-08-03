@@ -74,9 +74,14 @@ const MenuLinks = () => {
   );
 };
 
-export const Sidebar = () => {
+export const Sidebar = ({ className }: { className?: string }) => {
   return (
-    <div className="hidden md:block border-r bg-primary w-[250px] min-h-screen overflow-y-auto">
+    <div
+      className={cn(
+        'hidden border-r bg-primary w-[250px] min-h-screen overflow-y-auto',
+        className ? className : 'md:block',
+      )}
+    >
       <div className="flex flex-col gap-2">
         <nav className="grid items-center px-2 py-6 text-sm font-medium gap-3 lg:px-4">
           <MenuLinks />
@@ -86,9 +91,13 @@ export const Sidebar = () => {
   );
 };
 
-export const SidebarMobile = () => {
+export const SidebarMobile = ({
+  triggerClassName,
+}: {
+  triggerClassName?: string;
+}) => {
   return (
-    <SheetMenu className="bg-primary">
+    <SheetMenu className="bg-primary" triggerClassName={triggerClassName}>
       <nav className="grid gap-2 text-lg font-medium">
         <MenuLinks />
       </nav>

@@ -14,6 +14,7 @@ interface SheetMenuProps {
   title?: string;
   description?: string;
   className?: string;
+  triggerClassName?: string;
   children: React.ReactNode;
 }
 
@@ -21,6 +22,7 @@ export const SheetMenu = ({
   title,
   description,
   className,
+  triggerClassName,
   children,
 }: SheetMenuProps) => {
   return (
@@ -29,7 +31,10 @@ export const SheetMenu = ({
         <Button
           variant="outline"
           size="icon"
-          className="shrink-0 bg-primary text-primary-foreground md:hidden border-accent"
+          className={cn(
+            'shrink-0 bg-primary text-primary-foreground border-accent',
+            triggerClassName ? triggerClassName : 'md:hidden',
+          )}
         >
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle navigation menu</span>

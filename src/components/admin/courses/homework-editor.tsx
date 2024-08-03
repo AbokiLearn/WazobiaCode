@@ -65,6 +65,7 @@ export const HomeworkEditorTab = ({
   const [homework, setHomework] = useState<IHomeworkAssignment | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [existingFiles, setExistingFiles] = useState<FileType[]>([]);
 
   const form = useForm<HomeworkFormValues>({
     resolver: zodResolver(homeworkFormSchema),
@@ -83,6 +84,7 @@ export const HomeworkEditorTab = ({
         lecture.homework_id.toString(),
       );
       setHomework(assignment);
+      setExistingFiles(assignment.files || []);
 
       form.reset({
         instructions: assignment.instructions,
@@ -99,19 +101,20 @@ export const HomeworkEditorTab = ({
 
     setIsSubmitting(true);
     try {
-      let uploadedFiles: FileType[] = [];
+      let uploadedFiles: FileType[] = [...existingFiles];
 
       if (selectedFiles.length > 0) {
-        const uploadedFileData = await uploadFiles(
+        const uploadedFileResponses = await uploadFiles(
           selectedFiles,
           'assignment-files',
         );
-        uploadedFiles = uploadedFileData.map((file) => ({
-          file_url: file.file_url,
-          file_key: file.file_key,
-          file_name: file.file_name,
-          file_mimetype: file.file_mimetype,
+        const newUploadedFiles = uploadedFileResponses.map(({ data }) => ({
+          file_url: data.file_url,
+          file_key: data.file_key,
+          file_name: data.file_name,
+          file_mimetype: data.file_mimetype,
         }));
+        uploadedFiles = [...uploadedFiles, ...newUploadedFiles];
       }
 
       const homeworkData = {
@@ -124,6 +127,8 @@ export const HomeworkEditorTab = ({
         homeworkData,
       );
       setHomework(updatedHomework);
+      setExistingFiles(updatedHomework.files || []);
+      setSelectedFiles([]);
     } catch (error) {
       console.error('Failed to save homework:', error);
     } finally {
@@ -220,12 +225,15 @@ export const HomeworkEditorTab = ({
                     />
                   </FormControl>
                   <FormMessage />
-                  {selectedFiles.length > 0 && (
+                  {(existingFiles.length > 0 || selectedFiles.length > 0) && (
                     <div>
                       <p className="text-sm text-gray-700">Included Files:</p>
                       <ul className="list-disc list-inside text-sm text-gray-700">
+                        {existingFiles.map((file, index) => (
+                          <li key={`existing-${index}`}>{file.file_name}</li>
+                        ))}
                         {selectedFiles.map((file, index) => (
-                          <li key={index}>{file.name}</li>
+                          <li key={`selected-${index}`}>{file.name}</li>
                         ))}
                       </ul>
                     </div>

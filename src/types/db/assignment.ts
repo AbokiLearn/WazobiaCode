@@ -14,9 +14,9 @@ export interface IAssignment extends Document {
   lecture_id: Types.ObjectId | ILecture;
   type: AssignmentType;
   tags: string[];
-  active: boolean;
   max_score: number;
   due_date: Date;
+  active_date: Date;
   created_at: Date;
   updated_at: Date;
 }

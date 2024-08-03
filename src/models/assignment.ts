@@ -16,9 +16,9 @@ export const AssignmentSchema = new Schema<IAssignment>(
     lecture_id: { type: Schema.Types.ObjectId, ref: 'Lecture', required: true },
     type: { type: String, enum: Object.values(AssignmentType), required: true },
     tags: [String],
-    active: { type: Boolean, default: false },
     max_score: { type: Number, default: 10 },
     due_date: { type: Date, default: null },
+    active_date: { type: Date, default: null },
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
 );

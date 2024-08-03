@@ -21,6 +21,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -48,6 +49,7 @@ const homeworkFormSchema = z.object({
     .min(0, 'Max score must be a positive number')
     .default(10),
   due_date: z.date(),
+  active_date: z.date(),
 });
 
 export type HomeworkFormValues = z.infer<typeof homeworkFormSchema>;
@@ -73,7 +75,8 @@ export const HomeworkEditorTab = ({
       instructions: '',
       files: [],
       max_score: 10,
-      due_date: new Date(),
+      due_date: new Date(new Date().setHours(0, 0, 0, 0)),
+      active_date: new Date('2024-03-01'),
     },
   });
 
@@ -91,6 +94,7 @@ export const HomeworkEditorTab = ({
         files: assignment.files,
         max_score: assignment.max_score,
         due_date: new Date(assignment.due_date),
+        active_date: new Date(assignment.active_date),
       });
     }
     fetchHomework();
@@ -178,6 +182,35 @@ export const HomeworkEditorTab = ({
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="active_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Active Date</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      {...field}
+                      value={
+                        field.value
+                          ? field.value.toISOString().split('T')[0]
+                          : ''
+                      }
+                      onChange={(e) =>
+                        field.onChange(
+                          e.target.value ? new Date(e.target.value) : null,
+                        )
+                      }
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    This is when the assignment becomes available to students.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

@@ -263,7 +263,19 @@ export const HomeworkEditorTab = ({
                       <p className="text-sm text-gray-700">Included Files:</p>
                       <ul className="list-disc list-inside text-sm text-gray-700">
                         {existingFiles.map((file, index) => (
-                          <li key={`existing-${index}`}>{file.file_name}</li>
+                          <li key={`existing-${index}`}>
+                            <span>{file.file_name}</span>
+                            <span
+                              className="pl-2 text-red-500 cursor-pointer"
+                              onClick={() => {
+                                setExistingFiles(
+                                  existingFiles.filter((_, i) => i !== index),
+                                );
+                              }}
+                            >
+                              x
+                            </span>
+                          </li>
                         ))}
                         {selectedFiles.map((file, index) => (
                           <li key={`selected-${index}`}>{file.name}</li>

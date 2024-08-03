@@ -56,7 +56,7 @@ export async function GET(
     if (lecture.has_quiz && lecture.quiz_id) {
       const quiz = await QuizAssignment.findOne({ _id: lecture.quiz_id });
       if (quiz) {
-        lecture.quiz_id = quiz._id;
+        lecture.quiz_id = quiz;
       }
     }
 
@@ -65,7 +65,7 @@ export async function GET(
         _id: lecture.homework_id,
       });
       if (homework) {
-        lecture.homework_id = homework._id;
+        lecture.homework_id = homework;
       }
     }
 

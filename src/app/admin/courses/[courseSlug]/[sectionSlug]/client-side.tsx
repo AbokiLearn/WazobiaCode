@@ -5,14 +5,21 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LectureEditorTab } from '@/components/admin/courses/lecture-editor';
+import {
+  HomeworkEditorTab,
+  type HomeworkFormValues,
+} from '@/components/admin/courses/homework-editor';
+
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Lectures } from '@/components/admin/courses/lectures';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 import { updateLecture } from '@/lib/client/course';
+import { updateAssignment } from '@/lib/client/assignment';
 import { ISection, ILecture } from '@/types/db/course';
+import { AssignmentType } from '@/types/db/assignment';
 
 export function ClientSideContent({
   courseSlug,
@@ -46,6 +53,26 @@ export function ClientSideContent({
     } catch (error) {
       console.error(error);
       toast.error('Failed to save lecture content');
+    }
+  };
+
+  const saveHomework = async (
+    homework_id: string,
+    homework: HomeworkFormValues,
+  ) => {
+    if (!editingLecture || !editingLecture.has_homework) return;
+
+    try {
+      const data = { ...homework, type: AssignmentType.HOMEWORK };
+      const { assignment: updatedHomework } = await updateAssignment(
+        homework_id,
+        data,
+      );
+      toast.success('Homework saved');
+      return updatedHomework;
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to save homework');
     }
   };
 
@@ -90,10 +117,16 @@ export function ClientSideContent({
                 </Button>
               </div>
             </div>
-            <LectureEditorTab
-              lecture={editingLecture}
-              saveLectureContent={saveLectureContent}
-            />
+            <Card className="w-full bg-card shadow">
+              <LectureEditorTab
+                lecture={editingLecture}
+                saveLectureContent={saveLectureContent}
+              />
+              <HomeworkEditorTab
+                lecture={editingLecture}
+                saveHomework={saveHomework}
+              />
+            </Card>
           </Tabs>
         ) : (
           <Card className="w-full bg-card shadow">

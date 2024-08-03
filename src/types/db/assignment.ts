@@ -2,12 +2,17 @@ import { Document, Types } from 'mongoose';
 import { ICourse, ISection, ILecture } from './course';
 import { File } from '@/types';
 
+export enum AssignmentType {
+  QUIZ = 'quiz',
+  HOMEWORK = 'homework',
+}
+
 export interface IAssignment extends Document {
   _id: Types.ObjectId;
   course_id: Types.ObjectId | ICourse;
   section_id: Types.ObjectId | ISection;
   lecture_id: Types.ObjectId | ILecture;
-  type: 'quiz' | 'homework';
+  type: AssignmentType;
   tags: string[];
   active: boolean;
   max_score: number;
@@ -25,12 +30,12 @@ export interface IQuizQuestion {
 }
 
 export interface IQuizAssignment extends IAssignment {
-  type: 'quiz';
+  type: AssignmentType.QUIZ;
   questions: IQuizQuestion[];
 }
 
 export interface IHomeworkAssignment extends IAssignment {
-  type: 'homework';
+  type: AssignmentType.HOMEWORK;
   instructions: string;
   files: File[];
 }

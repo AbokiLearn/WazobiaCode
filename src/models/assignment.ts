@@ -5,6 +5,7 @@ import {
   IQuizAssignment,
   IHomeworkAssignment,
   IQuizQuestion,
+  AssignmentType,
 } from '@/types/db/assignment';
 import { Lecture } from '@/models';
 
@@ -13,7 +14,7 @@ export const AssignmentSchema = new Schema<IAssignment>(
     course_id: { type: Schema.Types.ObjectId, ref: 'Course', required: true },
     section_id: { type: Schema.Types.ObjectId, ref: 'Section', required: true },
     lecture_id: { type: Schema.Types.ObjectId, ref: 'Lecture', required: true },
-    type: { type: String, enum: ['quiz', 'homework'], required: true },
+    type: { type: String, enum: Object.values(AssignmentType), required: true },
     tags: [String],
     active: { type: Boolean, default: false },
     max_score: { type: Number, default: 10 },
@@ -50,11 +51,16 @@ const QuizQuestionSchema = new Schema<IQuizQuestion>({
 
 export const QuizAssignmentSchema = new Schema<IQuizAssignment>({
   questions: [QuizQuestionSchema],
-  type: { type: String, enum: ['quiz'], default: 'quiz', required: true },
+  type: {
+    type: String,
+    enum: Object.values(AssignmentType),
+    default: AssignmentType.QUIZ,
+    required: true,
+  },
 });
 
 export const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
-  instructions: { type: String },
+  instructions: { type: String, default: '' },
   files: [
     {
       file_url: String,
@@ -65,8 +71,8 @@ export const HomeworkAssignmentSchema = new Schema<IHomeworkAssignment>({
   ],
   type: {
     type: String,
-    enum: ['homework'],
-    default: 'homework',
+    enum: Object.values(AssignmentType),
+    default: AssignmentType.HOMEWORK,
     required: true,
   },
 });

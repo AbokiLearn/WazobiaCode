@@ -1,5 +1,27 @@
 import { IQuizAnswer } from '@/types/db/submission';
-import { postData } from '@/lib/client';
+import { getData, postData } from '@/lib/client';
+import { File as FileType } from '@/types';
+
+export async function getSubmissions(
+  assignment_id: string,
+  student_id?: string,
+) {
+  let endpoint = '/submissions';
+  const params = new URLSearchParams();
+  if (assignment_id) params.append('assignment_id', assignment_id);
+  if (student_id) params.append('student_id', student_id);
+
+  if (params.toString()) {
+    endpoint += `?${params.toString()}`;
+  }
+
+  const { data } = await getData(
+    endpoint,
+    'no-store',
+    'Failed to fetch submissions',
+  );
+  return data.submissions;
+}
 
 export async function submitQuiz(quizData: {
   quiz_id: string;
@@ -35,7 +57,7 @@ export async function submitHomework(homeworkData: {
   lecture_id: string;
   student_id: string;
   comments: string;
-  submitted_files: string[];
+  submitted_files: FileType[];
 }) {
   const submissionData = {
     assignment_id: homeworkData.assignment_id,

@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 import { toast } from 'sonner';
+import * as z from 'zod';
+
 import {
   Form,
   FormControl,
@@ -13,14 +14,23 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Textarea } from '@/components/ui/textarea';
 import { FileLink } from '@/components/app/file-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
+
 import { archiveFiles, uploadFiles } from '@/lib/client/files';
-import { submitHomework } from '@/lib/client/submission';
+import { submitHomework, getSubmissions } from '@/lib/client/submission';
+
 import { IHomeworkAssignment } from '@/types/db/assignment';
+import { IHomeworkSubmission } from '@/types/db/submission';
 import { File as FileType } from '@/types/index';
 
 const formSchema = z.object({
@@ -37,6 +47,66 @@ interface HomeworkProps {
   homework: IHomeworkAssignment;
 }
 
+function SubmissionsAccordion({
+  submissions,
+}: {
+  submissions: IHomeworkSubmission[];
+}) {
+  return (
+    <Accordion type="single" collapsible className="w-full">
+      {submissions.map((submission, index) => (
+        <AccordionItem value={`item-${index}`} key={index}>
+          <AccordionTrigger>
+            Submission {submissions.length - index} -{' '}
+            {new Date(submission.submitted_at).toLocaleDateString()}
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="space-y-2">
+              <p>
+                <strong>Score:</strong>{' '}
+                {submission.score !== null
+                  ? `${submission.score} / ${
+                      (submission.assignment_id as IHomeworkAssignment)
+                        .max_score
+                    }`
+                  : 'Awaiting grade'}
+              </p>
+              {submission.submitted_files && (
+                <div>
+                  <strong>Files:</strong>
+                  <p className="mt-1">
+                    {submission.submitted_files
+                      .map((file: FileType) => file.file_name)
+                      .join(', ')}
+                  </p>
+                </div>
+              )}
+              {submission.comments && (
+                <div>
+                  <strong>Comments:</strong>
+                  <p className="mt-1">{submission.comments}</p>
+                </div>
+              )}
+              {submission.graded_at && (
+                <p>
+                  <strong>Graded on:</strong>{' '}
+                  {new Date(submission.graded_at).toLocaleString()}
+                </p>
+              )}
+              {submission.feedback && (
+                <div className="text-green-700">
+                  <strong>Feedback:</strong>
+                  <p className="mt-1">{submission.feedback}</p>
+                </div>
+              )}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  );
+}
+
 export function Homework({
   assignment_id,
   course_id,
@@ -45,6 +115,7 @@ export function Homework({
   student_id,
   homework,
 }: HomeworkProps) {
+  const [submissions, setSubmissions] = useState<IHomeworkSubmission[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isZipping, setIsZipping] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -69,10 +140,11 @@ export function Homework({
     setIsSubmitting(true);
 
     try {
-      const uploadedFiles = await uploadFiles(
+      const res: any = await uploadFiles(
         values.files || [],
         'homework-submissions',
       );
+      const uploadedFiles = res.map((r: any) => r.data) as FileType[];
 
       await submitHomework({
         assignment_id,
@@ -89,6 +161,15 @@ export function Homework({
         fileInputRef.current.value = '';
       }
       toast.success('Homework submitted successfully', toastOpts);
+      getSubmissions(assignment_id, student_id).then((submissions) => {
+        setSubmissions(
+          submissions.sort(
+            (a: IHomeworkSubmission, b: IHomeworkSubmission) =>
+              new Date(b.submitted_at).getTime() -
+              new Date(a.submitted_at).getTime(),
+          ),
+        );
+      });
     } catch (error) {
       toast.error('Error submitting homework', toastOpts);
     } finally {
@@ -102,6 +183,18 @@ export function Homework({
     window.open(archive_url, '_blank');
     setIsZipping(false);
   };
+
+  useEffect(() => {
+    getSubmissions(assignment_id, student_id).then((submissions) => {
+      setSubmissions(
+        submissions.sort(
+          (a: IHomeworkSubmission, b: IHomeworkSubmission) =>
+            new Date(b.submitted_at).getTime() -
+            new Date(a.submitted_at).getTime(),
+        ),
+      );
+    });
+  }, [assignment_id, student_id]);
 
   return (
     <div className="mt-8">
@@ -142,59 +235,78 @@ export function Homework({
       )}
 
       <hr className="mt-4 mb-8 border-muted" />
-      <div className="border border-muted rounded-lg p-4">
-        <h3 className="text-xl font-semibold mb-2">Submit Homework</h3>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="comments"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Comments (Optional)</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Add any comments about your submission here."
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="files"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Upload Files</FormLabel>
-                  <p className="text-muted-foreground text-sm">
-                    You can submit multiple files by holding down CRTL while
-                    clicking on them.
-                  </p>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      multiple
-                      required
-                      ref={fileInputRef}
-                      onChange={(e) => {
-                        const files = Array.from(e.target.files || []);
-                        field.onChange(files);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Submit Homework'}
-            </Button>
-          </form>
-        </Form>
-      </div>
+
+      {submissions.length > 0 && (
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold mb-2">Previous Submissions</h3>
+          <SubmissionsAccordion submissions={submissions} />
+        </div>
+      )}
+
+      {new Date(homework.due_date) > new Date() ? (
+        <div className="border border-muted rounded-lg p-4">
+          <h3 className="text-xl font-semibold mb-2">Submit Homework</h3>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="comments"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Comments (Optional)</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Add any comments about your submission here."
+                        className="resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="files"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Upload Files</FormLabel>
+                    <p className="text-muted-foreground text-sm">
+                      You can submit multiple files by holding down CRTL while
+                      clicking on them.
+                    </p>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        multiple
+                        required
+                        ref={fileInputRef}
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files || []);
+                          field.onChange(files);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit Homework'}
+              </Button>
+            </form>
+          </Form>
+        </div>
+      ) : (
+        <div className="border border-muted rounded-lg p-4">
+          <h3 className="text-xl font-semibold mb-2">Submissions Closed</h3>
+          <p>
+            Submissions for this assignment are closed as of{' '}
+            {new Date(homework.due_date).toLocaleDateString()}.
+          </p>
+          <p>You can still view your previous submissions.</p>
+        </div>
+      )}
     </div>
   );
 }

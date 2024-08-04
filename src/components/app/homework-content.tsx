@@ -196,6 +196,22 @@ export function Homework({
     });
   }, [assignment_id, student_id]);
 
+  console.log(homework.active_date);
+
+  if (new Date(homework.active_date) > new Date()) {
+    return (
+      <div className="mt-8">
+        <h3 className="text-xl font-semibold mb-2">
+          Homework is not active yet
+        </h3>
+        <p>
+          The homework is not active yet. It will be available on{' '}
+          {new Date(homework.active_date).toLocaleDateString()}.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-8">
       <div className="mb-8">

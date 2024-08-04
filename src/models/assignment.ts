@@ -17,8 +17,8 @@ export const AssignmentSchema = new Schema<IAssignment>(
     type: { type: String, enum: Object.values(AssignmentType), required: true },
     tags: [String],
     max_score: { type: Number, default: 10 },
-    due_date: { type: Date, default: null },
-    active_date: { type: Date, default: null },
+    due_date: { type: Date, default: new Date() },
+    active_date: { type: Date, default: new Date() },
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } },
 );

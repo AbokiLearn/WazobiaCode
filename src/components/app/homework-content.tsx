@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
+import Markdown from 'markdown-to-jsx';
+
 import {
   Form,
   FormControl,
@@ -196,8 +198,6 @@ export function Homework({
     });
   }, [assignment_id, student_id]);
 
-  console.log(homework.active_date);
-
   if (new Date(homework.active_date) > new Date()) {
     return (
       <div className="mt-8">
@@ -216,8 +216,16 @@ export function Homework({
     <div className="mt-8">
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Homework Instructions</h2>
-        <div className="bg-gray-100 p-4 rounded-md">
-          {homework.instructions}
+        <div className="bg-gray-100 p-6 rounded-md">
+          <Markdown
+            options={{
+              overrides: {
+                li: { props: { className: 'list-disc ml-4' } },
+              },
+            }}
+          >
+            {homework.instructions}
+          </Markdown>
         </div>
         <div className="bg-gray-100 font-semibold text-red-500 p-4 rounded-md">
           Due Date: {new Date(homework.due_date).toLocaleDateString()}

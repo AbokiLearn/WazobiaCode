@@ -51,6 +51,7 @@
     "googleapis": "^137.1.0",
     "jszip": "^3.10.1",
     "lucide-react": "^0.414.0",
+    "markdown-to-jsx": "^7.4.7",
     "mongoose": "^8.1.3",
     "next": "^14.2.5",
     "next-mdx-remote": "^5.0.0",

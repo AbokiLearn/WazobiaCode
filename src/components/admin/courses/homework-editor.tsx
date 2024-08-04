@@ -194,7 +194,7 @@ export const HomeworkEditorTab = ({
                   <FormLabel>Active Date</FormLabel>
                   <FormControl>
                     <Input
-                      type="date"
+                      type="datetime-local"
                       {...field}
                       value={
                         field.value
@@ -210,6 +210,7 @@ export const HomeworkEditorTab = ({
                   </FormControl>
                   <FormDescription>
                     This is when the assignment becomes available to students.
+                    The date and time is in EST.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -223,7 +224,7 @@ export const HomeworkEditorTab = ({
                   <FormLabel>Due Date</FormLabel>
                   <FormControl>
                     <Input
-                      type="date"
+                      type="datetime-local"
                       {...field}
                       value={
                         field.value
@@ -237,6 +238,9 @@ export const HomeworkEditorTab = ({
                       }
                     />
                   </FormControl>
+                  <FormDescription>
+                    The date and time is in EST.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

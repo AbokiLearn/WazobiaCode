@@ -52,6 +52,13 @@ const homeworkFormSchema = z.object({
   active_date: z.date(),
 });
 
+const formatDateForInput = (date: Date) => {
+  return date
+    .toLocaleString('sv-SE', { timeZone: 'America/New_York' })
+    .replace(' ', 'T')
+    .slice(0, 16);
+};
+
 export type HomeworkFormValues = z.infer<typeof homeworkFormSchema>;
 
 export const HomeworkEditorTab = ({
@@ -75,8 +82,8 @@ export const HomeworkEditorTab = ({
       instructions: '',
       files: [],
       max_score: 10,
-      due_date: new Date(new Date().setHours(0, 0, 0, 0)),
-      active_date: new Date('2024-03-01'),
+      due_date: new Date(),
+      active_date: new Date(),
     },
   });
 
@@ -196,11 +203,7 @@ export const HomeworkEditorTab = ({
                     <Input
                       type="datetime-local"
                       {...field}
-                      value={
-                        field.value
-                          ? field.value.toISOString().split('T')[0]
-                          : ''
-                      }
+                      value={field.value ? formatDateForInput(field.value) : ''}
                       onChange={(e) =>
                         field.onChange(
                           e.target.value ? new Date(e.target.value) : null,
@@ -226,11 +229,7 @@ export const HomeworkEditorTab = ({
                     <Input
                       type="datetime-local"
                       {...field}
-                      value={
-                        field.value
-                          ? field.value.toISOString().split('T')[0]
-                          : ''
-                      }
+                      value={field.value ? formatDateForInput(field.value) : ''}
                       onChange={(e) =>
                         field.onChange(
                           e.target.value ? new Date(e.target.value) : null,

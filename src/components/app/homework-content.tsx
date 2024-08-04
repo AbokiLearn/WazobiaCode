@@ -203,6 +203,9 @@ export function Homework({
         <div className="bg-gray-100 p-4 rounded-md">
           {homework.instructions}
         </div>
+        <div className="bg-gray-100 font-semibold text-red-500 p-4 rounded-md">
+          Due Date: {new Date(homework.due_date).toLocaleDateString()}
+        </div>
       </div>
 
       {homework.files && homework.files.length > 0 && (

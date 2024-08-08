@@ -148,24 +148,25 @@ export const LectureEditorTab = ({
               )}
             </Button>
           </div>
-          {lecture.video_download_url && (
-            <div className="flex items-center space-x-2">
-              <a
-                href={lecture.video_download_url.file_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:underline"
-              >
-                Watch Video
-              </a>
-              <a
-                className="hover:text-red-500 cursor-pointer"
-                onClick={deleteLectureVideo}
-              >
-                <Trash2 className="w-4 h-4" />
-              </a>
-            </div>
-          )}
+          {lecture.video_download_url &&
+            lecture.video_download_url.file_url && (
+              <div className="flex items-center space-x-2">
+                <a
+                  href={lecture.video_download_url.file_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 hover:underline"
+                >
+                  Watch Video
+                </a>
+                <a
+                  className="hover:text-red-500 cursor-pointer"
+                  onClick={deleteLectureVideo}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </a>
+              </div>
+            )}
         </div>
         <div className="flex flex-col items-center max-h-[600px] overflow-hidden">
           <Editor

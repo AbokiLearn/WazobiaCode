@@ -53,7 +53,7 @@ export default function LectureContent({
         <Suspense fallback={<div>Loading...</div>}>
           <VideoPlayer url={lecture.video_url} title={lecture.title} />
         </Suspense>
-        {lecture.video_download_url && (
+        {lecture.video_download_url && lecture.video_download_url.file_url && (
           <Button
             onClick={handleDownload}
             disabled={isGeneratingUrl}

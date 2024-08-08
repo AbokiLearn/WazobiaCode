@@ -79,15 +79,6 @@ export const QuizEditorTab = ({
     fetchQuiz();
   }, [lecture.quiz_id]);
 
-  useEffect(() => {
-    console.log('State updated:', {
-      activeDate,
-      maxScore,
-      dueDate,
-      questions,
-    });
-  }, [activeDate, maxScore, dueDate, questions]);
-
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
 

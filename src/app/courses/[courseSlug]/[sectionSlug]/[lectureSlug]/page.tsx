@@ -1,16 +1,15 @@
 import { getSession } from '@auth0/nextjs-auth0';
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
 import { AssignmentContents } from '@/components/app/courses/assignment-contents';
 import { LectureTabList } from '@/components/app/courses/lecture-tab-list';
-import { SubmitQuestion } from '@/components/app/courses/submit-question';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import VideoPlayer from '@/components/app/video-player';
-import CustomMDX from '@/components/app/custom-mdx';
 import { Badge } from '@/components/ui/badge';
+import CustomMDX from '@/components/app/custom-mdx';
+
+import LectureContent from './lecture-content';
 
 import { getLecture } from '@/lib/client/course';
 import { checkUserRole } from '@/lib/auth';
@@ -72,25 +71,6 @@ export default async function LecturePage({ params }: LecturePageProps) {
     );
   };
 
-  const LectureContent = () => {
-    return (
-      <>
-        {/* TODO: add a loading state */}
-        <div className="flex flex-col mb-4">
-          <Suspense fallback={<div>Loading...</div>}>
-            <VideoPlayer url={lecture.video_url} title={lecture.title} />
-          </Suspense>
-        </div>
-        <CustomMDX source={lecture.content} />
-        <SubmitQuestion
-          course_id={lecture.course_id}
-          section_id={lecture.section_id}
-          lecture_id={lecture._id}
-        />
-      </>
-    );
-  };
-
   return (
     <div className="p-6 lg:p-8 bg-background">
       <div className="max-w-6xl mx-auto">
@@ -100,7 +80,9 @@ export default async function LecturePage({ params }: LecturePageProps) {
             <LectureTabList lecture={lecture} />
           </div>
           <TabsContent value="content">
-            <LectureContent />
+            <LectureContent lecture={lecture}>
+              <CustomMDX source={lecture.content} />
+            </LectureContent>
           </TabsContent>
           <AssignmentContents lecture={lecture} />
         </Tabs>

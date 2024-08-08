@@ -127,26 +127,31 @@ export const LectureEditorTab = ({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col space-y-1 mb-4">
-          <div className="flex items-center space-x-1">
-            <Input
-              type="file"
-              accept="video/*"
-              ref={fileInputRef}
-              onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
-            />
-            <Button
-              onClick={handleVideoUpload}
-              disabled={!videoFile || isUploading}
-            >
-              {isUploading ? (
-                'Uploading...'
-              ) : (
-                <>
-                  <Upload className="w-3 h-4 mr-2" />
-                  Upload Video
-                </>
-              )}
-            </Button>
+          <div className="flex flex-col space-y-1">
+            <div className="flex items-center space-x-1">
+              <Input
+                type="file"
+                accept="video/*"
+                ref={fileInputRef}
+                onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
+              />
+              <Button
+                onClick={handleVideoUpload}
+                disabled={!videoFile || isUploading}
+              >
+                {isUploading ? (
+                  'Uploading...'
+                ) : (
+                  <>
+                    <Upload className="w-3 h-4 mr-2" />
+                    Upload Video
+                  </>
+                )}
+              </Button>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Max file size: 100MB
+            </p>
           </div>
           {lecture.video_download_url &&
             lecture.video_download_url.file_url && (

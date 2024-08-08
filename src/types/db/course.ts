@@ -1,6 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { IQuizAssignment } from './assignment';
 import { IHomeworkAssignment } from './assignment';
+import { File as FileType } from '@/types';
 
 export interface CourseBase extends Document {
   _id: Types.ObjectId;
@@ -37,7 +38,7 @@ export interface ILecture extends CourseBase {
   has_homework: boolean;
   quiz_id?: Types.ObjectId | IQuizAssignment;
   homework_id?: Types.ObjectId | IHomeworkAssignment;
-  video_download_url?: string;
+  video_download_url?: FileType;
 }
 
 // API response types

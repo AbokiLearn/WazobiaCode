@@ -33,7 +33,7 @@ export const LectureEditorTab = ({
     content: string;
     json_content: JSONContent;
   }) => void;
-  saveLectureVideo: (video_download_url: string) => void;
+  saveLectureVideo: (video_download_url: FileType) => void;
 }) => {
   const [editorContent, setEditorContent] = useState<JSONContent | undefined>(
     undefined,
@@ -69,7 +69,7 @@ export const LectureEditorTab = ({
     try {
       const [uploadedFile] = await uploadFiles([videoFile], 'lecture-videos');
       const file = uploadedFile.data as FileType;
-      await saveLectureVideo(file.file_url);
+      await saveLectureVideo(file);
       setVideoFile(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
     } catch (error) {
@@ -80,7 +80,12 @@ export const LectureEditorTab = ({
   };
 
   const deleteLectureVideo = async () => {
-    await saveLectureVideo('');
+    await saveLectureVideo({
+      file_name: '',
+      file_key: '',
+      file_url: '',
+      file_mimetype: '',
+    });
     setVideoFile(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
     setEditorKey((prev) => prev + 1);
@@ -146,7 +151,7 @@ export const LectureEditorTab = ({
           {lecture.video_download_url && (
             <div className="flex items-center space-x-2">
               <a
-                href={lecture.video_download_url}
+                href={lecture.video_download_url.file_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:underline"

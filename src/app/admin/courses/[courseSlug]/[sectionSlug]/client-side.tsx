@@ -21,6 +21,7 @@ import { updateLecture } from '@/lib/client/course';
 import { updateAssignment } from '@/lib/client/assignment';
 import { ISection, ILecture } from '@/types/db/course';
 import { AssignmentType } from '@/types/db/assignment';
+import { File as FileType } from '@/types';
 
 export function ClientSideContent({
   courseSlug,
@@ -57,7 +58,7 @@ export function ClientSideContent({
     }
   };
 
-  const saveLectureVideo = async (video_download_url: string) => {
+  const saveLectureVideo = async (video_download_url: FileType) => {
     if (!editingLecture) return;
 
     try {

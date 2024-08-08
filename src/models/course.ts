@@ -53,6 +53,7 @@ export const LectureSchema = new Schema<ILecture>(
     homework_id: { type: Schema.Types.ObjectId, ref: 'Assignment' },
     has_quiz: { type: Boolean, default: false },
     has_homework: { type: Boolean, default: false },
+    video_download_url: { type: String },
   },
   { timestamps: timeStamps },
 );

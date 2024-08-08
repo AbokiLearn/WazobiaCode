@@ -37,6 +37,7 @@ export interface ILecture extends CourseBase {
   has_homework: boolean;
   quiz_id?: Types.ObjectId | IQuizAssignment;
   homework_id?: Types.ObjectId | IHomeworkAssignment;
+  video_download_url?: string;
 }
 
 // API response types

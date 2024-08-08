@@ -49,11 +49,29 @@ export function ClientSideContent({
         editingLecture._id.toString(),
         { content, json_content },
       );
-      setEditingLecture(null);
+      setEditingLecture(lecture);
       toast.success('Lecture content saved');
     } catch (error) {
       console.error(error);
       toast.error('Failed to save lecture content');
+    }
+  };
+
+  const saveLectureVideo = async (video_download_url: string) => {
+    if (!editingLecture) return;
+
+    try {
+      const { lecture } = await updateLecture(
+        courseSlug,
+        sectionSlug,
+        editingLecture._id.toString(),
+        { video_download_url },
+      );
+      setEditingLecture(lecture);
+      toast.success('Lecture video saved');
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to save lecture video');
     }
   };
 
@@ -129,6 +147,7 @@ export function ClientSideContent({
               <LectureEditorTab
                 lecture={editingLecture}
                 saveLectureContent={saveLectureContent}
+                saveLectureVideo={saveLectureVideo}
               />
               <HomeworkEditorTab
                 lecture={editingLecture}

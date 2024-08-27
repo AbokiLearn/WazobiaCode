@@ -17,6 +17,8 @@ export function getYouTubeEmbedUrl(url: string): string {
 
 export function formatDate(date: Date): string {
   return new Date(date).toLocaleDateString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
     month: 'long',
     day: 'numeric',
     year: 'numeric',

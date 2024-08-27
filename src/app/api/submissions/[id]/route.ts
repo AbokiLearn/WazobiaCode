@@ -1,6 +1,6 @@
 import { APIResponse, APIErrorHandler } from '@/lib/api';
 import connectMongoDB from '@/lib/db/connect';
-import { Submission } from '@/models';
+import { Submission, HomeworkSubmission, QuizSubmission } from '@/models';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,18 +28,34 @@ export async function GET(
   }
 }
 
-export async function PUT(
+export async function PATCH(
   request: Request,
   { params }: { params: { id: string } },
 ) {
   try {
     await connectMongoDB();
     const body = await request.json();
-    const updatedSubmission = await Submission.findByIdAndUpdate(
-      params.id,
-      body,
-      { new: true },
-    );
+
+    let updatedSubmission;
+    if (body.type === 'homework') {
+      updatedSubmission = await HomeworkSubmission.findByIdAndUpdate(
+        params.id,
+        body,
+        { new: true },
+      );
+    } else if (body.type === 'quiz') {
+      updatedSubmission = await QuizSubmission.findByIdAndUpdate(
+        params.id,
+        body,
+        { new: true },
+      );
+    } else {
+      return APIResponse({
+        message: 'Invalid submission type',
+        status: 400,
+      });
+    }
+
     if (!updatedSubmission) {
       return APIResponse({
         message: 'Submission not found',

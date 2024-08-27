@@ -21,7 +21,7 @@ export const SubmissionSchema = new Schema<ISubmission>(
     score: { type: Number, default: null },
     submitted_at: { type: Date, default: Date.now },
     graded_at: { type: Date, default: null },
-    graded_by: { type: Schema.Types.ObjectId, ref: 'User', default: null },
+    graded_by: { type: String, default: null },
   },
   { timestamps: { createdAt: 'submitted_at', updatedAt: 'updated_at' } },
 );

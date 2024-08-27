@@ -1,16 +1,17 @@
 import { IQuizAnswer } from '@/types/db/submission';
-import { getData, postData } from '@/lib/client';
+import { getData, postData, patchData } from '@/lib/client';
 import { File as FileType } from '@/types';
 
 export async function getSubmissions(
-  assignment_id: string,
+  assignment_id?: string,
+  assignment_type?: string,
   student_id?: string,
 ) {
   let endpoint = '/submissions';
   const params = new URLSearchParams();
   if (assignment_id) params.append('assignment_id', assignment_id);
   if (student_id) params.append('student_id', student_id);
-
+  if (assignment_type) params.append('assignment_type', assignment_type);
   if (params.toString()) {
     endpoint += `?${params.toString()}`;
   }
@@ -77,4 +78,25 @@ export async function submitHomework(homeworkData: {
   );
 
   return response;
+}
+
+export async function updateSubmission(
+  submissionId: string,
+  updateData: {
+    type?: string;
+    score?: number;
+    feedback?: string;
+    graded_at?: Date;
+    graded_by?: string;
+  },
+) {
+  const endpoint = `/submissions/${submissionId}`;
+
+  const response = await patchData(
+    endpoint,
+    updateData,
+    'Failed to update submission',
+  );
+
+  return response.data;
 }

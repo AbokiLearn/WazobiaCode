@@ -34,7 +34,7 @@ export async function getAssignment(id: string) {
     'no-store',
     'Failed to fetch assignment',
   );
-  return data;
+  return data.assignment;
 }
 
 export async function createAssignment(data: Partial<IAssignment>) {

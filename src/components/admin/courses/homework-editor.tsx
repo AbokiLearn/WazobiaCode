@@ -94,14 +94,14 @@ export const HomeworkEditorTab = ({
         lecture.homework_id.toString(),
       );
       setHomework(assignment);
-      setExistingFiles(assignment.files || []);
+      setExistingFiles(assignment?.files || []);
 
       form.reset({
-        instructions: assignment.instructions,
-        files: assignment.files,
-        max_score: assignment.max_score,
-        due_date: new Date(assignment.due_date),
-        active_date: new Date(assignment.active_date),
+        instructions: assignment?.instructions,
+        files: assignment?.files,
+        max_score: assignment?.max_score,
+        due_date: new Date(assignment?.due_date),
+        active_date: new Date(assignment?.active_date),
       });
     }
     fetchHomework();

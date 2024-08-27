@@ -6,8 +6,7 @@ export async function getAssignments(
   sectionId?: string,
   lectureId?: string,
   populate_lecture?: boolean,
-  populate_section?: boolean,
-  populate_course?: boolean,
+  count_submissions?: boolean,
 ): Promise<IAssignment[]> {
   let endpoint = '/assignments';
   const params = new URLSearchParams();
@@ -15,8 +14,7 @@ export async function getAssignments(
   if (sectionId) params.append('sectionId', sectionId);
   if (lectureId) params.append('lectureId', lectureId);
   if (populate_lecture) params.append('populate_lecture', 'true');
-  if (populate_section) params.append('populate_section', 'true');
-  if (populate_course) params.append('populate_course', 'true');
+  if (count_submissions) params.append('count_submissions', 'true');
 
   if (params.toString()) {
     endpoint += `?${params.toString()}`;

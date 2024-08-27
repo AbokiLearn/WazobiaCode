@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FaCalendar, FaTrophy, FaChevronRight } from 'react-icons/fa';
+import {
+  FaCalendar,
+  FaTrophy,
+  FaChevronRight,
+  FaListAlt,
+} from 'react-icons/fa';
 
 import { AssignmentTypeBadge } from '@/components/admin/grading/assignment-type';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -29,9 +34,8 @@ export function AssignmentList() {
         undefined,
         true,
         true,
-        true,
       );
-      console.log(fetchedAssignments);
+
       const assignments = fetchedAssignments.reduce(
         (acc: GroupedAssignments, assignment) => {
           if (assignment) {
@@ -90,11 +94,16 @@ export function AssignmentList() {
                       <FaCalendar className="mr-2 text-gray-400" />
                       <span>Due: {formatDate(assignment.due_date)}</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
+                    <div className="flex items-center text-sm text-gray-600 mb-2">
                       <FaTrophy className="mr-2 text-gray-400" />
                       <span>Max Score: {assignment.max_score}</span>
                     </div>
-                    {/* TODO: Add submission count */}
+                    <div className="flex items-center text-sm text-gray-600 mb-2">
+                      <FaListAlt className="mr-2 text-gray-400" />
+                      <span>
+                        Submissions: {(assignment as any).submission_count}
+                      </span>
+                    </div>
                   </div>
                   <Link
                     href={`/admin/grading/submissions?assignment_id=${assignment._id}`}

@@ -6,6 +6,7 @@ import { env } from '@/lib/config';
 import {
   Lecture,
   Assignment,
+  Submission,
   QuizAssignment,
   HomeworkAssignment,
 } from '@/models';
@@ -27,6 +28,8 @@ export const GET = withApiAuthRequired(async function GET(request: Request) {
     const courseId = searchParams.get('courseId');
     const sectionId = searchParams.get('sectionId');
     const lectureId = searchParams.get('lectureId');
+    const populateLecture = searchParams.get('populate_lecture') === 'true';
+    const countSubmissions = searchParams.get('count_submissions') === 'true';
 
     await connectMongoDB();
 
@@ -35,7 +38,29 @@ export const GET = withApiAuthRequired(async function GET(request: Request) {
     if (sectionId) query = { ...query, section_id: sectionId };
     if (lectureId) query = { ...query, lecture_id: lectureId };
 
-    const assignments = await Assignment.find(query);
+    let assignments = [];
+    if (populateLecture) {
+      assignments = await Assignment.find(query).populate(
+        'lecture_id section_id course_id',
+      );
+    } else {
+      assignments = await Assignment.find(query);
+    }
+
+    if (countSubmissions) {
+      assignments = await Promise.all(
+        assignments.map(async (assignment) => {
+          const submissionCount = await Submission.countDocuments({
+            assignment_id: assignment._id,
+          });
+          return {
+            ...assignment.toObject(),
+            submission_count: submissionCount,
+          };
+        }),
+      );
+    }
+
     return APIResponse({
       data: { assignments },
       message: 'Assignments fetched successfully',

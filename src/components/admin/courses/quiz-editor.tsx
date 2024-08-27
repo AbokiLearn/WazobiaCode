@@ -61,9 +61,7 @@ export const QuizEditorTab = ({
     const fetchQuiz = async () => {
       if (lecture.quiz_id) {
         try {
-          const { assignment: quizData } = await getAssignment(
-            lecture.quiz_id.toString(),
-          );
+          const quizData = await getAssignment(lecture.quiz_id.toString());
 
           if (quizData) {
             setActiveDate(formatDate(quizData.active_date));

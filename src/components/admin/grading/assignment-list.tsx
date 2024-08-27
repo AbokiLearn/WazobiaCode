@@ -10,7 +10,7 @@ import {
 } from 'react-icons/fa';
 
 import { AssignmentTypeBadge } from '@/components/admin/grading/assignment-type';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/ui/card';
 
 import { getAssignments } from '@/lib/client/assignment';
 import { formatDate } from '@/lib/utils';
@@ -68,54 +68,52 @@ export function AssignmentList() {
           </h2>
           <div className="space-y-8">
             {assignments[courseId].map((assignment) => (
-              <>
-                <Card className="hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                  <div className="p-6 flex flex-col">
-                    <div className="flex justify-between items-start mb-4">
-                      <CardTitle className="text-xl font-bold text-gray-900 flex-grow">
-                        <Link
-                          href={`/admin/grading/submissions?assignment_id=${assignment._id}`}
-                          key={assignment._id.toString()}
-                        >
-                          {(assignment.lecture_id as ILecture).title}
-                        </Link>
-                      </CardTitle>
+              <Card
+                key={assignment._id.toString()}
+                className="hover:shadow-lg transition-shadow duration-300 overflow-hidden"
+              >
+                <div className="p-6 flex flex-col">
+                  <div className="flex justify-between items-start mb-4">
+                    <CardTitle className="text-xl font-bold text-gray-900 flex-grow">
                       <Link
-                        href={`/admin/grading/submissions?assignment_type=${assignment.type}`}
-                        key={assignment._id.toString()}
+                        href={`/admin/grading/submissions?assignment_id=${assignment._id}`}
                       >
-                        <AssignmentTypeBadge
-                          type={assignment.type}
-                          className="text-sm"
-                        />
+                        {(assignment.lecture_id as ILecture).title}
                       </Link>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600 mb-2">
-                      <FaCalendar className="mr-2 text-gray-400" />
-                      <span>Due: {formatDate(assignment.due_date)}</span>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600 mb-2">
-                      <FaTrophy className="mr-2 text-gray-400" />
-                      <span>Max Score: {assignment.max_score}</span>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600 mb-2">
-                      <FaListAlt className="mr-2 text-gray-400" />
-                      <span>
-                        Submissions: {(assignment as any).submission_count}
-                      </span>
-                    </div>
+                    </CardTitle>
+                    <Link
+                      href={`/admin/grading/submissions?assignment_type=${assignment.type}`}
+                    >
+                      <AssignmentTypeBadge
+                        type={assignment.type}
+                        className="text-sm"
+                      />
+                    </Link>
                   </div>
-                  <Link
-                    href={`/admin/grading/submissions?assignment_id=${assignment._id}`}
-                    key={assignment._id.toString()}
-                  >
-                    <div className="bg-gray-50 px-6 py-3 flex justify-end items-center text-blue-600 hover:text-accent">
-                      <span className="text-sm font-medium">View Details</span>
-                      <FaChevronRight className="ml-2" />
-                    </div>
-                  </Link>
-                </Card>
-              </>
+                  <div className="flex items-center text-sm text-gray-600 mb-2">
+                    <FaCalendar className="mr-2 text-gray-400" />
+                    <span>Due: {formatDate(assignment.due_date)}</span>
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600 mb-2">
+                    <FaTrophy className="mr-2 text-gray-400" />
+                    <span>Max Score: {assignment.max_score}</span>
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600 mb-2">
+                    <FaListAlt className="mr-2 text-gray-400" />
+                    <span>
+                      Submissions: {(assignment as any).submission_count}
+                    </span>
+                  </div>
+                </div>
+                <Link
+                  href={`/admin/grading/submissions?assignment_id=${assignment._id}`}
+                >
+                  <div className="bg-gray-50 px-6 py-3 flex justify-end items-center text-blue-600 hover:text-accent">
+                    <span className="text-sm font-medium">View Details</span>
+                    <FaChevronRight className="ml-2" />
+                  </div>
+                </Link>
+              </Card>
             ))}
           </div>
         </div>

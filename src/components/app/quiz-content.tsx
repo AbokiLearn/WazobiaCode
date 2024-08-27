@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import * as z from 'zod';
-import { Button } from '@/components/ui/button';
+
 import {
   Form,
   FormControl,
@@ -14,7 +15,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
+import ClientMDX from './client-md';
+
 import { IQuizAssignment } from '@/types/db/assignment';
 import { IQuizAnswer } from '@/types/db/submission';
 import { submitQuiz } from '@/lib/client/submission';
@@ -128,7 +131,7 @@ export function Quiz({
   return (
     <div className="mt-8">
       <div className="mb-8">
-        <h2 className="text-2xl font-bold">Post Lecture Quiz</h2>
+        <h2 className="text-2xl font-bold">Challenge Exercises</h2>
         <div className="text-muted-foreground">
           Answer the following questions to test your understanding of the
           material.
@@ -143,7 +146,9 @@ export function Quiz({
               name={`question_${index}`}
               render={({ field }) => (
                 <FormItem className="space-y-3 border-muted border-b pb-5">
-                  <FormLabel className="text-lg">{question.question}</FormLabel>
+                  <FormLabel className="text-lg">
+                    <ClientMDX>{question.question}</ClientMDX>
+                  </FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={(value) => {

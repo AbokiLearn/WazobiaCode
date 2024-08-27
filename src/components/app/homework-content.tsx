@@ -6,8 +6,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-import Markdown from 'markdown-to-jsx';
-
 import {
   Form,
   FormControl,
@@ -27,6 +25,7 @@ import { FileLink } from '@/components/app/file-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
+import ClientMDX from './client-md';
 
 import { archiveFiles, uploadFiles } from '@/lib/client/files';
 import { submitHomework, getSubmissions } from '@/lib/client/submission';
@@ -221,15 +220,7 @@ export function Homework({
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Homework Instructions</h2>
         <div className="bg-gray-100 p-6 rounded-md">
-          <Markdown
-            options={{
-              overrides: {
-                li: { props: { className: 'list-disc ml-4' } },
-              },
-            }}
-          >
-            {homework.instructions}
-          </Markdown>
+          <ClientMDX>{homework.instructions}</ClientMDX>
         </div>
         <div className="bg-gray-100 font-semibold text-red-500 p-4 rounded-md">
           Due Date: {new Date(homework.due_date).toLocaleDateString()}

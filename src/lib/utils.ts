@@ -14,3 +14,11 @@ export function getYouTubeEmbedUrl(url: string): string {
   const videoId = url.split('v=')[1];
   return `https://www.youtube.com/embed/${videoId}`;
 }
+
+export function formatDate(date: Date): string {
+  return new Date(date).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}

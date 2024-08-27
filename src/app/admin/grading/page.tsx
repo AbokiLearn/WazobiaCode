@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { AssignmentList } from '@/components/admin/grading/assignment-list';
 
 export const metadata: Metadata = {
   title: 'Grading | Dashboard',
@@ -6,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <div>Grading</div>;
+  return <AssignmentList />;
 }

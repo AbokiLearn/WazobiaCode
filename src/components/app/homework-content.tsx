@@ -163,15 +163,17 @@ export function Homework({
         fileInputRef.current.value = '';
       }
       toast.success('Homework submitted successfully', toastOpts);
-      getSubmissions(assignment_id, student_id).then((submissions) => {
-        setSubmissions(
-          submissions.sort(
-            (a: IHomeworkSubmission, b: IHomeworkSubmission) =>
-              new Date(b.submitted_at).getTime() -
-              new Date(a.submitted_at).getTime(),
-          ),
-        );
-      });
+      getSubmissions(assignment_id, 'homework', student_id).then(
+        (submissions) => {
+          setSubmissions(
+            submissions.sort(
+              (a: IHomeworkSubmission, b: IHomeworkSubmission) =>
+                new Date(b.submitted_at).getTime() -
+                new Date(a.submitted_at).getTime(),
+            ),
+          );
+        },
+      );
     } catch (error) {
       toast.error('Error submitting homework', toastOpts);
     } finally {
@@ -187,15 +189,17 @@ export function Homework({
   };
 
   useEffect(() => {
-    getSubmissions(assignment_id, student_id).then((submissions) => {
-      setSubmissions(
-        submissions.sort(
-          (a: IHomeworkSubmission, b: IHomeworkSubmission) =>
-            new Date(b.submitted_at).getTime() -
-            new Date(a.submitted_at).getTime(),
-        ),
-      );
-    });
+    getSubmissions(assignment_id, 'homework', student_id).then(
+      (submissions) => {
+        setSubmissions(
+          submissions.sort(
+            (a: IHomeworkSubmission, b: IHomeworkSubmission) =>
+              new Date(b.submitted_at).getTime() -
+              new Date(a.submitted_at).getTime(),
+          ),
+        );
+      },
+    );
   }, [assignment_id, student_id]);
 
   if (new Date(homework.active_date) > new Date()) {

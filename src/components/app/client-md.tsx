@@ -1,56 +1,52 @@
 import Markdown from 'markdown-to-jsx';
+import React from 'react';
+
 import CodeBlock from '@/components/app/codeblock';
 import BlockQuote from '@/components/app/blockquote';
 
-const CustomComponents = {
-  a: ({ children, ...props }: any) => (
-    <a target="_blank" className="text-blue-500 hover:text-blue-600" {...props}>
-      {children}
-    </a>
-  ),
-  h1: ({ children, ...props }: any) => (
-    <h1 className="text-2xl font-bold" {...props}>
-      {children}
-    </h1>
-  ),
-  h2: ({ children, ...props }: any) => (
-    <h2 className="text-2xl font-bold mt-4" {...props}>
-      {children}
-    </h2>
-  ),
-  h3: ({ children, ...props }: any) => (
-    <h3 className="text-xl font-bold mt-4" {...props}>
-      {children}
-    </h3>
-  ),
-  h4: ({ children, ...props }: any) => (
-    <h4 className="text-lg font-bold mt-4" {...props}>
-      {children}
-    </h4>
-  ),
-  p: ({ children, ...props }: any) => (
-    <p className="text-md mb-2" {...props}>
-      {children}
-    </p>
-  ),
-  li: ({ children, ...props }: any) => (
-    <li className="text-md mb-1 ml-6" {...props}>
-      {children}
-    </li>
-  ),
-  ol: ({ children, ...props }: any) => (
-    <ol className="mb-2 list-decimal" {...props}>
-      {children}
-    </ol>
-  ),
-  ul: ({ children, ...props }: any) => (
-    <ul className="mb-2 list-disc" {...props}>
-      {children}
-    </ul>
-  ),
-  blockquote: ({ children, ...props }: any) => (
-    <BlockQuote {...props}>{children}</BlockQuote>
-  ),
+const customComponents = {
+  h1: {
+    component: ({ children, ...props }: React.PropsWithChildren<{}>) => (
+      <h1 className="text-2xl font-bold">{children}</h1>
+    ),
+  },
+  h2: {
+    component: ({ children, ...props }: React.PropsWithChildren<{}>) => (
+      <h2 className="text-xl font-bold mt-4">{children}</h2>
+    ),
+  },
+  h3: {
+    component: ({ children, ...props }: React.PropsWithChildren<{}>) => (
+      <h3 className="text-lg font-bold mt-4">{children}</h3>
+    ),
+  },
+  h4: {
+    component: ({ children, ...props }: React.PropsWithChildren<{}>) => (
+      <h4 className="text-md font-bold mt-4">{children}</h4>
+    ),
+  },
+  li: {
+    component: ({ children, ...props }: React.PropsWithChildren<{}>) => (
+      <li className="list-decimal ml-4">{children}</li>
+    ),
+  },
+  p: {
+    component: ({ children, ...props }: React.PropsWithChildren<{}>) => (
+      <p {...props}>
+        {React.Children.map(children, (child) => {
+          if (React.isValidElement(child) && child.type === 'a') {
+            return React.cloneElement(
+              child as React.ReactElement<{ className?: string }>,
+              {
+                className: 'text-blue-500 hover:text-blue-600',
+              },
+            );
+          }
+          return child;
+        })}
+      </p>
+    ),
+  },
   code: ({ children, className, ...props }: any) => {
     const inPre = className?.startsWith('lang');
     if (inPre) {
@@ -71,8 +67,11 @@ const CustomComponents = {
   },
 };
 
-export default function ClientMDX({ children }: { children: string }) {
+export default function ClientMDX({ content }: { content: string }) {
   return (
-    <Markdown options={{ overrides: CustomComponents }}>{children}</Markdown>
+    <Markdown options={{ overrides: customComponents }}>
+      {/* {text} */}
+      {content}
+    </Markdown>
   );
 }

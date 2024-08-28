@@ -220,7 +220,7 @@ export function Homework({
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Homework Instructions</h2>
         <div className="bg-gray-100 p-6 rounded-md">
-          <ClientMDX>{homework.instructions}</ClientMDX>
+          <ClientMDX content={homework.instructions} />
         </div>
         <div className="bg-gray-100 font-semibold text-red-500 p-4 rounded-md">
           Due Date: {new Date(homework.due_date).toLocaleDateString()}

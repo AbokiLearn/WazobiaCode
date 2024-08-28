@@ -21,9 +21,9 @@ export const LectureTabList = ({ lecture }: { lecture: ILecture }) => {
   return (
     <TabsList className={user ? '' : 'hidden'}>
       <TabsTrigger value="content">Content</TabsTrigger>
-      <TabsTrigger value="quiz" disabled={!lecture.has_quiz}>
+      {/* <TabsTrigger value="quiz" disabled={!lecture.has_quiz}>
         Quiz
-      </TabsTrigger>
+      </TabsTrigger> */}
       <TabsTrigger value="homework" disabled={!lecture.has_homework}>
         Homework
       </TabsTrigger>

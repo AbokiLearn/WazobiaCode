@@ -38,8 +38,18 @@ export async function generateMetadata({
 
 export const dynamic = 'force-dynamic';
 
-export default async function LecturePage({ params }: LecturePageProps) {
+export default async function LecturePage({
+  params,
+  searchParams,
+}: LecturePageProps & {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const { courseSlug, sectionSlug, lectureSlug } = params;
+
+  let selectedTab = searchParams.tab || 'content';
+  if (selectedTab !== 'homework' && selectedTab !== 'content') {
+    selectedTab = 'content';
+  }
 
   const session = await getSession();
   const isInstructor = await checkUserRole(session, UserRole.INSTRUCTOR);
@@ -75,7 +85,7 @@ export default async function LecturePage({ params }: LecturePageProps) {
     <div className="p-6 lg:p-8 bg-background">
       <div className="max-w-6xl mx-auto">
         <LectureHeader />
-        <Tabs defaultValue="content">
+        <Tabs defaultValue={selectedTab}>
           <div className="flex flex-row justify-center mb-4">
             <LectureTabList lecture={lecture} />
           </div>

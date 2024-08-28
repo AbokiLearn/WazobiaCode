@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import {
   Table,
   TableBody,
@@ -23,7 +23,6 @@ import { cn } from '@/lib/utils';
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -78,6 +77,9 @@ export function SubmissionList({
     RecordsPerPageOptions[0],
   );
 
+  // Sorting state
+  const [sortByScore, setSortByScore] = useState(false);
+
   useEffect(() => {
     const fetchSubmissions = async () => {
       const fetchedSubmissions = await getSubmissions(
@@ -101,16 +103,28 @@ export function SubmissionList({
     }
   }, [currentPage]);
 
+  // Sort submissions by score
+  const sortedSubmissions = useMemo(() => {
+    if (sortByScore) {
+      return [...submissions].sort((a, b) => {
+        if (b.score === null) return -1;
+        if (a.score === null) return 1;
+        return b.score - a.score;
+      });
+    }
+    return submissions;
+  }, [submissions, sortByScore]);
+
   // Calculate pagination
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = submissions.slice(
+  const currentRecords = sortedSubmissions.slice(
     indexOfFirstRecord,
     indexOfLastRecord,
   );
   const totalPages = Math.max(
     1,
-    Math.ceil(submissions.length / recordsPerPage),
+    Math.ceil(sortedSubmissions.length / recordsPerPage),
   );
 
   // Change page
@@ -120,6 +134,11 @@ export function SubmissionList({
     } else {
       setCurrentPage(Math.max(1, pageNumber));
     }
+  };
+
+  // Toggle sort by score
+  const handleSortByScore = () => {
+    setSortByScore(!sortByScore);
   };
 
   return (
@@ -170,8 +189,11 @@ export function SubmissionList({
                 <TableHead className="text-black-300 w-1/5 text-center">
                   Submitted At
                 </TableHead>
-                <TableHead className="text-black-300 w-1/5 text-center">
-                  Score
+                <TableHead
+                  className="text-black-300 w-1/5 text-center cursor-pointer"
+                  onClick={handleSortByScore}
+                >
+                  Score {sortByScore ? '▼' : ''}
                 </TableHead>
                 <TableHead className="text-black-300 w-1/5 text-center">
                   Graded At

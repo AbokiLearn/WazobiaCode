@@ -147,7 +147,7 @@ export function Quiz({
               render={({ field }) => (
                 <FormItem className="space-y-3 border-muted border-b pb-5">
                   <FormLabel className="text-lg">
-                    <ClientMDX>{question.question}</ClientMDX>
+                    <ClientMDX content={question.question} />
                   </FormLabel>
                   <FormControl>
                     <RadioGroup

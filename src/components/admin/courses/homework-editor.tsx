@@ -90,9 +90,7 @@ export const HomeworkEditorTab = ({
   useEffect(() => {
     async function fetchHomework() {
       if (!lecture?.homework_id) return;
-      const { assignment } = await getAssignment(
-        lecture.homework_id.toString(),
-      );
+      const assignment = await getAssignment(lecture.homework_id.toString());
       setHomework(assignment);
       setExistingFiles(assignment?.files || []);
 
@@ -169,7 +167,13 @@ export const HomeworkEditorTab = ({
                   <FormControl>
                     <Textarea
                       placeholder="Enter homework instructions"
+                      className="min-h-[150px] max-h-[400px] flex-grow"
                       {...field}
+                      onInput={(e) => {
+                        const target = e.target as HTMLTextAreaElement;
+                        target.style.height = 'auto';
+                        target.style.height = `${target.scrollHeight}px`;
+                      }}
                     />
                   </FormControl>
                   <FormMessage />

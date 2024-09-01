@@ -78,7 +78,7 @@ export function AssignmentList() {
                       <Link
                         href={`/admin/grading/submissions?assignment_id=${assignment._id}`}
                       >
-                        {(assignment.lecture_id as ILecture).title}
+                        {(assignment.lecture_id as ILecture)?.title}
                       </Link>
                     </CardTitle>
                     <Link
